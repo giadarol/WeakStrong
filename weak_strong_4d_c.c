@@ -17,7 +17,9 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
     double y = p->y;
     
     
-    // I always go to the first quadrant and then apply the signs a posteriori, not necessary I think... to be 
+    // I always go to the first quadrant and then apply the signs a posteriori
+    // not necessary I think... to be simplified:wq
+
     double abx = abs(x);
     double aby = abs(y);
     
