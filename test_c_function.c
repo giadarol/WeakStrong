@@ -3,6 +3,8 @@
 int main()
 {
 printf("In main!\n");
-weak_strong_4d(3);
+double dum;
+dum=3.;
+weak_strong_4d(&dum,&dum,&dum,&dum);
 }
 

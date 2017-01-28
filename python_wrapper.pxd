@@ -1,2 +1,2 @@
 cdef extern from "weak_strong_4d_c.h":
-    cdef void weak_strong_4d(int);
+    cdef void weak_strong_4d(double*,double*,double*,double*);

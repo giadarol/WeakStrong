@@ -418,12 +418,12 @@ struct __pyx_opt_args_14python_wrapper_run;
 /* "python_wrapper.pyx":3
  * cimport python_wrapper
  * 
- * cpdef run(a=3):             # <<<<<<<<<<<<<<
- *     weak_strong_4d(3);
+ * cpdef run(double a=3):             # <<<<<<<<<<<<<<
+ *     weak_strong_4d(&a, &a, &a, &a);
  */
 struct __pyx_opt_args_14python_wrapper_run {
   int __pyx_n;
-  PyObject *a;
+  double a;
 };
 #ifndef CYTHON_REFNANNY
   #define CYTHON_REFNANNY 0
@@ -530,42 +530,45 @@ static PyObject *__pyx_f_14python_wrapper_run(int __pyx_skip_dispatch, struct __
 int __pyx_module_is_main_python_wrapper = 0;
 
 /* Implementation of 'python_wrapper' */
-static PyObject *__pyx_pf_14python_wrapper_run(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_a); /* proto */
+static PyObject *__pyx_pf_14python_wrapper_run(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_a); /* proto */
 static char __pyx_k_a[] = "a";
 static char __pyx_k_main[] = "__main__";
 static char __pyx_k_test[] = "__test__";
 static PyObject *__pyx_n_s_a;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_int_3;
 
 /* "python_wrapper.pyx":3
  * cimport python_wrapper
  * 
- * cpdef run(a=3):             # <<<<<<<<<<<<<<
- *     weak_strong_4d(3);
+ * cpdef run(double a=3):             # <<<<<<<<<<<<<<
+ *     weak_strong_4d(&a, &a, &a, &a);
  */
 
 static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_14python_wrapper_run(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14python_wrapper_run *__pyx_optional_args) {
+  double __pyx_v_a = ((double)3.0);
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("run", 0);
   if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_a = __pyx_optional_args->a;
+    }
   }
 
   /* "python_wrapper.pyx":4
  * 
- * cpdef run(a=3):
- *     weak_strong_4d(3);             # <<<<<<<<<<<<<<
+ * cpdef run(double a=3):
+ *     weak_strong_4d(&a, &a, &a, &a);             # <<<<<<<<<<<<<<
  */
-  weak_strong_4d(3);
+  weak_strong_4d((&__pyx_v_a), (&__pyx_v_a), (&__pyx_v_a), (&__pyx_v_a));
 
   /* "python_wrapper.pyx":3
  * cimport python_wrapper
  * 
- * cpdef run(a=3):             # <<<<<<<<<<<<<<
- *     weak_strong_4d(3);
+ * cpdef run(double a=3):             # <<<<<<<<<<<<<<
+ *     weak_strong_4d(&a, &a, &a, &a);
  */
 
   /* function exit code */
@@ -578,7 +581,7 @@ static PyObject *__pyx_f_14python_wrapper_run(CYTHON_UNUSED int __pyx_skip_dispa
 /* Python wrapper */
 static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_a = 0;
+  double __pyx_v_a;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -588,7 +591,6 @@ static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, PyObject *
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_a,0};
     PyObject* values[1] = {0};
-    values[0] = ((PyObject *)__pyx_int_3);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
@@ -615,7 +617,11 @@ static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, PyObject *
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_a = values[0];
+    if (values[0]) {
+      __pyx_v_a = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_a == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_a = ((double)3.0);
+    }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -632,7 +638,7 @@ static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, PyObject *
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14python_wrapper_run(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_a) {
+static PyObject *__pyx_pf_14python_wrapper_run(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_a) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -703,7 +709,6 @@ static int __Pyx_InitCachedConstants(void) {
 
 static int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-  __pyx_int_3 = PyInt_FromLong(3); if (unlikely(!__pyx_int_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -797,7 +802,7 @@ PyMODINIT_FUNC PyInit_python_wrapper(void)
   /* "python_wrapper.pyx":1
  * cimport python_wrapper             # <<<<<<<<<<<<<<
  * 
- * cpdef run(a=3):
+ * cpdef run(double a=3):
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
