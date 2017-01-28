@@ -22,7 +22,7 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
     double abx = fabs(xx);
     double aby = fabs(yy);
     
-    printf("x = %.2e y = %.2e abx = %.2e aby = %.2e", xx, yy, abx, aby);
+    //printf("x = %.2e y = %.2e abx = %.2e aby = %.2e", xx, yy, abx, aby);
     
     
     double S, factBE, Ex, Ey;
@@ -61,7 +61,7 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
     if(xx<0) Ex=-Ex;
     if(yy<0) Ey=-Ey;
     
-    printf("Ex = %.2e Ey = %.2e \n", Ex, Ey);
+    //printf("Ex = %.2e Ey = %.2e \n", Ex, Ey);
     
     p->px = p->px + Ex*(conf->D_px_over_Ex);
     p->py = p->py + Ey*(conf->D_py_over_Ey);
