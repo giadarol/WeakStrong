@@ -2,8 +2,13 @@
 #define __WEAKSTRONG4D
 
 #include <stdio.h>
+#include <complex.h>
+#include <math.h>
 
 #include "Faddeeva.h"
+#define wfun(zz) Faddeeva_w(zz,0.)
+// re-define differently if use another implementation of the w function
+
 #include "particle.h"
 
 typedef struct{
