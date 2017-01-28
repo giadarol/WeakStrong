@@ -1,2 +1,9 @@
 cdef extern from "weak_strong_4d_c.h":
-    cdef void weak_strong_4d(double*,double*,double*,double*);
+    
+    ctypedef struct particle:
+        double x;
+        double px;
+        double y;
+        double py;
+    
+    cdef void weak_strong_4d(particle*);
