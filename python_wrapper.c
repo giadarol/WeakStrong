@@ -413,6 +413,20 @@ static const char *__pyx_f[] = {
 };
 
 /*--- Type declarations ---*/
+struct __pyx_opt_args_14python_wrapper_weak_strong_single_particle;
+
+/* "python_wrapper.pyx":3
+ * cimport python_wrapper
+ * 
+ * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1.):             # <<<<<<<<<<<<<<
+ *     cdef particle p;
+ *     cdef weak_strong_4d_config conf
+ */
+struct __pyx_opt_args_14python_wrapper_weak_strong_single_particle {
+  int __pyx_n;
+  PyObject *D_px_over_Ex;
+  PyObject *D_py_over_Ey;
+};
 #ifndef CYTHON_REFNANNY
   #define CYTHON_REFNANNY 0
 #endif
@@ -475,6 +489,47 @@ static const char *__pyx_f[] = {
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
 
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro))
+        return tp->tp_getattro(obj, attr_name);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_getattr))
+        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+#endif
+    return PyObject_GetAttr(obj, attr_name);
+}
+#else
+#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o,n,NULL)
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_setattro))
+        return tp->tp_setattro(obj, attr_name, value);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_setattr))
+        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
+#endif
+    return PyObject_SetAttr(obj, attr_name, value);
+}
+#else
+#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
+#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
+#endif
+
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[], \
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args, \
+    const char* function_name);
+
 typedef struct {
     int code_line;
     PyCodeObject* code_object;
@@ -504,94 +559,340 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'python_wrapper' */
-static PyObject *__pyx_f_14python_wrapper_run(int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_14python_wrapper_weak_strong_single_particle(PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14python_wrapper_weak_strong_single_particle *__pyx_optional_args); /*proto*/
 #define __Pyx_MODULE_NAME "python_wrapper"
 int __pyx_module_is_main_python_wrapper = 0;
 
 /* Implementation of 'python_wrapper' */
-static PyObject *__pyx_pf_14python_wrapper_run(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_14python_wrapper_weak_strong_single_particle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_part, PyObject *__pyx_v_sigmax, PyObject *__pyx_v_sigmay, PyObject *__pyx_v_D_px_over_Ex, PyObject *__pyx_v_D_py_over_Ey); /* proto */
+static char __pyx_k_x[] = "x";
+static char __pyx_k_y[] = "y";
+static char __pyx_k_px[] = "px";
+static char __pyx_k_py[] = "py";
 static char __pyx_k_main[] = "__main__";
+static char __pyx_k_part[] = "part";
 static char __pyx_k_test[] = "__test__";
+static char __pyx_k_sigmax[] = "sigmax";
+static char __pyx_k_sigmay[] = "sigmay";
+static char __pyx_k_D_px_over_Ex[] = "D_px_over_Ex";
+static char __pyx_k_D_py_over_Ey[] = "D_py_over_Ey";
+static PyObject *__pyx_n_s_D_px_over_Ex;
+static PyObject *__pyx_n_s_D_py_over_Ey;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_s_part;
+static PyObject *__pyx_n_s_px;
+static PyObject *__pyx_n_s_py;
+static PyObject *__pyx_n_s_sigmax;
+static PyObject *__pyx_n_s_sigmay;
 static PyObject *__pyx_n_s_test;
+static PyObject *__pyx_n_s_x;
+static PyObject *__pyx_n_s_y;
+static PyObject *__pyx_float_1_;
 
 /* "python_wrapper.pyx":3
  * cimport python_wrapper
  * 
- * cpdef run():             # <<<<<<<<<<<<<<
+ * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1.):             # <<<<<<<<<<<<<<
  *     cdef particle p;
- *     p.x = 10.;
+ *     cdef weak_strong_4d_config conf
  */
 
-static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_f_14python_wrapper_run(CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_14python_wrapper_weak_strong_single_particle(PyObject *__pyx_v_part, PyObject *__pyx_v_sigmax, PyObject *__pyx_v_sigmay, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14python_wrapper_weak_strong_single_particle *__pyx_optional_args) {
+  PyObject *__pyx_v_D_px_over_Ex = ((PyObject *)__pyx_float_1_);
+  PyObject *__pyx_v_D_py_over_Ey = ((PyObject *)__pyx_float_1_);
   particle __pyx_v_p;
+  weak_strong_4d_config __pyx_v_conf;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run", 0);
-
-  /* "python_wrapper.pyx":5
- * cpdef run():
- *     cdef particle p;
- *     p.x = 10.;             # <<<<<<<<<<<<<<
- *     p.y = 20.;
- *     weak_strong_4d(&p);
- */
-  __pyx_v_p.x = 10.;
-
-  /* "python_wrapper.pyx":6
- *     cdef particle p;
- *     p.x = 10.;
- *     p.y = 20.;             # <<<<<<<<<<<<<<
- *     weak_strong_4d(&p);
- */
-  __pyx_v_p.y = 20.;
+  PyObject *__pyx_t_1 = NULL;
+  double __pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("weak_strong_single_particle", 0);
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_D_px_over_Ex = __pyx_optional_args->D_px_over_Ex;
+      if (__pyx_optional_args->__pyx_n > 1) {
+        __pyx_v_D_py_over_Ey = __pyx_optional_args->D_py_over_Ey;
+      }
+    }
+  }
 
   /* "python_wrapper.pyx":7
- *     p.x = 10.;
- *     p.y = 20.;
- *     weak_strong_4d(&p);             # <<<<<<<<<<<<<<
+ *     cdef weak_strong_4d_config conf
+ *     #python particle to c particle
+ *     p.x = part.x             # <<<<<<<<<<<<<<
+ *     p.y = part.y
+ *     p.px = part.px
  */
-  weak_strong_4d((&__pyx_v_p));
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_part, __pyx_n_s_x); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_p.x = __pyx_t_2;
+
+  /* "python_wrapper.pyx":8
+ *     #python particle to c particle
+ *     p.x = part.x
+ *     p.y = part.y             # <<<<<<<<<<<<<<
+ *     p.px = part.px
+ *     p.py = part.py
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_part, __pyx_n_s_y); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_p.y = __pyx_t_2;
+
+  /* "python_wrapper.pyx":9
+ *     p.x = part.x
+ *     p.y = part.y
+ *     p.px = part.px             # <<<<<<<<<<<<<<
+ *     p.py = part.py
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_part, __pyx_n_s_px); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_p.px = __pyx_t_2;
+
+  /* "python_wrapper.pyx":10
+ *     p.y = part.y
+ *     p.px = part.px
+ *     p.py = part.py             # <<<<<<<<<<<<<<
+ * 
+ *     conf.sigmax = sigmax
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_part, __pyx_n_s_py); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_p.py = __pyx_t_2;
+
+  /* "python_wrapper.pyx":12
+ *     p.py = part.py
+ * 
+ *     conf.sigmax = sigmax             # <<<<<<<<<<<<<<
+ *     conf.sigmay = sigmay
+ *     conf.D_px_over_Ex = D_px_over_Ex
+ */
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_sigmax); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_conf.sigmax = __pyx_t_2;
+
+  /* "python_wrapper.pyx":13
+ * 
+ *     conf.sigmax = sigmax
+ *     conf.sigmay = sigmay             # <<<<<<<<<<<<<<
+ *     conf.D_px_over_Ex = D_px_over_Ex
+ *     conf.D_py_over_Ey = D_py_over_Ey
+ */
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_sigmay); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_conf.sigmay = __pyx_t_2;
+
+  /* "python_wrapper.pyx":14
+ *     conf.sigmax = sigmax
+ *     conf.sigmay = sigmay
+ *     conf.D_px_over_Ex = D_px_over_Ex             # <<<<<<<<<<<<<<
+ *     conf.D_py_over_Ey = D_py_over_Ey
+ * 
+ */
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_D_px_over_Ex); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_conf.D_px_over_Ex = __pyx_t_2;
+
+  /* "python_wrapper.pyx":15
+ *     conf.sigmay = sigmay
+ *     conf.D_px_over_Ex = D_px_over_Ex
+ *     conf.D_py_over_Ey = D_py_over_Ey             # <<<<<<<<<<<<<<
+ * 
+ *     #act on C particle
+ */
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_D_py_over_Ey); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_conf.D_py_over_Ey = __pyx_t_2;
+
+  /* "python_wrapper.pyx":18
+ * 
+ *     #act on C particle
+ *     weak_strong_4d(&p, &conf);             # <<<<<<<<<<<<<<
+ * 
+ *     #C particle to python particle
+ */
+  weak_strong_4d((&__pyx_v_p), (&__pyx_v_conf));
+
+  /* "python_wrapper.pyx":21
+ * 
+ *     #C particle to python particle
+ *     part.x = p.x             # <<<<<<<<<<<<<<
+ *     part.y = p.y
+ *     part.px = p.px
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.x); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_x, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "python_wrapper.pyx":22
+ *     #C particle to python particle
+ *     part.x = p.x
+ *     part.y = p.y             # <<<<<<<<<<<<<<
+ *     part.px = p.px
+ *     part.py = p.py
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.y); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_y, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "python_wrapper.pyx":23
+ *     part.x = p.x
+ *     part.y = p.y
+ *     part.px = p.px             # <<<<<<<<<<<<<<
+ *     part.py = p.py
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.px); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_px, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "python_wrapper.pyx":24
+ *     part.y = p.y
+ *     part.px = p.px
+ *     part.py = p.py             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.py); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_py, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "python_wrapper.pyx":3
  * cimport python_wrapper
  * 
- * cpdef run():             # <<<<<<<<<<<<<<
+ * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1.):             # <<<<<<<<<<<<<<
  *     cdef particle p;
- *     p.x = 10.;
+ *     cdef weak_strong_4d_config conf
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("python_wrapper.weak_strong_single_particle", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_14python_wrapper_1run(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_part = 0;
+  PyObject *__pyx_v_sigmax = 0;
+  PyObject *__pyx_v_sigmay = 0;
+  PyObject *__pyx_v_D_px_over_Ex = 0;
+  PyObject *__pyx_v_D_py_over_Ey = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run (wrapper)", 0);
-  __pyx_r = __pyx_pf_14python_wrapper_run(__pyx_self);
+  __Pyx_RefNannySetupContext("weak_strong_single_particle (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_part,&__pyx_n_s_sigmax,&__pyx_n_s_sigmay,&__pyx_n_s_D_px_over_Ex,&__pyx_n_s_D_py_over_Ey,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    values[3] = ((PyObject *)__pyx_float_1_);
+    values[4] = ((PyObject *)__pyx_float_1_);
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_part)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmax)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmay)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_D_px_over_Ex);
+          if (value) { values[3] = value; kw_args--; }
+        }
+        case  4:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_D_py_over_Ey);
+          if (value) { values[4] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "weak_strong_single_particle") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_part = values[0];
+    __pyx_v_sigmax = values[1];
+    __pyx_v_sigmay = values[2];
+    __pyx_v_D_px_over_Ex = values[3];
+    __pyx_v_D_py_over_Ey = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("python_wrapper.weak_strong_single_particle", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_14python_wrapper_weak_strong_single_particle(__pyx_self, __pyx_v_part, __pyx_v_sigmax, __pyx_v_sigmay, __pyx_v_D_px_over_Ex, __pyx_v_D_py_over_Ey);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14python_wrapper_run(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_14python_wrapper_weak_strong_single_particle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_part, PyObject *__pyx_v_sigmax, PyObject *__pyx_v_sigmay, PyObject *__pyx_v_D_px_over_Ex, PyObject *__pyx_v_D_py_over_Ey) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
+  struct __pyx_opt_args_14python_wrapper_weak_strong_single_particle __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("run", 0);
+  __Pyx_RefNannySetupContext("weak_strong_single_particle", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_14python_wrapper_run(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2.__pyx_n = 2;
+  __pyx_t_2.D_px_over_Ex = __pyx_v_D_px_over_Ex;
+  __pyx_t_2.D_py_over_Ey = __pyx_v_D_py_over_Ey;
+  __pyx_t_1 = __pyx_f_14python_wrapper_weak_strong_single_particle(__pyx_v_part, __pyx_v_sigmax, __pyx_v_sigmay, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -600,7 +901,7 @@ static PyObject *__pyx_pf_14python_wrapper_run(CYTHON_UNUSED PyObject *__pyx_sel
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("python_wrapper.run", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("python_wrapper.weak_strong_single_particle", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -609,7 +910,7 @@ static PyObject *__pyx_pf_14python_wrapper_run(CYTHON_UNUSED PyObject *__pyx_sel
 }
 
 static PyMethodDef __pyx_methods[] = {
-  {"run", (PyCFunction)__pyx_pw_14python_wrapper_1run, METH_NOARGS, 0},
+  {"weak_strong_single_particle", (PyCFunction)__pyx_pw_14python_wrapper_1weak_strong_single_particle, METH_VARARGS|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 
@@ -632,8 +933,17 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_n_s_D_px_over_Ex, __pyx_k_D_px_over_Ex, sizeof(__pyx_k_D_px_over_Ex), 0, 0, 1, 1},
+  {&__pyx_n_s_D_py_over_Ey, __pyx_k_D_py_over_Ey, sizeof(__pyx_k_D_py_over_Ey), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_s_part, __pyx_k_part, sizeof(__pyx_k_part), 0, 0, 1, 1},
+  {&__pyx_n_s_px, __pyx_k_px, sizeof(__pyx_k_px), 0, 0, 1, 1},
+  {&__pyx_n_s_py, __pyx_k_py, sizeof(__pyx_k_py), 0, 0, 1, 1},
+  {&__pyx_n_s_sigmax, __pyx_k_sigmax, sizeof(__pyx_k_sigmax), 0, 0, 1, 1},
+  {&__pyx_n_s_sigmay, __pyx_k_sigmay, sizeof(__pyx_k_sigmay), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
+  {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
+  {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -649,6 +959,7 @@ static int __Pyx_InitCachedConstants(void) {
 
 static int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_float_1_ = PyFloat_FromDouble(1.); if (unlikely(!__pyx_float_1_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -742,7 +1053,7 @@ PyMODINIT_FUNC PyInit_python_wrapper(void)
   /* "python_wrapper.pyx":1
  * cimport python_wrapper             # <<<<<<<<<<<<<<
  * 
- * cpdef run():
+ * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1.):
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -788,6 +1099,145 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif
+
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
 
 static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {
     int start = 0, mid = 0, end = count - 1;

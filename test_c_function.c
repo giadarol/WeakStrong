@@ -13,7 +13,7 @@ p.px = 0.;
 p.py = 0.;
 
 conf.sigmax = 0.2;
-conf.sigmay = 0.33;
+conf.sigmay = 0.25;
 conf.D_px_over_Ex = 1.;
 conf.D_py_over_Ey = 1.;
 

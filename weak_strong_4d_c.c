@@ -1,7 +1,6 @@
 #include "weak_strong_4d_c.h"
 
 
-
 #define EPSILON_0 (8.854187817620e-12)
 #define SQRT_PI (1.772453850905515881919427556568)
 
@@ -18,7 +17,7 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
     
     
     // I always go to the first quadrant and then apply the signs a posteriori
-    // not necessary I think... to be simplified:wq
+    // not necessary I think... to be simplified
 
     double abx = abs(x);
     double aby = abs(y);
@@ -38,7 +37,7 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
         Ex=abs(cimag(val));
         Ey=abs(creal(val));
     }
-    else{
+    else if (sigmax<sigmay){
 
         S=sqrt(2.*(sigmay*sigmay-sigmax*sigmax));
         factBE=1./(2.*EPSILON_0*SQRT_PI*S);
@@ -49,6 +48,10 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
            
         Ey=cimag(val);
         Ex=creal(val);
+    }
+    else{
+        printf("Round beam not implemented!\n");
+        exit(1);
     }
 
     if(x<0) Ex=-Ex;

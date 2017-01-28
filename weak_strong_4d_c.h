@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <complex.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "Faddeeva.h"
 #define wfun(zz) Faddeeva_w(zz,0.)
