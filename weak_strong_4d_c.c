@@ -17,7 +17,7 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
     
     
     // I always go to the first quadrant and then apply the signs a posteriori
-    // not necessary I think... to be simplified
+    // numerically more stable (see http://inspirehep.net/record/316705/files/slac-pub-5582.pdf)
 
     double abx = fabs(xx);
     double aby = fabs(yy);
