@@ -5,9 +5,10 @@
 #include <complex.h>
 #include <math.h>
 #include <stdlib.h>
+#include "cmpx.h"
 
-#include "Faddeeva.h"
-#define wfun(zz) Faddeeva_w(zz,0.)
+
+#include "Faddeeva.h" 
 // re-define differently if use another implementation of the w function
 
 #include "particle.h"

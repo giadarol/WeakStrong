@@ -4,6 +4,14 @@
 #define EPSILON_0 (8.854187817620e-12)
 #define SQRT_PI (1.772453850905515881919427556568)
 
+cmpx wfun(cmpx zz){
+    double complex temp;
+    cmpx res;
+    temp = Faddeeva_w((zz.r + I*zz.i), 0.);
+    res = makecmpx(creal(temp), cimag(temp));
+    return res;
+}   
+
 
 
 void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
@@ -26,32 +34,43 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
     
     
     double S, factBE, Ex, Ey;
-    double complex etaBE, zetaBE, val;
+    cmpx etaBE, zetaBE, val, first_term, second_term;
     
     
     
     if (sigmax>sigmay){
         
         S=sqrt(2.*(sigmax*sigmax-sigmay*sigmay));
-        factBE=1./(2.*EPSILON_0*SQRT_PI*S);
-        etaBE=sigmay/sigmax*abx+I*sigmax/sigmay*aby;
-        zetaBE=abx+I*aby;
-        val=factBE*(wfun(zetaBE/S)-cexp( -abx*abx/(2*sigmax*sigmax)-aby*aby/(2*sigmay*sigmay))*wfun(etaBE/S) );
+        factBE = 1./(2.*EPSILON_0*SQRT_PI*S);
+        
+        etaBE = makecmpx(sigmay/sigmax*abx, sigmax/sigmay*aby);
+        zetaBE = makecmpx(abx, aby);
+        
+        first_term = wfun(cscale(zetaBE, 1./S));
+        second_term = cscale(wfun(cscale(etaBE,1./S)), exp( -abx*abx/(2*sigmax*sigmax)-aby*aby/(2*sigmay*sigmay)));
+        
+        val = csub(first_term,second_term);
            
-        Ex=cimag(val);
-        Ey=creal(val);
+        Ex=factBE*val.i;
+        Ey=factBE*val.r;
     }
     else if (sigmax<sigmay){
 
         S=sqrt(2.*(sigmay*sigmay-sigmax*sigmax));
-        factBE=1./(2.*EPSILON_0*SQRT_PI*S);
-        etaBE=sigmax/sigmay*aby+I*sigmay/sigmax*abx;
-        zetaBE=aby+I*abx;
+        factBE = 1./(2.*EPSILON_0*SQRT_PI*S);
         
-        val=factBE*(wfun(zetaBE/S)-cexp( -aby*aby/(2*sigmay*sigmay)-abx*abx/(2*sigmax*sigmax))*wfun(etaBE/S) );
+        etaBE = makecmpx(sigmax/sigmay*aby, sigmay/sigmax*abx);
+        zetaBE = makecmpx(aby, abx);
+        
+        first_term = wfun(cscale(zetaBE, 1./S));
+        second_term = cscale(wfun(cscale(etaBE,1./S)), exp( -aby*aby/(2*sigmay*sigmay)-abx*abx/(2*sigmax*sigmax)));
+        
+        val = csub(first_term,second_term);
            
-        Ey=cimag(val);
-        Ex=creal(val);
+        Ey=factBE*val.i;
+        Ex=factBE*val.r;
+        
+        
     }
     else{
         printf("Round beam not implemented!\n");

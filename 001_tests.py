@@ -35,8 +35,8 @@ def vectorized_efield_gauss_round(x, y, sigma, Delta_x, Delta_y):
         
     
 # First plot
-sigmax = 0.3
-sigmay = 0.30000001
+sigmax = 0.30000001
+sigmay = 0.30000002
 
 pl.close('all')
 pl.figure(1)
