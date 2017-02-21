@@ -20,10 +20,23 @@ def vectorized_weak_strong(x, y, sigmax, sigmay):
         px[ii] = part.px
         py[ii] = part.py
     return px, py
+    
+def vectorized_efield_gauss_round(x, y, sigma, Delta_x, Delta_y):
 
+    assert(len(x)==len(y))
+    
+    Ex = 0.*x
+    Ey = 0.*x
+    
+    for ii in xrange(len(x)):
+        Ex[ii], Ey[ii] = pw.test_efield_gauss_round(x=x[ii], y=y[ii], sigma=sigma, Delta_x=Delta_x, Delta_y=Delta_y)
+        
+    return Ex, Ey
+        
+    
 # First plot
-sigmax = 2.
-sigmay = 1.
+sigmax = 0.3
+sigmay = 0.30000001
 
 pl.close('all')
 pl.figure(1)
@@ -61,4 +74,17 @@ pl.axis('equal')
 sp3 = pl.subplot2grid((2,2),(1,0), colspan=2, sharex=sp1, sharey=sp1)
 pl.pcolormesh(x_vec, y_vec, np.sqrt(Ex_mat**2+Ey_mat**2).T)
 pl.axis('equal')
+
+
+sigma = 0.3
+Delta_x = 0.
+Delta_y = 0.
+x = np.linspace(-20*sigma, 20*sigma, 100)
+y = 0*x
+Ex, Ey = vectorized_efield_gauss_round(x, y, sigma, Delta_x, Delta_y)
+
+pl.figure(101)
+pl.plot(x, Ex, '.-');
+pl.plot(x, Ey, '.-');
+pl.suptitle('Round test')
 pl.show()

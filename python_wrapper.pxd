@@ -14,3 +14,13 @@ cdef extern from "weak_strong_4d_c.h":
 
     
     cdef void weak_strong_4d(particle*, weak_strong_4d_config*);
+    
+    
+cdef extern from "transverse_field_gauss_round.h":
+    
+    ctypedef struct transv_norm_efield_data:
+        double sigma;
+        double Delta_x;
+        double Delta_y;
+
+    cdef void get_transv_norm_efield(transv_norm_efield_data* data, double x, double y, double* Ex, double* Ey);
