@@ -34,7 +34,7 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
     
     
     double S, factBE, Ex, Ey;
-    cmpx etaBE, zetaBE, val, first_term, second_term;
+    cmpx etaBE, zetaBE, val;
     
     
     
@@ -46,10 +46,9 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
         etaBE = makecmpx(sigmay/sigmax*abx, sigmax/sigmay*aby);
         zetaBE = makecmpx(abx, aby);
         
-        first_term = wfun(cscale(zetaBE, 1./S));
-        second_term = cscale(wfun(cscale(etaBE,1./S)), exp( -abx*abx/(2*sigmax*sigmax)-aby*aby/(2*sigmay*sigmay)));
-        
-        val = csub(first_term,second_term);
+        val = csub( wfun(cscale(zetaBE, 1./S)),
+                    cscale(wfun(cscale(etaBE,1./S)), exp( -abx*abx/(2*sigmax*sigmax)-aby*aby/(2*sigmay*sigmay))) );
+         
            
         Ex=factBE*val.i;
         Ey=factBE*val.r;
@@ -62,11 +61,9 @@ void weak_strong_4d(particle* p, weak_strong_4d_config* conf)
         etaBE = makecmpx(sigmax/sigmay*aby, sigmay/sigmax*abx);
         zetaBE = makecmpx(aby, abx);
         
-        first_term = wfun(cscale(zetaBE, 1./S));
-        second_term = cscale(wfun(cscale(etaBE,1./S)), exp( -aby*aby/(2*sigmay*sigmay)-abx*abx/(2*sigmax*sigmax)));
-        
-        val = csub(first_term,second_term);
-           
+        val = csub( wfun(cscale(zetaBE, 1./S)),
+                    cscale(wfun(cscale(etaBE,1./S)), exp( -aby*aby/(2*sigmay*sigmay)-abx*abx/(2*sigmax*sigmax))) );
+                   
         Ey=factBE*val.i;
         Ex=factBE*val.r;
         
