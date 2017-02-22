@@ -2,14 +2,19 @@
 #define __WEAKSTRONG4D
 
 #include <stdio.h>
-#include <complex.h>
+
 #include <math.h>
 #include <stdlib.h>
 #include "cmpx.h"
 
+// To use MIT Faddeeva library uncomment following
+//#include <complex.h>
+//#include "Faddeeva.h" 
 
-#include "Faddeeva.h" 
-// re-define differently if use another implementation of the w function
+// To use CERNLIB Faddeeva 
+#include "faddeeva_cern.h"
+
+// End Faddeeva choice 
 
 #include "particle.h"
 

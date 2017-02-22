@@ -4,13 +4,23 @@
 #define EPSILON_0 (8.854187817620e-12)
 #define SQRT_PI (1.772453850905515881919427556568)
 
-cmpx wfun(cmpx zz){
-    double complex temp;
+
+// To use MIT Faddeeva library uncomment following
+// cmpx wfun(cmpx zz){
+//     double complex temp;
+//     cmpx res;
+//     temp = Faddeeva_w((zz.r + I*zz.i), 0.);
+//     res = makecmpx(creal(temp), cimag(temp));
+//     return res;
+// }   
+
+
+// To use CERNLIB Faddeeva 
+ cmpx wfun(cmpx zz){
     cmpx res;
-    temp = Faddeeva_w((zz.r + I*zz.i), 0.);
-    res = makecmpx(creal(temp), cimag(temp));
+    cerrf(zz.r, zz.i , &(res.r), &(res.i));
     return res;
-}   
+}
 
 
 
