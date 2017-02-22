@@ -419,7 +419,7 @@ struct __pyx_opt_args_14python_wrapper_weak_strong_single_particle;
 /* "python_wrapper.pyx":3
  * cimport python_wrapper
  * 
- * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1.):             # <<<<<<<<<<<<<<
+ * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1., Delta_x=0., Delta_y=0.):             # <<<<<<<<<<<<<<
  *     cdef particle p;
  *     cdef weak_strong_4d_config conf
  */
@@ -427,6 +427,8 @@ struct __pyx_opt_args_14python_wrapper_weak_strong_single_particle {
   int __pyx_n;
   PyObject *D_px_over_Ex;
   PyObject *D_py_over_Ey;
+  PyObject *Delta_x;
+  PyObject *Delta_y;
 };
 #ifndef CYTHON_REFNANNY
   #define CYTHON_REFNANNY 0
@@ -566,7 +568,7 @@ static PyObject *__pyx_f_14python_wrapper_test_efield_gauss_round(PyObject *, Py
 int __pyx_module_is_main_python_wrapper = 0;
 
 /* Implementation of 'python_wrapper' */
-static PyObject *__pyx_pf_14python_wrapper_weak_strong_single_particle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_part, PyObject *__pyx_v_sigmax, PyObject *__pyx_v_sigmay, PyObject *__pyx_v_D_px_over_Ex, PyObject *__pyx_v_D_py_over_Ey); /* proto */
+static PyObject *__pyx_pf_14python_wrapper_weak_strong_single_particle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_part, PyObject *__pyx_v_sigmax, PyObject *__pyx_v_sigmay, PyObject *__pyx_v_D_px_over_Ex, PyObject *__pyx_v_D_py_over_Ey, PyObject *__pyx_v_Delta_x, PyObject *__pyx_v_Delta_y); /* proto */
 static PyObject *__pyx_pf_14python_wrapper_2test_efield_gauss_round(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y, PyObject *__pyx_v_sigma, PyObject *__pyx_v_Delta_x, PyObject *__pyx_v_Delta_y); /* proto */
 static char __pyx_k_x[] = "x";
 static char __pyx_k_y[] = "y";
@@ -596,12 +598,13 @@ static PyObject *__pyx_n_s_sigmay;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_y;
+static PyObject *__pyx_float_0_;
 static PyObject *__pyx_float_1_;
 
 /* "python_wrapper.pyx":3
  * cimport python_wrapper
  * 
- * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1.):             # <<<<<<<<<<<<<<
+ * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1., Delta_x=0., Delta_y=0.):             # <<<<<<<<<<<<<<
  *     cdef particle p;
  *     cdef weak_strong_4d_config conf
  */
@@ -610,6 +613,8 @@ static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject
 static PyObject *__pyx_f_14python_wrapper_weak_strong_single_particle(PyObject *__pyx_v_part, PyObject *__pyx_v_sigmax, PyObject *__pyx_v_sigmay, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14python_wrapper_weak_strong_single_particle *__pyx_optional_args) {
   PyObject *__pyx_v_D_px_over_Ex = ((PyObject *)__pyx_float_1_);
   PyObject *__pyx_v_D_py_over_Ey = ((PyObject *)__pyx_float_1_);
+  PyObject *__pyx_v_Delta_x = ((PyObject *)__pyx_float_0_);
+  PyObject *__pyx_v_Delta_y = ((PyObject *)__pyx_float_0_);
   particle __pyx_v_p;
   weak_strong_4d_config __pyx_v_conf;
   PyObject *__pyx_r = NULL;
@@ -625,6 +630,12 @@ static PyObject *__pyx_f_14python_wrapper_weak_strong_single_particle(PyObject *
       __pyx_v_D_px_over_Ex = __pyx_optional_args->D_px_over_Ex;
       if (__pyx_optional_args->__pyx_n > 1) {
         __pyx_v_D_py_over_Ey = __pyx_optional_args->D_py_over_Ey;
+        if (__pyx_optional_args->__pyx_n > 2) {
+          __pyx_v_Delta_x = __pyx_optional_args->Delta_x;
+          if (__pyx_optional_args->__pyx_n > 3) {
+            __pyx_v_Delta_y = __pyx_optional_args->Delta_y;
+          }
+        }
       }
     }
   }
@@ -706,7 +717,7 @@ static PyObject *__pyx_f_14python_wrapper_weak_strong_single_particle(PyObject *
  *     conf.sigmay = sigmay
  *     conf.D_px_over_Ex = D_px_over_Ex             # <<<<<<<<<<<<<<
  *     conf.D_py_over_Ey = D_py_over_Ey
- * 
+ *     conf.Delta_x = Delta_x
  */
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_D_px_over_Ex); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_conf.D_px_over_Ex = __pyx_t_2;
@@ -715,13 +726,33 @@ static PyObject *__pyx_f_14python_wrapper_weak_strong_single_particle(PyObject *
  *     conf.sigmay = sigmay
  *     conf.D_px_over_Ex = D_px_over_Ex
  *     conf.D_py_over_Ey = D_py_over_Ey             # <<<<<<<<<<<<<<
- * 
- *     #act on C particle
+ *     conf.Delta_x = Delta_x
+ *     conf.Delta_y = Delta_y
  */
   __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_D_py_over_Ey); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_conf.D_py_over_Ey = __pyx_t_2;
 
-  /* "python_wrapper.pyx":18
+  /* "python_wrapper.pyx":16
+ *     conf.D_px_over_Ex = D_px_over_Ex
+ *     conf.D_py_over_Ey = D_py_over_Ey
+ *     conf.Delta_x = Delta_x             # <<<<<<<<<<<<<<
+ *     conf.Delta_y = Delta_y
+ * 
+ */
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_Delta_x); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_conf.Delta_x = __pyx_t_2;
+
+  /* "python_wrapper.pyx":17
+ *     conf.D_py_over_Ey = D_py_over_Ey
+ *     conf.Delta_x = Delta_x
+ *     conf.Delta_y = Delta_y             # <<<<<<<<<<<<<<
+ * 
+ *     #act on C particle
+ */
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_Delta_y); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_conf.Delta_y = __pyx_t_2;
+
+  /* "python_wrapper.pyx":20
  * 
  *     #act on C particle
  *     weak_strong_4d(&p, &conf);             # <<<<<<<<<<<<<<
@@ -730,58 +761,58 @@ static PyObject *__pyx_f_14python_wrapper_weak_strong_single_particle(PyObject *
  */
   weak_strong_4d((&__pyx_v_p), (&__pyx_v_conf));
 
-  /* "python_wrapper.pyx":21
+  /* "python_wrapper.pyx":23
  * 
  *     #C particle to python particle
  *     part.x = p.x             # <<<<<<<<<<<<<<
  *     part.y = p.y
  *     part.px = p.px
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.x); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.x); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_x, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_x, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "python_wrapper.pyx":22
+  /* "python_wrapper.pyx":24
  *     #C particle to python particle
  *     part.x = p.x
  *     part.y = p.y             # <<<<<<<<<<<<<<
  *     part.px = p.px
  *     part.py = p.py
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.y); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.y); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_y, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_y, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "python_wrapper.pyx":23
+  /* "python_wrapper.pyx":25
  *     part.x = p.x
  *     part.y = p.y
  *     part.px = p.px             # <<<<<<<<<<<<<<
  *     part.py = p.py
  * 
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.px); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.px); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_px, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_px, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "python_wrapper.pyx":24
+  /* "python_wrapper.pyx":26
  *     part.y = p.y
  *     part.px = p.px
  *     part.py = p.py             # <<<<<<<<<<<<<<
  * 
  * cpdef test_efield_gauss_round(x, y, sigma, Delta_x, Delta_y):
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.py); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.py); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_py, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_part, __pyx_n_s_py, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "python_wrapper.pyx":3
  * cimport python_wrapper
  * 
- * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1.):             # <<<<<<<<<<<<<<
+ * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1., Delta_x=0., Delta_y=0.):             # <<<<<<<<<<<<<<
  *     cdef particle p;
  *     cdef weak_strong_4d_config conf
  */
@@ -807,6 +838,8 @@ static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject
   PyObject *__pyx_v_sigmay = 0;
   PyObject *__pyx_v_D_px_over_Ex = 0;
   PyObject *__pyx_v_D_py_over_Ey = 0;
+  PyObject *__pyx_v_Delta_x = 0;
+  PyObject *__pyx_v_Delta_y = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -814,14 +847,18 @@ static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("weak_strong_single_particle (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_part,&__pyx_n_s_sigmax,&__pyx_n_s_sigmay,&__pyx_n_s_D_px_over_Ex,&__pyx_n_s_D_py_over_Ey,0};
-    PyObject* values[5] = {0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_part,&__pyx_n_s_sigmax,&__pyx_n_s_sigmay,&__pyx_n_s_D_px_over_Ex,&__pyx_n_s_D_py_over_Ey,&__pyx_n_s_Delta_x,&__pyx_n_s_Delta_y,0};
+    PyObject* values[7] = {0,0,0,0,0,0,0};
     values[3] = ((PyObject *)__pyx_float_1_);
     values[4] = ((PyObject *)__pyx_float_1_);
+    values[5] = ((PyObject *)__pyx_float_0_);
+    values[6] = ((PyObject *)__pyx_float_0_);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
         case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
@@ -838,12 +875,12 @@ static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmax)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 7, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmay)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 7, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (kw_args > 0) {
@@ -855,12 +892,24 @@ static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject
           PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_D_py_over_Ey);
           if (value) { values[4] = value; kw_args--; }
         }
+        case  5:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_Delta_x);
+          if (value) { values[5] = value; kw_args--; }
+        }
+        case  6:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_Delta_y);
+          if (value) { values[6] = value; kw_args--; }
+        }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "weak_strong_single_particle") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
         case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
@@ -875,23 +924,25 @@ static PyObject *__pyx_pw_14python_wrapper_1weak_strong_single_particle(PyObject
     __pyx_v_sigmay = values[2];
     __pyx_v_D_px_over_Ex = values[3];
     __pyx_v_D_py_over_Ey = values[4];
+    __pyx_v_Delta_x = values[5];
+    __pyx_v_Delta_y = values[6];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("weak_strong_single_particle", 0, 3, 7, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("python_wrapper.weak_strong_single_particle", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14python_wrapper_weak_strong_single_particle(__pyx_self, __pyx_v_part, __pyx_v_sigmax, __pyx_v_sigmay, __pyx_v_D_px_over_Ex, __pyx_v_D_py_over_Ey);
+  __pyx_r = __pyx_pf_14python_wrapper_weak_strong_single_particle(__pyx_self, __pyx_v_part, __pyx_v_sigmax, __pyx_v_sigmay, __pyx_v_D_px_over_Ex, __pyx_v_D_py_over_Ey, __pyx_v_Delta_x, __pyx_v_Delta_y);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14python_wrapper_weak_strong_single_particle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_part, PyObject *__pyx_v_sigmax, PyObject *__pyx_v_sigmay, PyObject *__pyx_v_D_px_over_Ex, PyObject *__pyx_v_D_py_over_Ey) {
+static PyObject *__pyx_pf_14python_wrapper_weak_strong_single_particle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_part, PyObject *__pyx_v_sigmax, PyObject *__pyx_v_sigmay, PyObject *__pyx_v_D_px_over_Ex, PyObject *__pyx_v_D_py_over_Ey, PyObject *__pyx_v_Delta_x, PyObject *__pyx_v_Delta_y) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -901,9 +952,11 @@ static PyObject *__pyx_pf_14python_wrapper_weak_strong_single_particle(CYTHON_UN
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("weak_strong_single_particle", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2.__pyx_n = 2;
+  __pyx_t_2.__pyx_n = 4;
   __pyx_t_2.D_px_over_Ex = __pyx_v_D_px_over_Ex;
   __pyx_t_2.D_py_over_Ey = __pyx_v_D_py_over_Ey;
+  __pyx_t_2.Delta_x = __pyx_v_Delta_x;
+  __pyx_t_2.Delta_y = __pyx_v_Delta_y;
   __pyx_t_1 = __pyx_f_14python_wrapper_weak_strong_single_particle(__pyx_v_part, __pyx_v_sigmax, __pyx_v_sigmay, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -921,7 +974,7 @@ static PyObject *__pyx_pf_14python_wrapper_weak_strong_single_particle(CYTHON_UN
   return __pyx_r;
 }
 
-/* "python_wrapper.pyx":26
+/* "python_wrapper.pyx":28
  *     part.py = p.py
  * 
  * cpdef test_efield_gauss_round(x, y, sigma, Delta_x, Delta_y):             # <<<<<<<<<<<<<<
@@ -946,58 +999,58 @@ static PyObject *__pyx_f_14python_wrapper_test_efield_gauss_round(PyObject *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("test_efield_gauss_round", 0);
 
-  /* "python_wrapper.pyx":31
+  /* "python_wrapper.pyx":33
  *     cdef double Ex, Ey;
  * 
  *     data.sigma = sigma             # <<<<<<<<<<<<<<
  *     data.Delta_x = Delta_x
  *     data.Delta_y = Delta_y
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_sigma); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_sigma); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_data.sigma = __pyx_t_1;
 
-  /* "python_wrapper.pyx":32
+  /* "python_wrapper.pyx":34
  * 
  *     data.sigma = sigma
  *     data.Delta_x = Delta_x             # <<<<<<<<<<<<<<
  *     data.Delta_y = Delta_y
  * 
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_Delta_x); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_Delta_x); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_data.Delta_x = __pyx_t_1;
 
-  /* "python_wrapper.pyx":33
+  /* "python_wrapper.pyx":35
  *     data.sigma = sigma
  *     data.Delta_x = Delta_x
  *     data.Delta_y = Delta_y             # <<<<<<<<<<<<<<
  * 
  *     get_transv_field_gauss_round(&data, x, y, &Ex, &Ey);
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_Delta_y); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_Delta_y); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_data.Delta_y = __pyx_t_1;
 
-  /* "python_wrapper.pyx":35
+  /* "python_wrapper.pyx":37
  *     data.Delta_y = Delta_y
  * 
  *     get_transv_field_gauss_round(&data, x, y, &Ex, &Ey);             # <<<<<<<<<<<<<<
  * 
  *     return Ex, Ey
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_x); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_y); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_x); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_y); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   get_transv_field_gauss_round((&__pyx_v_data), __pyx_t_1, __pyx_t_2, (&__pyx_v_Ex), (&__pyx_v_Ey));
 
-  /* "python_wrapper.pyx":37
+  /* "python_wrapper.pyx":39
  *     get_transv_field_gauss_round(&data, x, y, &Ex, &Ey);
  * 
  *     return Ex, Ey             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_Ex); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_Ex); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_Ey); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_Ey); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
@@ -1009,7 +1062,7 @@ static PyObject *__pyx_f_14python_wrapper_test_efield_gauss_round(PyObject *__py
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "python_wrapper.pyx":26
+  /* "python_wrapper.pyx":28
  *     part.py = p.py
  * 
  * cpdef test_efield_gauss_round(x, y, sigma, Delta_x, Delta_y):             # <<<<<<<<<<<<<<
@@ -1067,26 +1120,26 @@ static PyObject *__pyx_pw_14python_wrapper_3test_efield_gauss_round(PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigma)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_Delta_x)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_Delta_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "test_efield_gauss_round") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "test_efield_gauss_round") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -1105,7 +1158,7 @@ static PyObject *__pyx_pw_14python_wrapper_3test_efield_gauss_round(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("test_efield_gauss_round", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("python_wrapper.test_efield_gauss_round", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1127,7 +1180,7 @@ static PyObject *__pyx_pf_14python_wrapper_2test_efield_gauss_round(CYTHON_UNUSE
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("test_efield_gauss_round", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_14python_wrapper_test_efield_gauss_round(__pyx_v_x, __pyx_v_y, __pyx_v_sigma, __pyx_v_Delta_x, __pyx_v_Delta_y, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_14python_wrapper_test_efield_gauss_round(__pyx_v_x, __pyx_v_y, __pyx_v_sigma, __pyx_v_Delta_x, __pyx_v_Delta_y, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1198,6 +1251,7 @@ static int __Pyx_InitCachedConstants(void) {
 
 static int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_float_0_ = PyFloat_FromDouble(0.); if (unlikely(!__pyx_float_0_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_float_1_ = PyFloat_FromDouble(1.); if (unlikely(!__pyx_float_1_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
@@ -1292,7 +1346,7 @@ PyMODINIT_FUNC PyInit_python_wrapper(void)
   /* "python_wrapper.pyx":1
  * cimport python_wrapper             # <<<<<<<<<<<<<<
  * 
- * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1.):
+ * cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_over_Ey=1., Delta_x=0., Delta_y=0.):
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);

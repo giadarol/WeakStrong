@@ -5,20 +5,14 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include "cmpx.h"
-
-// To use MIT Faddeeva library uncomment following
-//#include <complex.h>
-//#include "Faddeeva.h" 
-
-// To use CERNLIB Faddeeva 
-#include "faddeeva_cern.h"
-
-// End Faddeeva choice 
 
 #include "particle.h"
 
+#include "transverse_field_gauss_ellip.h"
+
 typedef struct{
+    double Delta_x;
+    double Delta_y;
     double sigmax;
     double sigmay;
     double D_px_over_Ex;

@@ -11,6 +11,8 @@ cdef extern from "weak_strong_4d_c.h":
         double sigmay;
         double D_px_over_Ex;
         double D_py_over_Ey;
+        double Delta_x;
+        double Delta_y;
 
     
     cdef void weak_strong_4d(particle*, weak_strong_4d_config*);
