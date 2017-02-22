@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as pl
 
 # Prepare a function that can act on sequences of points
-def vectorized_weak_strong(x, y, sigmax, sigmay):
+def vectorized_weak_strong(x, y, sigmax, sigmay, Delta_x, Delta_y):
 
     assert(len(x)==len(y))
     
@@ -16,7 +16,7 @@ def vectorized_weak_strong(x, y, sigmax, sigmay):
         part.y = y[ii]
         part.px = 0.
         part.py = 0.
-        pw.weak_strong_single_particle(part, sigmax, sigmay)
+        pw.weak_strong_single_particle(part, sigmax, sigmay, Delta_x=Delta_x, Delta_y=Delta_y)
         px[ii] = part.px
         py[ii] = part.py
     return px, py
@@ -42,7 +42,7 @@ pl.close('all')
 pl.figure(1)
 xx = np.linspace(-20*sigmax, 20*sigmax, 100)
 yy = 0*xx
-px, py = vectorized_weak_strong(xx, yy, sigmax, sigmay)
+px, py = vectorized_weak_strong(xx, yy, sigmax, sigmay, Delta_x = 1., Delta_y = 0.)
 pl.plot(xx, px, '.-')
 pl.plot(xx, py, '.-')
 pl.suptitle('On the x axis')
@@ -50,7 +50,7 @@ pl.suptitle('On the x axis')
 pl.figure(2)
 yy = np.linspace(-20*sigmay, 20*sigmay, 100)
 xx = 0*yy
-px, py = vectorized_weak_strong(xx, yy, sigmax, sigmay)
+px, py = vectorized_weak_strong(xx, yy, sigmax, sigmay, Delta_x = 0., Delta_y = -2.)
 pl.plot(yy, px, '.-')
 pl.plot(yy, py, '.-')
 pl.suptitle('On the y axis')
@@ -62,7 +62,7 @@ Ex_mat = np.zeros((len(x_vec), len(y_vec)))
 Ey_mat = 0*Ex_mat
 
 for i_x in xrange(len(x_vec)):
-   Ex_mat[i_x, :], Ey_mat[i_x, :] = vectorized_weak_strong(x_vec[i_x]+y_vec*0, y_vec, sigmax, sigmay)
+   Ex_mat[i_x, :], Ey_mat[i_x, :] = vectorized_weak_strong(x_vec[i_x]+y_vec*0, y_vec, sigmax, sigmay, Delta_x = -1., Delta_y = 3.)
     
 pl.figure(10)
 sp1 = pl.subplot2grid((2,2),(0,0))
