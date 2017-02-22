@@ -25,13 +25,13 @@ cpdef weak_strong_single_particle(part, sigmax, sigmay, D_px_over_Ex=1., D_py_ov
     
 cpdef test_efield_gauss_round(x, y, sigma, Delta_x, Delta_y):
     
-    cdef transv_norm_efield_data data;
+    cdef transv_field_gauss_round_data data;
     cdef double Ex, Ey;
     
     data.sigma = sigma
     data.Delta_x = Delta_x
     data.Delta_y = Delta_y
     
-    get_transv_norm_efield(&data, x, y, &Ex, &Ey);
+    get_transv_field_gauss_round(&data, x, y, &Ex, &Ey);
     
     return Ex, Ey

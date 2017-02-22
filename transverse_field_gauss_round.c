@@ -1,6 +1,6 @@
 #include "transverse_field_gauss_round.h"
 
-void get_transv_norm_efield(transv_norm_efield_data* data, double x, double y, double* Ex, double* Ey){
+void get_transv_field_gauss_round(transv_field_gauss_round_data* data, double x, double y, double* Ex, double* Ey){
     
     double r2, temp;
     
