@@ -98,8 +98,10 @@ Cf2py intent(inout) track
         track(5,i)=z1/det
         track(6,i)=(track(6,i)+(calpha*sphi)*track(2,i))                
      +         +(salpha*sphi)*track(4,i)                                         
-        track(2,i)=(track(2,i)+(calpha*sphi)*h1)*cphi                   
-        track(4,i)=(track(4,i)+(salpha*sphi)*h1)*cphi                   
+c~         track(2,i)=(track(2,i)+(calpha*sphi)*h1)*cphi                   
+c~         track(4,i)=(track(4,i)+(salpha*sphi)*h1)*cphi   
+        track(2,i)=(track(2,i)*cphi+(calpha*tphi)*h1)                   
+        track(4,i)=(track(4,i)*cphi+(salpha*tphi)*h1)                  
  1000 continue
       return
       end
