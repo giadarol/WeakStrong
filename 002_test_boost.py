@@ -25,7 +25,7 @@ bs.boost(sphi,cphi,tphi,salpha,calpha,track)
 parboost = bo.ParBoost(phi, alpha)
 x_st, px_st, y_st, py_st, sigma_st, delta_st = bo.boost(x, px, y, py, sigma, delta, parboost)
 
-print '\n\n ***** Direct boost'
+print '\n\n ***** Direct boost (python vs sixtrack)'
 print "Check x", x_st, track[0], np.abs(x_st-track[0]) 
 print "Check px", px_st, track[1], np.abs(px_st-track[1]) 
 print "Check y", y_st, track[2], np.abs(y_st - track[2]) 
@@ -37,7 +37,7 @@ print "Check delta", delta_st, track[5], np.abs(delta_st - track[5])
 # test inverse boost (sixtrack vs initial)
 bs.boosti(sphi,cphi,tphi,salpha,calpha,track)
 
-print '\n\n ***** Inverse boost (sixtrack vs initial)'
+print '\n\n ***** Inverse boost (initial vs sixtrack)'
 print "Check x", x, track[0], np.abs(x-track[0]) 
 print "Check px", px, track[1], np.abs(px-track[1]) 
 print "Check y", y, track[2], np.abs(y - track[2]) 
@@ -57,8 +57,8 @@ Linv_11 = (1./cphi + salpha*tphi*(hy_st-hsigma_st*salpha*sphi))/Det_L
 Linv_12 = (salpha*tphi*(hsigma_st*calpha*sphi-hx_st))/Det_L
 Linv_13 = -tphi*(calpha - hx_st*salpha*salpha*sphi + hy_st*calpha*salpha*sphi)/Det_L
 
-Linv_21 = (calpha*tphi*(-hy_st + hsigma_st*salpha*tphi*sphi))/Det_L
-Linv_22 = (1./cphi + calpha*tphi*(hx_st-hsigma_st*calpha*calpha*sphi))/Det_L
+Linv_21 = (calpha*tphi*(-hy_st + hsigma_st*salpha*sphi))/Det_L
+Linv_22 = (1./cphi + calpha*tphi*(hx_st-hsigma_st*calpha*sphi))/Det_L
 Linv_23 = -tphi*(salpha - hy_st*calpha*calpha*sphi + hx_st*calpha*salpha*sphi)/Det_L
 
 Linv_31 = -hsigma_st*calpha*sphi/Det_L
@@ -78,7 +78,7 @@ delta_i = delta_st + px_i*calpha*tphi + py*salpha*tphi - h*tphi*tphi
 
 
 # test inverse boost (python vs initial)
-print '\n\n ***** Inverse boost (python vs initial)'
+print '\n\n ***** Inverse boost (initial vs python)'
 print "Check x", x, x_i, np.abs(x-x_i) 
 print "Check px", px, px_i, np.abs(px-px_i) 
 print "Check y", y, y_i, np.abs(y-y_i) 
