@@ -2,17 +2,17 @@
 #define __WEAKSTRONG4D
 
 #include <stdio.h>
-#include <complex.h>
+
 #include <math.h>
 #include <stdlib.h>
 
-#include "Faddeeva.h"
-#define wfun(zz) Faddeeva_w(zz,0.)
-// re-define differently if use another implementation of the w function
-
 #include "particle.h"
 
+#include "transverse_field_gauss_ellip.h"
+
 typedef struct{
+    double Delta_x;
+    double Delta_y;
     double sigmax;
     double sigmay;
     double D_px_over_Ex;
