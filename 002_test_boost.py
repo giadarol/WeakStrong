@@ -1,8 +1,9 @@
 import boost_sixtrack as bs
+import boost as bo
 import numpy as np
 
 phi = 0.5#150e-6
-alpha = 0.
+alpha = 23*np.pi/180.
 
 x = 1e-3
 px = 50e-6
@@ -19,39 +20,25 @@ calpha = np.cos(alpha)
 
 track = np.array([x, px, y, py, sigma, delta])
 
+# test direct boost
 bs.boost(sphi,cphi,tphi,salpha,calpha,track)
+parboost = bo.ParBoost(phi, alpha)
+x_st, px_st, y_st, py_st, sigma_st, delta_st = bo.boost(x, px, y, py, sigma, delta, parboost)
 
+print '\n\n ***** Direct boost'
+print "Check x", x_st, track[0], np.abs(x_st-track[0]) 
+print "Check px", px_st, track[1], np.abs(px_st-track[1]) 
+print "Check y", y_st, track[2], np.abs(y_st - track[2]) 
+print "Check py", py_st, track[3], np.abs(py_st - track[3]) 
+print "Check sigma", sigma_st, track[4], np.abs(sigma_st - track[4]) 
+print "Check delta", delta_st, track[5], np.abs(delta_st - track[5]) 
 
-h = delta + 1. - np.sqrt((1.+delta)**2-px**2-py**2) 
-
-px_st = px/cphi-h*calpha*tphi/cphi
-py_st = py/cphi-h*salpha*tphi/cphi
-delta_st = delta -px*calpha*tphi-py*salpha*tphi+h*tphi*tphi
-
-pz_st = np.sqrt((1.+delta_st)**2-px_st**2-py_st**2)
-hx_st = px_st/pz_st
-hy_st = py_st/pz_st
-hsigma_st = 1.-(delta_st+1)/pz_st
-
-L11 = 1.+hx_st*calpha*sphi
-L12 = hx_st*salpha*sphi
-L13 = calpha*tphi
-
-L21 = hy_st*calpha*sphi
-L22 = 1.+hy_st*salpha*sphi
-L23 = salpha*tphi
-
-L31 = hsigma_st*calpha*sphi
-L32 = hsigma_st*salpha*sphi
-L33 = 1./cphi
-
-x_st = L11*x + L12*y + L13*sigma
-y_st = L21*x + L22*y + L23*sigma
-sigma_st = L31*x + L32*y + L33*sigma
-
-print "Check x", x_st, track[0], 
-print "Check px", px_st, track[1]
-print "Check y", y_st, track[2]
-print "Check py", py_st, track[3]
-print "Check sigma", sigma_st, track[4]
-print "Check delta", delta_st, track[5]
+# test inverse boost (sixtrack vs initial)
+bs.boosti(sphi,cphi,tphi,salpha,calpha,track)
+print '\n\n ***** Inverse boost'
+print "Check x", x, track[0], np.abs(x-track[0]) 
+print "Check px", px, track[1], np.abs(px-track[1]) 
+print "Check y", y, track[2], np.abs(y - track[2]) 
+print "Check py", py, track[3], np.abs(py - track[3]) 
+print "Check sigma", sigma, track[4], np.abs(sigma - track[4]) 
+print "Check delta", delta, track[5], np.abs(delta - track[5]) 
