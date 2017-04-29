@@ -1,6 +1,0 @@
-#!/bin/bash
-
-#compile flags and link flags
-CFLAGS="-Iinclude -fPIC -std=c99"  \
-LDFLAGS="-Llib -lm -std=c99"     \
-    python setup.py build_ext -i 
