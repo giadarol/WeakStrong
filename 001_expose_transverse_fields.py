@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 modulepath=os.path.dirname(os.path.abspath(__file__))
-libpath=os.path.join(modulepath, 'fromsixtracklib.so')
+libpath=os.path.join(modulepath, 'cFromsixtracklib.so')
 fromsixtracklib=ctypes.CDLL(libpath)
 
 #def transverse_field_ellip(x, y, sigma_x, sigma_y, Delta_x, Delta_y):
