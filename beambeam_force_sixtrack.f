@@ -130,6 +130,8 @@ Cf2py intent(out) bbgy
       pieni = 1e-10
       ibtyp = 0
       if(sigxx.eq.sigyy) then
+c        write(*,*) 'round beam!'
+c        write(*,*) pieni
         x=sepx**2+sepy**2
         xxyy=sigxx+sigyy
         const=0.0d0
