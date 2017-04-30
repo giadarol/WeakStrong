@@ -10,23 +10,23 @@ nv = np.vectorize
 
 min_sigma_diff = 1e-10
 
-# Tall beam
-sigma_x=.5
-sigma_y=.9
-theta = 45*np.pi/180
-r_max = 20.
+#~ # Tall beam
+#~ sigma_x=.5
+#~ sigma_y=.9
+#~ theta = 20*np.pi/180
+#~ r_max = 20.
 
 #~ # Flat beam
 #~ sigma_x=.9
 #~ sigma_y=.5
-#~ theta = 80*np.pi/180
+#~ theta = 20*np.pi/180
 #~ r_max = 20.
 
-#~ # Round beam
-#~ sigma_x=.5
-#~ sigma_y=.5
-#~ theta = 20*np.pi/180
-#~ r_max = 200.
+# Round beam
+sigma_x=.5
+sigma_y=.5
+theta = 20*np.pi/180
+r_max = 20.
 
 
 
@@ -45,13 +45,13 @@ Ex_plusx, Ey_plusx, _, _ = nv(tef.get_Ex_Ey_Gx_Gy_gauss)(x, y, sigma_x + D_sigma
 phi_plusx = -np.cumsum(0.5*(Ex_plusx[:-1]+Ex_plusx[1:])*np.diff(x)+0.5*(Ey_plusx[:-1]+Ey_plusx[1:])*np.diff(y))
 Ex_minusx, Ey_minusx, _, _ = nv(tef.get_Ex_Ey_Gx_Gy_gauss)(x, y, sigma_x - D_sigma_x, sigma_y, min_sigma_diff)
 phi_minusx = -np.cumsum(0.5*(Ex_minusx[:-1]+Ex_minusx[1:])*np.diff(x)+0.5*(Ey_minusx[:-1]+Ey_minusx[1:])*np.diff(y))
-Gx_num = -(phi_plusx-phi_minusx)/D_sigma_x/2
+Gx_num = -(phi_plusx-phi_minusx)/((sigma_x+D_sigma_x)**2 - (sigma_x-D_sigma_x)**2) #The derivative is with respect to the capital Sigma!!!
 
 Ex_plusy, Ey_plusy, _, _ = nv(tef.get_Ex_Ey_Gx_Gy_gauss)(x, y, sigma_x, sigma_y + D_sigma_y, min_sigma_diff)
 phi_plusy = -np.cumsum(0.5*(Ex_plusy[:-1]+Ex_plusy[1:])*np.diff(x)+0.5*(Ey_plusy[:-1]+Ey_plusy[1:])*np.diff(y))
 Ex_minusy, Ey_minusy, _, _ = nv(tef.get_Ex_Ey_Gx_Gy_gauss)(x, y, sigma_x, sigma_y - D_sigma_y, min_sigma_diff)
 phi_minusy = -np.cumsum(0.5*(Ex_minusy[:-1]+Ex_minusy[1:])*np.diff(x)+0.5*(Ey_minusy[:-1]+Ey_minusy[1:])*np.diff(y))
-Gy_num = -(phi_plusy-phi_minusy)/D_sigma_y/2
+Gy_num = -(phi_plusy-phi_minusy)/((sigma_y+D_sigma_y)**2 - (sigma_y-D_sigma_y)**2)
 
 
 pl.close('all')
@@ -80,9 +80,9 @@ pl.plot(r_centers, 0.5*(Gy[:-1]+Gy[1:]), '--')
 
 
 
-pl.figure(10)
-pl.plot(r, Ex)
-pl.plot(r, Ey)
+#~ pl.figure(10)
+#~ pl.plot(r, Ex)
+#~ pl.plot(r, Ey)
 
 
 pl.show()
