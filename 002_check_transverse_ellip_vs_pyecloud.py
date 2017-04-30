@@ -16,9 +16,11 @@ theta = 20*np.pi/180
 x = r * np.cos(theta)
 y = r * np.sin(theta)
 
+nv = np.vectorize
 
-Ex_PyEC, Ey_PyEC = np.vectorize(PyECBE.BassErsk)(x,y, sigma_x, sigma_y)
-Ex_sl, Ey_sl = tef.vect_transverse_field_ellip(x, y, sigma_x, sigma_y, Delta_x=0., Delta_y=0.)
+
+Ex_PyEC, Ey_PyEC = nv(PyECBE.BassErsk)(x,y, sigma_x, sigma_y)
+Ex_sl, Ey_sl = nv(tef.transverse_field_ellip)(x, y, sigma_x, sigma_y, Delta_x=0., Delta_y=0.)
 
 
 pl.close('all')
