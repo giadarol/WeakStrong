@@ -5,12 +5,14 @@ import numpy as np
 import pylab as pl
 
 
-sigma_x=.9
-sigma_y=.7
+#~ sigma_x=.9
+#~ sigma_y=.7
 
+sigma_x=.5
+sigma_y=.9
 
 r = np.linspace(-20, 20., 1000)
-theta = 0.0001*np.pi/180
+theta = 20*np.pi/180
 x = r * np.cos(theta)
 y = r * np.sin(theta)
 
