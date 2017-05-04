@@ -1,0 +1,17 @@
+q1: quadrupole, l=1, k1=0.02, tilt=0.5;
+q2: quadrupole, l=1, k1=0.02, tilt=0.;
+
+
+s: sequence, l=100;
+q1, at=3;
+m1: marker, at=4.1;
+m2: marker, at=4.2;
+q2, at=50;
+endsequence;
+
+beam,ex=5e-10,ey=5e-10;
+
+use,sequence=s;
+twiss,betx=3000,bety=3000,ripken,file=twiss_s.tfs;
+
+

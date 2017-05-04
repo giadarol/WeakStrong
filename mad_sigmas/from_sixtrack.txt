@@ -1,0 +1,126 @@
+ subroutine sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc)
+!-----------------------------------------------------------------------
+!
+!   Hirata's 6d beam-beam from BBC
+!   SIXTRACK version courtesy Peter Leunissen
+!   January 1999
+!
+!**SBC ***Synchro-Beam for headon collision**********************
+!  call BBF  (table) disabled
+!****************************************************************
+!-----------------------------------------------------------------------
+      implicit none
++if crlibm
++ca crlibco
++ei
+      integer i,ibb,ibbc,ibbc1,ibtyp,jsli,np,nsli
+      double precision bbf0,bbfx,bbfy,bbgx,bbgy,bcu,costh,costhp,cphi,  &
+     &dum,f,s,sepx,sepx0,sepy,sepy0,sfac,sinth,sinthp,sp,star,sx,       &
+     &sy,track,cphi2
++ca parpro
++ca parnum
+      dimension track(6,npart),bcu(nbb,12)
+      dimension star(3,mbea),dum(13)
+      save
+!-----------------------------------------------------------------------
+      do 2000 jsli=1,nsli
+        do 1000 i=1,np
+          s=(track(5,i)-star(3,jsli))*half
+          !write(*,*)'JBG - cphi2',cphi2
+          sp=s/cphi2 
+          SIG11_star=(SIG11+(two*SIG12)*sp)+SIG22*sp**2       !hr06
+          SIG33_star=(SIG33+(two*SIG34)*sp)+SIG44*sp**2      !hr06
+          SIG13_star=(SIG13+(SIG14+SIG23)*sp)+               &!hr06
+     &SIG24*sp**2                                                   !hr06
+          R=SIG11_star-SIG33_star
+          T=R**2+four*SIG13_star**2                                !hr06
+          if(ibbc.eq.1.and.(abs(R).gt.pieni.and.                   &
+     &abs(dum(5)).gt.pieni)) then
+            ibbc1=1
+            sqrt(T)=sqrt(T)
+         else
+            ibbc1=0
+          endif
+        !JBG New set of canonical set of variables at the Col point (CP)
+          sepx0=(track(1,i)+track(2,i)*s)-star(1,jsli)                   !hr06
+          sepy0=(track(3,i)+track(4,i)*s)-star(2,jsli)                   !hr06
+          if(ibbc1.eq.1) then
+            sfac=one
+            if(R.lt.zero) sfac=-1d0*one                             !hr06
+            cos2theta = (sfac*R)/sqrt(T) (?)                                 !hr06
+            dum(7)=SIG11_star+SIG33_star
+            costh=half*(one+dum(6))
+            if(abs(costh).gt.pieni) then
+              costh=sqrt(costh)
+            else
+              costh=zero
+            endif
+            sinth=half*(one-dum(6))
+            if(abs(sinth).gt.pieni) then
+              sinth=(-1d0*sfac)*sqrt(sinth)                              !hr06
+            else
+              sinth=zero
+            endif
+            if(SIG13_star.lt.zero) sinth=-1d0*sinth                          !hr06
+            sy=sfac*sqrt(T)
+            sx=(dum(7)+sy)*half
+            sy=(dum(7)-sy)*half
+            sepx=sepx0*costh+sepy0*sinth
+            sepy=sepy0*costh-sepx0*sinth                                 !hr06
+          else
+            sx=SIG11_star
+            sy=SIG33_star
+            sepx=sepx0
+            sepy=sepy0
+          endif
+          if(sx.gt.sy) then
+            call bbf(sepx,sepy,sx,sy,bbfx,bbfy,bbgx,bbgy,ibtyp)
+          else
+            call bbf(sepy,sepx,sy,sx,bbfy,bbfx,bbgy,bbgx,ibtyp)
+          endif
+          bbfx=f*bbfx
+          bbfy=f*bbfy
+          bbgx=f*bbgx
+          bbgy=f*bbgy
+          if(ibbc1.eq.1) then
+            dum(8)=two*((SIG12-SIG34)+                        &!hr06
+     &(SIG22-SIG44)*sp)                                       !hr06
+            dum(9)=(SIG14+SIG23)+(two*SIG24)*sp           !hr06
+            dum(10)=(((R*dum(8)+(four*SIG13_star)*dum(9))/             &!hr06
+     &sqrt(T))/sqrt(T))/sqrt(T)                                             !hr06
+            dum(11)=sfac*(dum(8)/sqrt(T)-R*dum(10))
+            dum(12)=(SIG12+bcu(ibb,9))+(SIG22+SIG44)*sp  !hr06
+      dum(13)=(sfac*((R*dum(8))*half+(two*SIG13_star)*dum(9)))/sqrt(T)   !hr06
+            if(abs(costh).gt.pieni) then
+              costhp=(dum(11)/four)/costh                                !hr06
+            else
+              costhp=zero
+            endif
+            if(abs(sinth).gt.pieni) then
+              sinthp=((-1d0*dum(11))/four)/sinth                         !hr06
+            else
+              sinthp=zero
+            endif
+            track(6,i)=track(6,i)-                                      &!hr06
+     &((((bbfx*(costhp*sepx0+sinthp*sepy0)+                             &!hr06
+     &bbfy*(costhp*sepy0-sinthp*sepx0))+                                &!hr06
+     &bbgx*(dum(12)+dum(13)))+bbgy*(dum(12)-dum(13)))/                  &!hr06
+     &cphi)*half                                                         !hr06
+            bbf0=bbfx
+            bbfx=bbf0*costh-bbfy*sinth
+            bbfy=bbf0*sinth+bbfy*costh
+          else
+            track(6,i)=track(6,i)-                                      &
+     &(bbgx*(SIG12+SIG22*sp)+                                 &
+     &bbgy*(bcu(ibb,9)+SIG44*sp))/cphi
+          endif
+          track(6,i)=track(6,i)-(bbfx*(track(2,i)-bbfx*half)+           &
+     &bbfy*(track(4,i)-bbfy*half))*half
+          track(1,i)=track(1,i)+s*bbfx
+          track(2,i)=track(2,i)-bbfx
+          track(3,i)=track(3,i)+s*bbfy
+          track(4,i)=track(4,i)-bbfy
+ 1000   continue
+ 2000 continue
+      return
+      end
