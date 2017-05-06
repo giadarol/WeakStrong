@@ -66,12 +66,10 @@ signR = np.sign(R)
 
 cos2theta = -signR*R/sqrtT
 costheta = np.sqrt(0.5*(1.+cos2theta))
-# as in paper:
 sintheta = -np.sign((Sig_11-Sig_33)*Sig_13)*np.sqrt(0.5*(1.-cos2theta))
-#~ # as in sixtrack:
-#~ sintheta = -np.sign((Sig_11-Sig_33))*np.sqrt(0.5*(1.-cos2theta))
 
-
+# in sixtrack this line seems to be different different
+# sintheta = -np.sign((Sig_11-Sig_33))*np.sqrt(0.5*(1.-cos2theta))
 
 Sig_11_hat = 0.5*(W+signR*sqrtT)
 Sig_33_hat = 0.5*(W-signR*sqrtT)
@@ -87,6 +85,8 @@ dS_cos2theta = -signR*(dS_R/sqrtT - R/(2*sqrtT*sqrtT*sqrtT)*dS_T)
 dS_costheta = 1/(4*costheta)*dS_cos2theta
 dS_sintheta = -1/(4*sintheta)*dS_cos2theta
 
+dS_Sig_11_hat = 0.5*(dS_W + signR*0.5/sqrtT*dS_T)
+dS_Sig_33_hat = 0.5*(dS_W - signR*0.5/sqrtT*dS_T)
 
 
 
@@ -145,14 +145,20 @@ pl.plot(S, sin_2, 'm--')
 pl.suptitle('Check rotation against matrix diagonalization')
 
 pl.figure(3)
-pl.subplot(1,1,1, sharex=sp0)
+pl.subplot(2,1,1, sharex=sp0)
 pl.plot(S, dS_costheta, 'm-')
 pl.plot(S[:-1], np.diff(costheta)/np.diff(S), 'r--')
 pl.plot(S, dS_sintheta, 'b-')
 pl.plot(S[:-1], np.diff(sintheta)/np.diff(S), 'c--')
 pl.ylim(-.02, .02)
-pl.suptitle('Check derivatives against finite differeces')
 
+pl.subplot(2,1,2, sharex=sp0)
+pl.plot(S, dS_Sig_11_hat, 'm-')
+pl.plot(S[:-1], np.diff(Sig_11_hat)/np.diff(S), 'r--')
+pl.plot(S, dS_Sig_33_hat, 'b-')
+pl.plot(S[:-1], np.diff(Sig_33_hat)/np.diff(S), 'c--')
+pl.suptitle('Check derivatives against finite differeces')
+pl.ylim(-1e-6, 1e-6)
 
 
 
