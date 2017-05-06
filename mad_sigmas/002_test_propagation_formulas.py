@@ -66,10 +66,10 @@ signR = np.sign(R)
 
 cos2theta = signR*R/sqrtT
 costheta = np.sqrt(0.5*(1.+cos2theta))
-sintheta = -np.sign((Sig_11-Sig_33)*Sig_13)*np.sqrt(0.5*(1.-cos2theta))
+#~ sintheta = -np.sign((Sig_11-Sig_33)*Sig_13)*np.sqrt(0.5*(1.-cos2theta))
 
 # in sixtrack this line seems to be different different
-#~ sintheta = -np.sign((Sig_11-Sig_33))*np.sqrt(0.5*(1.-cos2theta))
+sintheta = -np.sign((Sig_11-Sig_33))*np.sqrt(0.5*(1.-cos2theta))
 
 Sig_11_hat = 0.5*(W+signR*sqrtT)
 Sig_33_hat = 0.5*(W-signR*sqrtT)
@@ -138,8 +138,8 @@ for i_s, ss in enumerate(S):
         v2y *= -1
     cos_1.append(v1x/np.sqrt(v1x**2+v1y**2))
     cos_2.append(v2x/np.sqrt(v2x**2+v2y**2))
-    sin_1.append(-v1y/np.sqrt(v1x**2+v1y**2))    
-    sin_2.append(-v2y/np.sqrt(v2x**2+v2y**2))
+    sin_1.append(v1y/np.sqrt(v1x**2+v1y**2))    
+    sin_2.append(v2y/np.sqrt(v2x**2+v2y**2))
     
 fig = pl.figure(2)
 fig.set_facecolor('w')
@@ -158,7 +158,12 @@ pl.plot(S, cos_1, 'c--', label='coseig', lw=lw)
 pl.legend(loc='best', prop={'size':fontsz})
 pl.suptitle('Check rotation against matrix diagonalization')
 
+theta = np.arctan2(sintheta, costheta)
+
 pl.figure(3)
+pl.plot(S, theta*180/np.pi)
+
+pl.figure(4)
 pl.subplot(2,1,1, sharex=sp0)
 pl.plot(S, dS_costheta, 'm-')
 pl.plot(S[:-1], np.diff(costheta)/np.diff(S), 'r--')
@@ -176,7 +181,6 @@ pl.suptitle('Check derivatives against finite differeces')
 pl.ylim(-1e-6, 1e-6)
 ms.sciy()
 
-
-
-
 pl.show()
+
+raise ValueError('Strange theta jump...')
