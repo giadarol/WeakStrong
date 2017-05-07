@@ -8,14 +8,41 @@ L_line = 100
 Ds = 2.
 skew_at = 10.
 L_skew = 1.
+k_skew = .02
+betx_enter = 1500
+bety_enter = 3000
+alfx_enter = 100
+alfy_enter = -50
+
+#~ L_line = 100
+#~ Ds = 2.
+#~ skew_at = 10.
+#~ L_skew = 1.
+#~ k_skew = -.02
+#~ betx_enter = 1500
+#~ bety_enter = 3000
+#~ alfx_enter = 100
+#~ alfy_enter = -50
+
+#~ L_line = 100
+#~ Ds = 2.
+#~ skew_at = 10.
+#~ L_skew = 1.
+#~ k_skew = .02
+#~ betx_enter = 1500
+#~ bety_enter = 3000
+#~ alfx_enter = -100
+#~ alfy_enter = 50
+
+
 
 inserted_skew = False
 
 with open('madauto.madx', 'w') as fid:
     fid .write('''
-q1: quadrupole, l=%.2f, k1=0.02, tilt=0.5;
+q1: quadrupole, l=%.2f, k1=%.2e, tilt=0.5;
 s: sequence, l=%e;
-'''%(L_skew, L_line))
+'''%(L_skew, k_skew, L_line))
     for i_s, ss in enumerate(np.arange(0., L_line, Ds)):
         fid .write('m%d: marker, at=%.2f;\n'%(i_s, ss))
         if not inserted_skew:
@@ -27,8 +54,8 @@ s: sequence, l=%e;
     fid .write('''
 beam,ex=5e-10,ey=5e-10;
 use,sequence=s;
-twiss,betx=1500,bety=3000,alfx=100, alfy=-50, ripken,file=twiss_s.tfs;
-''')
+twiss,betx=%2f,bety=%.2f,alfx=%.2f, alfy=%.2f, ripken,file=twiss_s.tfs;
+'''%(betx_enter, bety_enter, alfx_enter, alfy_enter))
 
 os.system('madx madauto.madx')
 
@@ -141,8 +168,8 @@ for i_s, ss in enumerate(S):
     sin_1.append(v1y/np.sqrt(v1x**2+v1y**2))    
     sin_2.append(v2y/np.sqrt(v2x**2+v2y**2))
     
-fig = pl.figure(2)
-fig.set_facecolor('w')
+fig2 = pl.figure(2)
+fig2.set_facecolor('w')
 pl.subplot(2,1,1, sharex=sp0)
 pl.plot(S, Sig_11_hat, 'b', label = 'Sig_11_hat', lw=lw)
 pl.plot(S, lam_1, 'c--', label= 'eigen 1', lw=lw)
@@ -156,9 +183,11 @@ pl.plot(S, sintheta, 'r', label='sintheta', lw=lw)
 pl.plot(S, sin_1, 'm--', label='sineig', lw=lw)
 pl.plot(S, cos_1, 'c--', label='coseig', lw=lw)
 pl.legend(loc='best', prop={'size':fontsz})
-pl.suptitle('Check rotation against matrix diagonalization')
-
+pl.suptitle('Check rotation against matrix diagonalization\n'+\
+            'At s=0: Sig11=%.1e,Sig22=%.1e,Sig33=%.1e,Sig44=%.1e\n'%(Sig_11_0, Sig_22_0, Sig_33_0, Sig_44_0)+\
+            'Sig12=%.1e,Sig13=%.1e,Sig14=%.1e,\nSig23=%.1e,Sig24=%.1e,Sig34=%.1e'%(Sig_12_0, Sig_13_0, Sig_14_0, Sig_23_0, Sig_24_0, Sig_34_0))
 theta = np.arctan2(sintheta, costheta)
+fig2.subplots_adjust(top=.82)
 
 pl.figure(3)
 pl.plot(S, theta*180/np.pi)
@@ -182,4 +211,6 @@ pl.ylim(-1e-6, 1e-6)
 ms.sciy()
 
 pl.show()
+
+
 
