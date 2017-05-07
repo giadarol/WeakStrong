@@ -1,5 +1,8 @@
 import numpy as np
 import pylab as pl
+import sys
+
+sys.path.append('../')
 import mystyle as ms
 
 pl.close('all')
@@ -48,10 +51,12 @@ tt_ellip = np.linspace(0, 2*np.pi, 100)
 
 x_ellip = []
 y_ellip = []
+
 for tt in tt_ellip:
     res = np.dot(a, np.array([np.cos(tt), np.sin(tt)]).T)
     x_ellip.append(res[0])
     y_ellip.append(res[1])
+    
     
 pl.figure(1)
 pl.plot(x_ellip, y_ellip)
