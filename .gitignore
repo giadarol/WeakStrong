@@ -1,6 +1,7 @@
 test_c_function
 *~
 *.o
+ellip_pngs
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

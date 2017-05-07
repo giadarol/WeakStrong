@@ -42,7 +42,7 @@ def propagate_Sigma_matrix(Sigmas_at_0, S):
 
     cos2theta = signR*R/sqrtT
     costheta = np.sqrt(0.5*(1.+cos2theta))
-    sintheta = np.sign((Sig_11-Sig_33)*Sig_13)*np.sqrt(0.5*(1.-cos2theta))
+    sintheta = signR*np.sign(Sig_13)*np.sqrt(0.5*(1.-cos2theta))
 
     # in sixtrack this line seems to be different different
     #~ sintheta = -np.sign((Sig_11-Sig_33))*np.sqrt(0.5*(1.-cos2theta))
