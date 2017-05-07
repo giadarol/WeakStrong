@@ -66,10 +66,10 @@ signR = np.sign(R)
 
 cos2theta = signR*R/sqrtT
 costheta = np.sqrt(0.5*(1.+cos2theta))
-#~ sintheta = -np.sign((Sig_11-Sig_33)*Sig_13)*np.sqrt(0.5*(1.-cos2theta))
+sintheta = np.sign((Sig_11-Sig_33)*Sig_13)*np.sqrt(0.5*(1.-cos2theta))
 
 # in sixtrack this line seems to be different different
-sintheta = -np.sign((Sig_11-Sig_33))*np.sqrt(0.5*(1.-cos2theta))
+#~ sintheta = -np.sign((Sig_11-Sig_33))*np.sqrt(0.5*(1.-cos2theta))
 
 Sig_11_hat = 0.5*(W+signR*sqrtT)
 Sig_33_hat = 0.5*(W-signR*sqrtT)
@@ -183,4 +183,3 @@ ms.sciy()
 
 pl.show()
 
-raise ValueError('Strange theta jump...')
