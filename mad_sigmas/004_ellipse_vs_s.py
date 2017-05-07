@@ -120,27 +120,32 @@ for i_png, S_test in enumerate(S_test_vect):
     sintheta_ellip = np.interp(S_test, S, sintheta)
     costheta_ellip = np.interp(S_test, S, costheta)
     
-    scale = 1/(0.5*(Sig_11_ellip+Sig_33_ellip))
+    scale = 1/(0.5*(np.sqrt(Sig_11_ellip)+np.sqrt(Sig_33_ellip)))
 
-    a = np.array([[Sig_11_ellip, Sig_13_ellip],
+    Sigma = np.array([[Sig_11_ellip, Sig_13_ellip],
                   [Sig_13_ellip, Sig_33_ellip]])
+    w, v = np.linalg.eig(Sigma)
+    # This matrix transform the unitary circle into an ellipse 
+    # in which the quadratic form is constant 
+    # (same eigenvectors as Sigma, eigenvalues are the sqrt) 
+    a = np.dot(v, np.dot(np.diag(np.sqrt(w)), v.T))
 
     tt_ellip = np.linspace(0, 2*np.pi, 100)
 
     x_ellip = []
     y_ellip = []
     for tt in tt_ellip:
-        res = np.dot(a, np.array([np.cos(tt), np.sin(tt)]).T)
+        res = np.dot(a, np.array([[np.cos(tt), np.sin(tt)]]).T)
         x_ellip.append(res[0])
         y_ellip.append(res[1])
-    x_ellip = np.array(x_ellip)
-    y_ellip = np.array(y_ellip)
+    x_ellip = np.squeeze(x_ellip)
+    y_ellip = np.squeeze(y_ellip)
         
     pl.plot(scale*x_ellip, scale*y_ellip, lw=lw, color='k', alpha=.4)
-    pl.plot([0, scale*Sig_11_hat_ellip*costheta_ellip], [0, scale*Sig_11_hat_ellip*sintheta_ellip],'b', lw=lw, )
-    pl.plot([0, -scale*Sig_33_hat_ellip*sintheta_ellip], [0, scale*Sig_33_hat_ellip*costheta_ellip],'r', lw=lw)
-    pl.ylabel('x normalized to average Sigma')
-    pl.ylabel('y normalized to average Sigma')
+    pl.plot([0, scale*np.sqrt(Sig_11_hat_ellip)*costheta_ellip], [0, scale*np.sqrt(Sig_11_hat_ellip)*sintheta_ellip],'b', lw=lw, )
+    pl.plot([0, -scale*np.sqrt(Sig_33_hat_ellip)*sintheta_ellip], [0, scale*np.sqrt(Sig_33_hat_ellip)*costheta_ellip],'r', lw=lw)
+    pl.xlabel('x normalized to average sigma')
+    pl.ylabel('y normalized to average sigma')
 
     pl.grid('on')
     ms.sciy(); ms.scix()
