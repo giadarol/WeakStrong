@@ -32,7 +32,7 @@ Cf2py intent(out) Sig_13
       four = 4.
       two = 2.
       
-      pieni = 1e-10
+      pieni = 1e-38
       ibbc = 1
 
 c~       integer i,ibb,ibbc,ibbc1,ibtyp,jsli,np,nsli
@@ -63,8 +63,8 @@ c~       dimension star(3,mbea),dum(13)
           !write(*,*) dum(4)
           !write(*,*) 'dum(5)'     
           !write(*,*) dum(5)                         
-          if(ibbc.eq.1.and.(abs(dum(4)).gt.pieni.and.                   
-     +abs(dum(5)).gt.pieni**2)) then
+          if(ibbc.eq.1.and.(abs(dum(4)).gt.pieni .and.                   
+     +abs(dum(5)).gt.pieni)) then
             !write(*,*) 'Coupling!'
             ibbc1=1
             dum(5)=sqrt(dum(5))
