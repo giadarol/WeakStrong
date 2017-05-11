@@ -46,6 +46,7 @@ c~       dimension star(3,mbea),dum(13)
 
       do 2000 jsli=1,1
         do 1000 i=1,1
+         write(*,*) 'In!'
           !s=(track(5,i)-star(3,jsli))*half
           !write(*,*)'JBG - cphi2',cphi2
           !sp=s/cphi2 
@@ -57,9 +58,14 @@ c~       dimension star(3,mbea),dum(13)
           Sig_33 = dum(2)
           Sig_13 = dum(3)
           dum(4)=dum(1)-dum(2)
-          dum(5)=dum(4)**2+four*dum(3)**2                               
+          dum(5)=dum(4)**2+four*dum(3)**2 
+          write(*,*) 'dum(4)'     
+          write(*,*) dum(4)
+          write(*,*) 'dum(5)'     
+          write(*,*) dum(5)                         
           if(ibbc.eq.1.and.(abs(dum(4)).gt.pieni.and.                   
-     +abs(dum(5)).gt.pieni)) then
+     +abs(dum(5)).gt.pieni**2)) then
+            write(*,*) 'Coupling!'
             ibbc1=1
             dum(5)=sqrt(dum(5))
          else
@@ -86,6 +92,8 @@ c~       dimension star(3,mbea),dum(13)
               sinth=zero
             endif
             if(dum(3).lt.zero) sinth=-1d0*sinth                          !hr06
+            write(*,*) 'dum(5)'
+            write(*,*) dum(5)
             sy=sfac*dum(5)
             sx=(dum(7)+sy)*half
             sy=(dum(7)-sy)*half
