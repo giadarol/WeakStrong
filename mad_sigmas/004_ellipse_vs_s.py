@@ -18,16 +18,16 @@ bety_enter = 3000
 alfx_enter = 100
 alfy_enter = -50
 
-# To have a positive Sigma_13
-L_line = 100
-Ds = 2.
-skew_at = 10.
-L_skew = 1.
-k_skew = -.02
-betx_enter = 3000
-bety_enter = 1500
-alfx_enter = -100
-alfy_enter = 50
+#~ # To have a positive Sigma_13
+#~ L_line = 100
+#~ Ds = 2.
+#~ skew_at = 10.
+#~ L_skew = 1.
+#~ k_skew = -.02
+#~ betx_enter = 3000
+#~ bety_enter = 1500
+#~ alfx_enter = -100
+#~ alfy_enter = 50
 
 
 
