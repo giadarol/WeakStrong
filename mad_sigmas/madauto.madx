@@ -1,5 +1,5 @@
 
-q1: quadrupole, l=1.00, k1=-2.00e-02, tilt=0.5;
+q1: quadrupole, l=1.00, k1=2.00e-02, tilt=0.5;
 s: sequence, l=1.000000e+02;
 m0: marker, at=0.00;
 m1: marker, at=2.00;
@@ -56,4 +56,4 @@ endsequence;
 
 beam,ex=5e-10,ey=5e-10;
 use,sequence=s;
-twiss,betx=3000.000000,bety=1500.00,alfx=-100.00, alfy=50.00, ripken,file=twiss_s.tfs;
+twiss,betx=1500.000000,bety=3000.00,alfx=100.00, alfy=-50.00, ripken,file=twiss_s.tfs;
