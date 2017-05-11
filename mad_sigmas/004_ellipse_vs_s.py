@@ -29,6 +29,17 @@ alfy_enter = -50
 #~ alfx_enter = -100
 #~ alfy_enter = 50
 
+#~ # To have pass through a roung beam
+#~ L_line = 100
+#~ Ds = 2.
+#~ skew_at = 1.
+#~ L_skew = 1.
+#~ k_skew = -.001
+#~ betx_enter = 400
+#~ bety_enter = 200
+#~ alfx_enter = 5
+#~ alfy_enter = 0
+
 
 
 #Build a line with strong couplig using MAD-X

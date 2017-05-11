@@ -49,6 +49,17 @@ alfy_enter = -50
 #~ alfx_enter = -100
 #~ alfy_enter = 50
 
+# To have pass through a roung beam
+#~ L_line = 100
+#~ Ds = 2.
+#~ skew_at = 1.
+#~ L_skew = 1.
+#~ k_skew = -.001
+#~ betx_enter = 400
+#~ bety_enter = 200
+#~ alfx_enter = 5
+#~ alfy_enter = 0
+
 
 #Build a line with strong couplig using MAD-X
 inserted_skew = False
@@ -104,18 +115,15 @@ fontsz = 14
 lw = 3
 ms.mystyle(fontsz = fontsz)
 
-pl.figure(1)
-sp0 = pl.subplot(3,1,1)
+pl.figure(1); pl.clf()
+sp0 = pl.subplot(2,1,1)
 pl.plot(S, Sig_11)
-pl.plot(ob.S-s_ref, ob.SIG11, '.r')
+pl.plot(ob.S-s_ref, ob.SIG11, '.c')
+pl.plot(S, Sig_33, 'r')
+pl.plot(ob.S-s_ref, ob.SIG33, '.m')
 ms.sciy()
 
-pl.subplot(3,1,2, sharex=sp0)
-pl.plot(S, Sig_33)
-pl.plot(ob.S-s_ref, ob.SIG33, '.r')
-ms.sciy()
-
-pl.subplot(3,1,3, sharex=sp0)
+pl.subplot(2,1,2, sharex=sp0)
 pl.plot(S, Sig_13)
 pl.plot(ob.S-s_ref, ob.SIG13, '.r')
 ms.sciy()
@@ -150,7 +158,7 @@ for i_s, ss in enumerate(S):
     sin_1.append(v1y/np.sqrt(v1x**2+v1y**2))    
     sin_2.append(v2y/np.sqrt(v2x**2+v2y**2))
     
-fig2 = pl.figure(2)
+fig2 = pl.figure(2); pl.clf()
 fig2.set_facecolor('w')
 pl.subplot(2,1,1, sharex=sp0)
 pl.plot(S, Sig_11_hat, 'b', label = 'Sig_11_hat', lw=lw)

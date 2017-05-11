@@ -79,12 +79,5 @@ pl.plot(tt_ellip, q_ellip)
 pl.ylim(0, 1.2)
 pl.suptitle('Check that the quadratic form is constant over the ellipse')
 
-#check against sixtrack
-import sigmas_sixtrak as sigs
-bcu = np.array([Sig_11, Sig_33, Sig_13]+7*[1.])
-sinth, costh, sx, sy, costhp, sinthp, ds_sx, ds_sy = sigs.propagate_sigma(sp=0.,bcu=bcu)
-print 'There seems to be a sign error:'
-print 'sinth (sixtrack) = %.4f'%sinth
-print 'sinth (kere) = %.4f'%sintheta
 
 pl.show()
