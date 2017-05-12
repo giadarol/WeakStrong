@@ -39,6 +39,12 @@ Sig_33 = extra_data['Sig_33']
 Sig_13 = extra_data['Sig_13']
 
 
+a = SIG12-SIG34
+b = SIG22-SIG44
+c = SIG14+SIG23
+d = SIG24
+
+
 # Plot results of the tests
 pl.close('all')
 fontsz = 14
@@ -58,6 +64,8 @@ pl.plot(S, Sig_13)
 
 ms.sciy()
 pl.suptitle('Check optics propagation against MAD-X')
+
+
 
 
 
