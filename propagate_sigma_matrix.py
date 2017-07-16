@@ -16,7 +16,7 @@ class Sigmas(object):
         self.Sig_34_0 = Sig_34_0
         self.Sig_44_0 = Sig_44_0
 
-def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30):
+def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_singularities=True):
     
     Sig_11_0 = Sigmas_at_0.Sig_11_0
     Sig_12_0 = Sigmas_at_0.Sig_12_0
@@ -37,7 +37,7 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30):
     W = Sig_11+Sig_33
     T = R*R+4*Sig_13*Sig_13
     
-    if T<threshold_singular:
+    if T<threshold_singular and handle_singularities:
         a = Sig_12-Sig_34
         b = Sig_22-Sig_44
         c = Sig_14+Sig_23
@@ -79,9 +79,36 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30):
     return Sig_11_hat, Sig_33_hat, costheta, sintheta,\
         dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
         extra_data
+        
+propagate_Sigma_matrix_vectorized = np.vectorize(propagate_Sigma_matrix, excluded =['Sigmas_at_0', 'threshold_singular', 'handle_singularities'])
+
+def propagate_full_Sigma_matrix_in_drift(Sig_11_0, Sig_12_0, Sig_13_0,
+                Sig_14_0, Sig_22_0, Sig_23_0, Sig_24_0,
+                Sig_33_0, Sig_34_0, Sig_44_0, S):
+                    
+    # Can be found in matrix form in A. Wolsky, "Beam dynamics in high energy particle accelerators"
+    
+    Sig_11 = Sig_11_0 + 2.*Sig_12_0*S+Sig_22_0*S*S
+    Sig_33 = Sig_33_0 + 2.*Sig_34_0*S+Sig_44_0*S*S
+    Sig_13 = Sig_13_0 + (Sig_14_0+Sig_23_0)*S+Sig_24_0*S*S
+    
+    Sig_12 = Sig_12_0 + Sig_22_0*S
+    Sig_14 = Sig_14_0 + Sig_24_0*S
+    Sig_22 = Sig_22_0 + 0.*S
+    Sig_23 = Sig_23_0 + Sig_24_0*S
+    Sig_24 = Sig_24_0 + 0.*S
+    Sig_34 = Sig_34_0 + Sig_44_0*S
+    Sig_44 = Sig_44_0 + 0.*S
+   
+    return Sig_11, Sig_12, Sig_13,\
+            Sig_14, Sig_22, Sig_23, Sig_24,\
+            Sig_33, Sig_34, Sig_44
+    
+    
+        
 
 
-propagate_Sigma_matrix_vectorized = np.vectorize(propagate_Sigma_matrix, excluded =['Sigmas_at_0', 'threshold_singular'])
+
 
     
     

@@ -32,12 +32,12 @@ Sigmas_at_0 = psm.Sigmas(SIG11, SIG12, SIG13, SIG14,
                                           
 Sig_11_hat, Sig_33_hat, costheta, sintheta, \
     dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
-    extra_data = psm.propagate_Sigma_matrix_vectorized(Sigmas_at_0, S)
+    extra_data = psm.propagate_Sigma_matrix_vectorized(Sigmas_at_0, S, handle_singularities=False)
     
-# Extract extra data
-Sig_11 = extra_data['Sig_11']
-Sig_33 = extra_data['Sig_33']
-Sig_13 = extra_data['Sig_13']
+#~ # Extract extra data
+#~ Sig_11 = extra_data['Sig_11']
+#~ Sig_33 = extra_data['Sig_33']
+#~ Sig_13 = extra_data['Sig_13']
 
 
 # Plot results of the tests
@@ -47,19 +47,19 @@ lw = 3
 mks = 10
 ms.mystyle(fontsz = fontsz)
 
-pl.figure(1); pl.clf()
-sp0 = pl.subplot(2,1,1)
-pl.plot(S, Sig_11)
-pl.plot(S, Sig_33, 'r')
-
-
-ms.sciy()
-
-pl.subplot(2,1,2, sharex=sp0)
-pl.plot(S, Sig_13)
-
-ms.sciy()
-pl.suptitle('Check optics propagation against MAD-X')
+#~ pl.figure(1); pl.clf()
+#~ sp0 = pl.subplot(2,1,1)
+#~ pl.plot(S, Sig_11)
+#~ pl.plot(S, Sig_33, 'r')
+#~ 
+#~ 
+#~ ms.sciy()
+#~ 
+#~ pl.subplot(2,1,2, sharex=sp0)
+#~ pl.plot(S, Sig_13)
+#~ 
+#~ ms.sciy()
+#~ pl.suptitle('Check optics propagation against MAD-X')
 
 
 
@@ -70,7 +70,7 @@ pl.close('all')
 
 fig2 = pl.figure(2); pl.clf()
 fig2.set_facecolor('w')
-pl.subplot(2,1,1, sharex=sp0)
+sp0 = pl.subplot(2,1,1)
 pl.plot(S, Sig_11_hat, '.-b', label = 'Sig_11_hat', lw=lw, markersize=mks)
 pl.plot(S, Sig_33_hat, '.-r', label = 'Sig_33_hat', lw=lw, markersize=mks)
 ms.sciy()
