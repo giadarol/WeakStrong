@@ -109,7 +109,8 @@ costheta_test = np.sqrt(0.5*(1.+cos2theta_test))
 dS_costheta_test = 1/(4*costheta_test)*dS_cos2theta_test
 dS_sintheta_test = -1/(4*sintheta_test)*dS_cos2theta_test
 
-dS_Sig_11_hat_test = 0.5*dS_W + mysign(a*S+b*S**2)*mysign(S)*(np.sqrt(a**2+c**2+S*(a*b+2*c*d))+0.5*S*(a*b+2*c*d)/np.sqrt(a**2+c**2+S*(a*b+2*c*d)))
+dS_Sig_11_hat_test = 0.5*dS_W + mysign(a*S+b*S**2)*mysign(S)*\
+    (np.sqrt(a**2+c**2+S*(a*b+2*c*d))+0.5*S*(a*b+2*c*d)/np.sqrt(a**2+c**2+S*(a*b+2*c*d)))
 
 
 
