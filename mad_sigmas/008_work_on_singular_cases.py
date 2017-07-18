@@ -12,7 +12,6 @@ import propagate_sigma_matrix as psm
 #~ SIG11 = 10
 #~ SIG33 = 10
 #~ SIG13 = 0. 
-#~ 
 #~ SIG12 = -.5
 #~ SIG22 = 0.2
 #~ SIG14 = 0.5
@@ -25,12 +24,23 @@ import propagate_sigma_matrix as psm
 SIG11 = 10
 SIG33 = 10
 SIG13 = 0. 
-
 SIG12 = -.5
 SIG22 = 0.2
 SIG14 = 0.5
 SIG23 = -0.5
 SIG24 = 0.1
+SIG34 = 0.
+SIG44 = 0.25
+
+# Case T=0., c = 0., |a|>0, d = 0 decoupled case
+SIG11 = 10
+SIG33 = 10
+SIG13 = 0. 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = 0.5
+SIG23 = -0.5
+SIG24 = 0.
 SIG34 = 0.
 SIG44 = 0.25
 
@@ -65,17 +75,6 @@ Sig_11_hat_s, Sig_33_hat_s, costheta_s, sintheta_s, \
     dS_Sig_11_hat_s, dS_Sig_33_hat_s, dS_costheta_s, dS_sintheta_s,\
     extra_data_s = psm.propagate_Sigma_matrix_vectorized(Sigmas_at_0, S, handle_singularities=True)
     
-#~ # Extract extra data
-cos2theta = []
-T = []
-R = []
-for ii in xrange(len(S)):
-    cos2theta.append(extra_data_s[ii]['cos2theta'])
-    T.append(extra_data_s[ii]['T'])
-    R.append(extra_data_s[ii]['R'])
-    
-T = np.array(T)
-R = np.array(R)
 
 # Plot results of the tests
 pl.close('all')
@@ -87,32 +86,7 @@ ms.mystyle(fontsz = fontsz)
 
 pl.close('all')
 
-# some investigations
-a = SIG12-SIG34
-b = SIG22-SIG44
-c = SIG14+SIG23
-d = SIG24
-ddSS = S + DS
 
-pl.figure(1001)
-pl.plot(S, T)
-T1 = 4*ddSS**2*(a**2+c**2+ddSS*(a*b+2*c*d))
-#~ pl.plot(S, ddSS**2*(2*a+b*ddSS)**2 +4*ddSS**2*(c+d*ddSS)**2)
-#~ pl.plot(S, ddSS**2*(4*a**2+4*a*b*ddSS) +4*ddSS**2*(c**2+2*c*d*ddSS))
-pl.plot(S, T1)
-
-pl.figure(1002)
-pl.plot(S, R)
-pl.plot(S, 2*a*ddSS+b*ddSS**2)
-
-
-
-
-pl.figure(1000)
-pl.plot(S, cos2theta)
-pl.plot(S, np.abs(2*a+b*ddSS)/(np.sqrt((2*a+b*ddSS)**2 +4*(c+d*ddSS)**2)))
-print 'It seems that the following expansion is not appropriate!'
-#~ pl.plot(S,np.abs(2*a+b*ddSS)/(2*np.sqrt(a**2+c**2+ddSS*(a*b+2*c*d))))
 
 
 fig2 = pl.figure(2); pl.clf()
@@ -153,8 +127,49 @@ pl.legend(loc='best', prop={'size':fontsz})
 pl.grid('on')
 fig2.subplots_adjust(top=.82)
 
+# some investigations
+enable_extra_plots = True
+
+if enable_extra_plots:
+#~ # Extract extra data
+    cos2theta = []
+    T = []
+    R = []
+    Sig11_calc = []
+    Sig13_calc = []
+    for ii in xrange(len(S)):
+        cos2theta.append(extra_data_s[ii]['cos2theta'])
+        T.append(extra_data_s[ii]['T'])
+        R.append(extra_data_s[ii]['R'])
+        Sig11_calc.append(extra_data_s[ii]['Sig_11'])
+        Sig13_calc.append(extra_data_s[ii]['Sig_13'])
+        
+    T = np.array(T)
+    R = np.array(R)
+
+    a = SIG12-SIG34
+    b = SIG22-SIG44
+    c = SIG14+SIG23
+    d = SIG24
+    ddSS = S + DS
+
+    pl.figure(1001)
+    pl.plot(S, T)
+    T1 = 4*ddSS**2*(a**2+c**2+ddSS*(a*b+2*c*d))
+    pl.plot(S, T1)
+
+    pl.figure(1002)
+    pl.plot(S, R)
+    pl.plot(S, 2*a*ddSS+b*ddSS**2)
+
+    pl.figure(1000)
+    pl.plot(S, cos2theta)
+    pl.plot(S, np.abs(2*a+b*ddSS)/(np.sqrt((2*a+b*ddSS)**2 +4*(c+d*ddSS)**2)))
+    
+    pl.figure(1003)
+    pl.plot(S, Sig13_calc, label='Sig13_calc')
+    pl.legend(loc='best')
 
 pl.show()
-
 
 

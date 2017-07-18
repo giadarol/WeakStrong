@@ -72,7 +72,7 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
         if np.abs(c)>threshold_singular:
             dS_sintheta = -1/(4*sintheta)*dS_cos2theta
         else:
-            dS_sintheta = 4*mysign(d)*np.abs(b)/(2*np.sqrt(2)*a)
+            dS_sintheta = d/(2*a)
             
         Sig_11_hat = 0.5*W
         Sig_33_hat = 0.5*W
