@@ -8,18 +8,33 @@ import mystyle as ms
 import propagate_sigma_matrix as psm
 
 
-# Case T=0., |c|>0.
+#~ # Case T=0., |c|>0.
+#~ SIG11 = 10
+#~ SIG33 = 10
+#~ SIG13 = 0. 
+#~ 
+#~ SIG12 = -.5
+#~ SIG22 = 0.2
+#~ SIG14 = 0.5
+#~ SIG23 = 0
+#~ SIG24 = 0.1
+#~ SIG34 = 0.
+#~ SIG44 = 0.2
+
+# Case T=0., c = 0., |a|>0
 SIG11 = 10
 SIG33 = 10
 SIG13 = 0. 
 
-SIG12 = .5
+SIG12 = -.5
 SIG22 = 0.2
 SIG14 = 0.5
-SIG23 = 0
+SIG23 = -0.5
 SIG24 = 0.1
 SIG34 = 0.
-SIG44 = 0.2
+SIG44 = 0.25
+
+
 
 # Propagate by:
 DS = -4
@@ -34,6 +49,8 @@ SIG11_DS, SIG12_DS, SIG13_DS, SIG14_DS,\
 
 # Generate S vector for test
 S = np.linspace(-5-DS, 5-DS, 21)
+#~ S = np.linspace(-5-DS, 5-DS, 201)
+
 
 # Propagate Sigma matrix
 Sigmas_at_0 = psm.Sigmas(SIG11_DS, SIG12_DS, SIG13_DS, SIG14_DS,
@@ -43,16 +60,22 @@ Sigmas_at_0 = psm.Sigmas(SIG11_DS, SIG12_DS, SIG13_DS, SIG14_DS,
 Sig_11_hat, Sig_33_hat, costheta, sintheta, \
     dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
     extra_data = psm.propagate_Sigma_matrix_vectorized(Sigmas_at_0, S, handle_singularities=False)
-    
+
 Sig_11_hat_s, Sig_33_hat_s, costheta_s, sintheta_s, \
     dS_Sig_11_hat_s, dS_Sig_33_hat_s, dS_costheta_s, dS_sintheta_s,\
     extra_data_s = psm.propagate_Sigma_matrix_vectorized(Sigmas_at_0, S, handle_singularities=True)
     
 #~ # Extract extra data
-#~ Sig_11 = extra_data['Sig_11']
-#~ Sig_33 = extra_data['Sig_33']
-#~ Sig_13 = extra_data['Sig_13']
-
+cos2theta = []
+T = []
+R = []
+for ii in xrange(len(S)):
+    cos2theta.append(extra_data_s[ii]['cos2theta'])
+    T.append(extra_data_s[ii]['T'])
+    R.append(extra_data_s[ii]['R'])
+    
+T = np.array(T)
+R = np.array(R)
 
 # Plot results of the tests
 pl.close('all')
@@ -61,26 +84,36 @@ lw = 3
 mks = 10
 ms.mystyle(fontsz = fontsz)
 
-#~ pl.figure(1); pl.clf()
-#~ sp0 = pl.subplot(2,1,1)
-#~ pl.plot(S, Sig_11)
-#~ pl.plot(S, Sig_33, 'r')
-#~ 
-#~ 
-#~ ms.sciy()
-#~ 
-#~ pl.subplot(2,1,2, sharex=sp0)
-#~ pl.plot(S, Sig_13)
-#~ 
-#~ ms.sciy()
-#~ pl.suptitle('Check optics propagation against MAD-X')
-
-
-
-#dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
-
 
 pl.close('all')
+
+# some investigations
+a = SIG12-SIG34
+b = SIG22-SIG44
+c = SIG14+SIG23
+d = SIG24
+ddSS = S + DS
+
+pl.figure(1001)
+pl.plot(S, T)
+T1 = 4*ddSS**2*(a**2+c**2+ddSS*(a*b+2*c*d))
+#~ pl.plot(S, ddSS**2*(2*a+b*ddSS)**2 +4*ddSS**2*(c+d*ddSS)**2)
+#~ pl.plot(S, ddSS**2*(4*a**2+4*a*b*ddSS) +4*ddSS**2*(c**2+2*c*d*ddSS))
+pl.plot(S, T1)
+
+pl.figure(1002)
+pl.plot(S, R)
+pl.plot(S, 2*a*ddSS+b*ddSS**2)
+
+
+
+
+pl.figure(1000)
+pl.plot(S, cos2theta)
+pl.plot(S, np.abs(2*a+b*ddSS)/(np.sqrt((2*a+b*ddSS)**2 +4*(c+d*ddSS)**2)))
+print 'It seems that the following expansion is not appropriate!'
+#~ pl.plot(S,np.abs(2*a+b*ddSS)/(2*np.sqrt(a**2+c**2+ddSS*(a*b+2*c*d))))
+
 
 fig2 = pl.figure(2); pl.clf()
 fig2.set_facecolor('w')

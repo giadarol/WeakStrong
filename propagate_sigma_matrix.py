@@ -61,22 +61,26 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
         c = Sig_14+Sig_23
         d = Sig_24
         
+        sqrt_a2_c2 = np.sqrt(a*a+c*c)
+        cos2theta = np.abs(2*a)/(2*sqrt_a2_c2)
+        costheta = np.sqrt(0.5*(1.+cos2theta))
+        sintheta = mysign(a)*mysign(c)*np.sqrt(0.5*(1.-cos2theta))
+        
+        dS_cos2theta = mysign(a)*(0.5*b/sqrt_a2_c2-a*(a*b+2*c*d)/(2*sqrt_a2_c2*sqrt_a2_c2*sqrt_a2_c2))
+        
+        dS_costheta = 1/(4*costheta)*dS_cos2theta
         if np.abs(c)>threshold_singular:
-            sqrt_a2_c2 = np.sqrt(a*a+c*c)
-            cos2theta = np.abs(2*a)/(2*sqrt_a2_c2)
-            costheta = np.sqrt(0.5*(1.+cos2theta))
-            sintheta = signR*mysign(Sig_13)*np.sqrt(0.5*(1.-cos2theta))
-            
-            dS_cos2theta = mysign(a)*(0.5*b/sqrt_a2_c2-a*(a*b+2*c*d)/(2*sqrt_a2_c2*sqrt_a2_c2*sqrt_a2_c2))
-            
-            dS_costheta = 1/(4*costheta)*dS_cos2theta
             dS_sintheta = -1/(4*sintheta)*dS_cos2theta
+        else:
+            dS_sintheta = 4*mysign(d)*np.abs(b)/(2*np.sqrt(2)*a)
             
-            Sig_11_hat = 0.5*W
-            Sig_33_hat = 0.5*W
-            
-            dS_Sig_11_hat = 0.5*dS_W + sqrt_a2_c2
-            dS_Sig_33_hat = 0.5*dS_W - sqrt_a2_c2
+        Sig_11_hat = 0.5*W
+        Sig_33_hat = 0.5*W
+        
+        dS_Sig_11_hat = 0.5*dS_W + mysign(a)*sqrt_a2_c2
+        dS_Sig_33_hat = 0.5*dS_W - mysign(a)*sqrt_a2_c2
+
+                
     
     else:
         sqrtT = np.sqrt(T)
@@ -91,8 +95,6 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
         Sig_11_hat = 0.5*(W+signR*sqrtT)
         Sig_33_hat = 0.5*(W-signR*sqrtT)
 
-        
-
         dS_cos2theta = signR*(dS_R/sqrtT - R/(2*sqrtT*sqrtT*sqrtT)*dS_T)
         dS_costheta = 1/(4*costheta)*dS_cos2theta
         dS_sintheta = -1/(4*sintheta)*dS_cos2theta
@@ -105,6 +107,9 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
     extra_data['Sig_11'] = Sig_11
     extra_data['Sig_13'] = Sig_13
     extra_data['Sig_33'] = Sig_33
+    extra_data['cos2theta'] = cos2theta
+    extra_data['T'] = T
+    extra_data['R'] = R
     
     return Sig_11_hat, Sig_33_hat, costheta, sintheta,\
         dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\

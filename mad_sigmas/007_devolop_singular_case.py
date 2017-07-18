@@ -8,30 +8,31 @@ import mystyle as ms
 import propagate_sigma_matrix as psm
 
 
-# First test
+# Case T=0., |c|>0.
 SIG11 = 10
 SIG33 = 10
 SIG13 = 0. 
+
 SIG12 = .5
 SIG22 = 0.2
 SIG14 = 0.5
 SIG23 = 0
 SIG24 = 0.1
 SIG34 = 0.
-SIG44 = 0.25
+SIG44 = 0.2
 
-#~ # To be further tested... It makes a step
+#~ # Case T=0., c = 0., |a|>0
 #~ SIG11 = 10
 #~ SIG33 = 10
 #~ SIG13 = 0. 
+#~ 
 #~ SIG12 = .5
 #~ SIG22 = 0.2
 #~ SIG14 = 0.5
-#~ SIG23 = 0
+#~ SIG23 = -0.5
 #~ SIG24 = 0.1
-#~ SIG34 = 0.5
+#~ SIG34 = 0.
 #~ SIG44 = 0.25
-
 
 # Generate S vector for test
 S = np.linspace(-2, 2, 201)
@@ -95,7 +96,7 @@ mysign = lambda u: 2*np.float_(u>=0)-1.
 T_test = 4*S**2*((a**2+c**2)+S*(a*b+2*c*d))
 cos2theta_test = np.abs(2*a+b*S)/(2*np.sqrt(a**2+c**2+S*(a*b+2*c*d)))
 #cos2theta_test3 = np.abs(2*a+b*S)/(2*np.sqrt(a**2+c**2))*(1.-S/2*(a*b+2*c*d)/(a**2+c**2))
-cos2theta_test2 = mysign(2*a+b*S)/(2*np.sqrt(a**2+c**2))*(2*a+S*(b-a*(a*b+2*c*d)/(a**2+c**2)))
+cos2theta_test2 = np.abs(2*a+b*S)/(2*np.sqrt(a**2+c**2))*(2*a+S*(b-a*(a*b+2*c*d)/(a**2+c**2)))
 
 dS_cos2theta_test = 0.5*mysign(2*a+b*S)*(b*(a**2+c**2+S*(a*b+2*c*d))**(-0.5)\
                 -0.5*(2*a+b*S)*(a**2+c**2+S*(a*b+2*c*d))**(-1.5)*(a*b+2*c*d))
