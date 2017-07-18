@@ -9,76 +9,76 @@ import propagate_sigma_matrix as psm
 
 
 # Case T=0., |c|>0.
+SIG11 = 10.
+SIG33 = 10.
+SIG13 = 0. 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = 0.5
+SIG23 = 0.7
+SIG24 = 0.1
+SIG34 = -0.9
+SIG44 = 0.2
+
+# Case T=0., c = 0., |a|>0
+SIG11 = 10.
+SIG33 = 10.
+SIG13 = 0. 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = 0.5
+SIG23 = -0.5
+SIG24 = -0.1
+SIG34 = 0.15
+SIG44 = 0.25
+
+# Case T=0., c = 0., |a|>0, d = 0 decoupled case
 SIG11 = 10
 SIG33 = 10
 SIG13 = 0. 
 SIG12 = -.5
 SIG22 = 0.2
 SIG14 = 0.5
-SIG23 = 0
+SIG23 = -0.5
+SIG24 = 0.
+SIG34 = 0.
+SIG44 = 0.25
+
+# Case T=0., c = 0., a = 0.
+SIG11 = 10.
+SIG33 = 10.
+SIG13 = 0. 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = 0.5
+SIG23 = -0.5
+SIG24 = 0.1
+SIG34 = -.5
+SIG44 = 0.25
+
+# Case |T|>0., |S31|>0
+SIG11 = 10.
+SIG33 = 12.
+SIG13 = 1.
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = -0.5
+SIG23 = 0.9
+SIG24 = 0.1
+SIG34 = -0.7
+SIG44 = 0.23
+
+# Case |T|>0., S31=0
+SIG11 = 10
+SIG33 = 12
+SIG13 = 0. 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = -0.5
+SIG23 = 0.2
 SIG24 = 0.1
 SIG34 = 0.
 SIG44 = 0.2
-
-#~ # Case T=0., c = 0., |a|>0
-#~ SIG11 = 10
-#~ SIG33 = 10
-#~ SIG13 = 0. 
-#~ SIG12 = -.5
-#~ SIG22 = 0.2
-#~ SIG14 = 0.5
-#~ SIG23 = -0.5
-#~ SIG24 = 0.1
-#~ SIG34 = 0.
-#~ SIG44 = 0.25
-
-#~ # Case T=0., c = 0., |a|>0, d = 0 decoupled case
-#~ SIG11 = 10
-#~ SIG33 = 10
-#~ SIG13 = 0. 
-#~ SIG12 = -.5
-#~ SIG22 = 0.2
-#~ SIG14 = 0.5
-#~ SIG23 = -0.5
-#~ SIG24 = 0.
-#~ SIG34 = 0.
-#~ SIG44 = 0.25
-
-#~ # Case T=0., c = 0., a = 0.
-#~ SIG11 = 10.
-#~ SIG33 = 10.
-#~ SIG13 = 0. 
-#~ SIG12 = -.5
-#~ SIG22 = 0.2
-#~ SIG14 = 0.5
-#~ SIG23 = -0.5
-#~ SIG24 = 0.1
-#~ SIG34 = -.5
-#~ SIG44 = 0.25
-
-#~ # Case |T|>0., |S31|>0
-#~ SIG11 = 10.
-#~ SIG33 = 12.
-#~ SIG13 = 1.
-#~ SIG12 = -.5
-#~ SIG22 = 0.2
-#~ SIG14 = -0.5
-#~ SIG23 = 0.9
-#~ SIG24 = 0.1
-#~ SIG34 = -0.7
-#~ SIG44 = 0.23
-
-#~ # Case |T|>0., S31=0
-#~ SIG11 = 10
-#~ SIG33 = 12
-#~ SIG13 = 0. 
-#~ SIG12 = -.5
-#~ SIG22 = 0.2
-#~ SIG14 = -0.5
-#~ SIG23 = 0.2
-#~ SIG24 = 0.1
-#~ SIG34 = 0.
-#~ SIG44 = 0.2
 
 
 
@@ -141,6 +141,7 @@ pl.plot(S, sintheta, '-r', label='sintheta', lw=lw, markersize=mks)
 pl.plot(S, costheta_s, '.--b', lw=lw/2, markersize=mks)
 pl.plot(S, sintheta_s, '.--r', lw=lw/2, markersize=mks)
 pl.legend(loc='best', prop={'size':fontsz})
+pl.ylim(-1.1, 1.1)
 pl.grid('on')
 fig2.subplots_adjust(top=.82)
 
