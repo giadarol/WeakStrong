@@ -55,13 +55,17 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
     
     signR = mysign(R)
     
-    if T<threshold_singular and handle_singularities:
+    sqrtT = np.sqrt(T)
+    
+    if sqrtT<threshold_singular and handle_singularities:
         a = Sig_12-Sig_34
         b = Sig_22-Sig_44
         c = Sig_14+Sig_23
         d = Sig_24
         
-        if np.abs(c)<threshold_singular and np.abs(a)<threshold_singular:
+        sqrt_a2_c2 = np.sqrt(a*a+c*c)
+        #if np.abs(c)<threshold_singular and np.abs(a)<threshold_singular:
+        if sqrt_a2_c2*sqrt_a2_c2*sqrt_a2_c2 < threshold_singular:
             
             cos2theta = np.abs(b)/np.sqrt(b*b+4*d*d)
             costheta = np.sqrt(0.5*(1.+cos2theta))
@@ -85,7 +89,8 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
             dS_cos2theta = mysign(a)*(0.5*b/sqrt_a2_c2-a*(a*b+2*c*d)/(2*sqrt_a2_c2*sqrt_a2_c2*sqrt_a2_c2))
             
             dS_costheta = 1/(4*costheta)*dS_cos2theta
-            if np.abs(c)>threshold_singular:
+            if np.abs(sintheta)>threshold_singular:
+            #if np.abs(c)>threshold_singular:
                 dS_sintheta = -1/(4*sintheta)*dS_cos2theta
             else:
                 dS_sintheta = d/(2*a)
@@ -99,7 +104,6 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
 
     
     else:
-        sqrtT = np.sqrt(T)
 
         cos2theta = signR*R/sqrtT
         costheta = np.sqrt(0.5*(1.+cos2theta))
@@ -114,7 +118,7 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
         dS_cos2theta = signR*(dS_R/sqrtT - R/(2*sqrtT*sqrtT*sqrtT)*dS_T)
         dS_costheta = 1/(4*costheta)*dS_cos2theta
         
-        if np.abs(Sig_13)<threshold_singular and handle_singularities:
+        if np.abs(sintheta)<threshold_singular and handle_singularities: #corresponds to Sig_13=0
             dS_sintheta = (Sig_14+Sig_23)/R
         else:
             dS_sintheta = -1/(4*sintheta)*dS_cos2theta
@@ -131,6 +135,9 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-30, handle_si
     extra_data['cos2theta'] = cos2theta
     extra_data['T'] = T
     extra_data['R'] = R
+    
+    #~ if np.isinf(dS_sintheta):
+        #~ import pdb; pdb.set_trace()
     
     return Sig_11_hat, Sig_33_hat, costheta, sintheta,\
         dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\

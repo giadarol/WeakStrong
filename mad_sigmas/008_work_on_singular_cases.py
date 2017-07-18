@@ -8,77 +8,77 @@ import mystyle as ms
 import propagate_sigma_matrix as psm
 
 
-#~ # Case T=0., |c|>0.
+# Case T=0., |c|>0.
+SIG11 = 10
+SIG33 = 10
+SIG13 = 0. 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = 0.5
+SIG23 = 0
+SIG24 = 0.1
+SIG34 = 0.
+SIG44 = 0.2
+
+#~ # Case T=0., c = 0., |a|>0
 #~ SIG11 = 10
 #~ SIG33 = 10
 #~ SIG13 = 0. 
 #~ SIG12 = -.5
 #~ SIG22 = 0.2
 #~ SIG14 = 0.5
-#~ SIG23 = 0
+#~ SIG23 = -0.5
+#~ SIG24 = 0.1
+#~ SIG34 = 0.
+#~ SIG44 = 0.25
+
+#~ # Case T=0., c = 0., |a|>0, d = 0 decoupled case
+#~ SIG11 = 10
+#~ SIG33 = 10
+#~ SIG13 = 0. 
+#~ SIG12 = -.5
+#~ SIG22 = 0.2
+#~ SIG14 = 0.5
+#~ SIG23 = -0.5
+#~ SIG24 = 0.
+#~ SIG34 = 0.
+#~ SIG44 = 0.25
+
+#~ # Case T=0., c = 0., a = 0.
+#~ SIG11 = 10.
+#~ SIG33 = 10.
+#~ SIG13 = 0. 
+#~ SIG12 = -.5
+#~ SIG22 = 0.2
+#~ SIG14 = 0.5
+#~ SIG23 = -0.5
+#~ SIG24 = 0.1
+#~ SIG34 = -.5
+#~ SIG44 = 0.25
+
+#~ # Case |T|>0., |S31|>0
+#~ SIG11 = 10.
+#~ SIG33 = 12.
+#~ SIG13 = 1.
+#~ SIG12 = -.5
+#~ SIG22 = 0.2
+#~ SIG14 = -0.5
+#~ SIG23 = 0.9
+#~ SIG24 = 0.1
+#~ SIG34 = -0.7
+#~ SIG44 = 0.23
+
+#~ # Case |T|>0., S31=0
+#~ SIG11 = 10
+#~ SIG33 = 12
+#~ SIG13 = 0. 
+#~ SIG12 = -.5
+#~ SIG22 = 0.2
+#~ SIG14 = -0.5
+#~ SIG23 = 0.2
 #~ SIG24 = 0.1
 #~ SIG34 = 0.
 #~ SIG44 = 0.2
-
-# Case T=0., c = 0., |a|>0
-SIG11 = 10
-SIG33 = 10
-SIG13 = 0. 
-SIG12 = -.5
-SIG22 = 0.2
-SIG14 = 0.5
-SIG23 = -0.5
-SIG24 = 0.1
-SIG34 = 0.
-SIG44 = 0.25
-
-# Case T=0., c = 0., |a|>0, d = 0 decoupled case
-SIG11 = 10
-SIG33 = 10
-SIG13 = 0. 
-SIG12 = -.5
-SIG22 = 0.2
-SIG14 = 0.5
-SIG23 = -0.5
-SIG24 = 0.
-SIG34 = 0.
-SIG44 = 0.25
-
-# Case T=0., c = 0., a = 0.
-SIG11 = 10.
-SIG33 = 10.
-SIG13 = 0. 
-SIG12 = -.5
-SIG22 = 0.2
-SIG14 = 0.5
-SIG23 = -0.5
-SIG24 = 0.1
-SIG34 = -.5
-SIG44 = 0.25
-
-# Case |T|>0., |S31|>0
-SIG11 = 10
-SIG33 = 12
-SIG13 = 1 
-SIG12 = -.5
-SIG22 = 0.2
-SIG14 = 0.5
-SIG23 = 0
-SIG24 = 0.1
-SIG34 = 0.
-SIG44 = 0.2
-
-# Case |T|>0., S31=0
-SIG11 = 10
-SIG33 = 12
-SIG13 = 0. 
-SIG12 = -.5
-SIG22 = 0.2
-SIG14 = 0.5
-SIG23 = 0
-SIG24 = 0.1
-SIG34 = 0.
-SIG44 = 0.2
 
 
 
@@ -164,7 +164,7 @@ pl.grid('on')
 fig2.subplots_adjust(top=.82)
 
 # some investigations
-enable_extra_plots = True
+enable_extra_plots = False
 
 if enable_extra_plots:
 #~ # Extract extra data
