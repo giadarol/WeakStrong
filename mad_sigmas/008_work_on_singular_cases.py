@@ -44,6 +44,42 @@ SIG24 = 0.
 SIG34 = 0.
 SIG44 = 0.25
 
+# Case T=0., c = 0., a = 0.
+SIG11 = 10.
+SIG33 = 10.
+SIG13 = 0. 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = 0.5
+SIG23 = -0.5
+SIG24 = 0.1
+SIG34 = -.5
+SIG44 = 0.25
+
+# Case |T|>0., |S31|>0
+SIG11 = 10
+SIG33 = 12
+SIG13 = 1 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = 0.5
+SIG23 = 0
+SIG24 = 0.1
+SIG34 = 0.
+SIG44 = 0.2
+
+# Case |T|>0., S31=0
+SIG11 = 10
+SIG33 = 12
+SIG13 = 0. 
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = 0.5
+SIG23 = 0
+SIG24 = 0.1
+SIG34 = 0.
+SIG44 = 0.2
+
 
 
 # Propagate by:
@@ -92,16 +128,16 @@ pl.close('all')
 fig2 = pl.figure(2); pl.clf()
 fig2.set_facecolor('w')
 sp0 = pl.subplot(2,1,1)
-pl.plot(S, Sig_11_hat, '.-b', label = 'Sig_11_hat', lw=lw, markersize=mks)
-pl.plot(S, Sig_33_hat, '.-r', label = 'Sig_33_hat', lw=lw, markersize=mks)
-pl.plot(S, Sig_11_hat_s, '.b', lw=lw, markersize=mks)
-pl.plot(S, Sig_33_hat_s, '.r', lw=lw, markersize=mks)
+pl.plot(S, Sig_11_hat, '-b', label = 'Sig_11_hat', lw=lw, markersize=mks)
+pl.plot(S, Sig_33_hat, '-r', label = 'Sig_33_hat', lw=lw, markersize=mks)
+pl.plot(S, Sig_11_hat_s, '.--b', lw=lw/2, markersize=mks)
+pl.plot(S, Sig_33_hat_s, '.--r', lw=lw/2, markersize=mks)
 ms.sciy()
 pl.grid('on')
 pl.legend(loc='best', prop={'size':fontsz})
 pl.subplot(2,1,2, sharex=sp0)
-pl.plot(S, costheta, '.-b', label='costheta', lw=lw, markersize=mks)
-pl.plot(S, sintheta, '.-r', label='sintheta', lw=lw, markersize=mks)
+pl.plot(S, costheta, '-b', label='costheta', lw=lw, markersize=mks)
+pl.plot(S, sintheta, '-r', label='sintheta', lw=lw, markersize=mks)
 pl.plot(S, costheta_s, '.--b', lw=lw/2, markersize=mks)
 pl.plot(S, sintheta_s, '.--r', lw=lw/2, markersize=mks)
 pl.legend(loc='best', prop={'size':fontsz})
@@ -111,16 +147,16 @@ fig2.subplots_adjust(top=.82)
 fig3 = pl.figure(3); pl.clf()
 fig3.set_facecolor('w')
 pl.subplot(2,1,1, sharex=sp0)
-pl.plot(S, dS_Sig_11_hat, '.-b', label = 'dS_Sig_11_hat', lw=lw, markersize=mks)
-pl.plot(S, dS_Sig_33_hat, '.-r', label = 'dS_Sig_33_hat', lw=lw, markersize=mks)
+pl.plot(S, dS_Sig_11_hat, '-b', label = 'dS_Sig_11_hat', lw=lw, markersize=mks)
+pl.plot(S, dS_Sig_33_hat, '-r', label = 'dS_Sig_33_hat', lw=lw, markersize=mks)
 pl.plot(S, dS_Sig_11_hat_s, '.--b', lw=lw/2, markersize=mks)
 pl.plot(S, dS_Sig_33_hat_s, '.--r', lw=lw/2, markersize=mks)
 ms.sciy()
 pl.grid('on')
 pl.legend(loc='best', prop={'size':fontsz})
 pl.subplot(2,1,2, sharex=sp0)
-pl.plot(S, dS_costheta, '.-b', label='dS_costheta', lw=lw, markersize=mks)
-pl.plot(S, dS_sintheta, '.-r', label='dS_sintheta', lw=lw, markersize=mks)
+pl.plot(S, dS_costheta, '-b', label='dS_costheta', lw=lw, markersize=mks)
+pl.plot(S, dS_sintheta, '-r', label='dS_sintheta', lw=lw, markersize=mks)
 pl.plot(S, dS_costheta_s, '.--b', lw=lw/2, markersize=mks)
 pl.plot(S, dS_sintheta_s, '.--r', lw=lw/2, markersize=mks)
 pl.legend(loc='best', prop={'size':fontsz})
