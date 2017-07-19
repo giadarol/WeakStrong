@@ -43,7 +43,7 @@ first_centroid = -sigmaz/np.sqrt(2*np.pi)*np.exp(-z_cuts[0]**2/(2*sigmaz*sigmaz)
 z_centroids.append(first_centroid)
 for ii in xrange(N_slices-2):
     this_centroid = -sigmaz/np.sqrt(2*np.pi)*(np.exp(-z_cuts[ii+1]**2/(2*sigmaz*sigmaz))-
-                                              np.exp(-z_cuts[ii]**2/(2*sigmaz*sigmaz)))*float(N_slices) #the multiplication times n slices come from the fact that we have to divide by the slice charge, i.e. is 1/N
+                                              np.exp(-z_cuts[ii]**2/(2*sigmaz*sigmaz)))*float(N_slices) #the multiplication times n slices comes from the fact that we have to divide by the slice charge, i.e. 1./N
     z_centroids.append(this_centroid)                                         
 
 last_centroid = sigmaz/np.sqrt(2*np.pi)*np.exp(-z_cuts[-1]**2/(2*sigmaz*sigmaz))*float(N_slices)

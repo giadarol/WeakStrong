@@ -6,6 +6,7 @@ all:
 	f2py -m boost_sixtrack -c boost_sixtrack.f
 	f2py -m beambeam_force_sixtrack -c beambeam_force_sixtrack.f 
 	f2py -m sigmas_sixtrak -c sigmas_sixtrak.f
+	f2py -m slicing_sixtrack -c slicing_sixtrack.f
 	gcc -shared -lm -fPIC -Ifrom_sixtracklib -o cFromsixtracklib.so cFromSixtracklib.c
 
  
