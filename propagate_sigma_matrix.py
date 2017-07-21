@@ -18,6 +18,22 @@ class Sigmas(object):
         self.Sig_33_0 = Sig_33_0
         self.Sig_34_0 = Sig_34_0
         self.Sig_44_0 = Sig_44_0
+        
+        
+def boost_sigmas(Sigma_0, cphi):
+    Sigma_0_boosted = Sigmas(
+        Sigma_0.Sig_11_0 ,
+        Sigma_0.Sig_12_0/cphi,
+        Sigma_0.Sig_13_0,
+        Sigma_0.Sig_14_0/cphi,
+        Sigma_0.Sig_22_0/cphi/cphi,
+        Sigma_0.Sig_23_0/cphi,
+        Sigma_0.Sig_24_0/cphi/cphi,
+        Sigma_0.Sig_33_0,
+        Sigma_0.Sig_34_0/cphi,
+        Sigma_0.Sig_44_0/cphi/cphi)
+    return Sigma_0_boosted
+        
 
 def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-16, handle_singularities=True):
     
