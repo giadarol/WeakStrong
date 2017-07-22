@@ -59,7 +59,7 @@ z_centroids, _, N_part_per_slice = slicing.constant_charge_slicing_gaussian(N_pa
 
 # By boosting the strong z and all zeros, I get the transverse coordinates of the strong beam in the ref system of the weak
 # (still I need to fully clarify to myself why this happens)
-x_slice_star, px_slice_star, y_slice_star, py_slice_star, sigma_slice_star, delta_slice_star = boost.boost(x=0*z_centroids, px=0*z_centroids, 
+x_slices_star, px_slices_star, y_slices_star, py_slices_star, sigma_slices_star, delta_slices_star = boost.boost(x=0*z_centroids, px=0*z_centroids, 
                         y=0*z_centroids, py=0*z_centroids, sigma=z_centroids, delta=0*z_centroids, parboost=parboost)
                         
                         
@@ -69,8 +69,32 @@ x_slice_star, px_slice_star, y_slice_star, py_slice_star, sigma_slice_star, delt
 ###############################
 
 # Boost coordinates of the weak beam
+x_star, px_star, y_star, py_star, sigma_star, delta_star = boost.boost(x, px, y, py, sigma, delta, parboost)
 
- 
+for i_slice in xrange(N_slices):
+    sigma_slice_star = sigma_slices_star[i_slice]
+    x_slice_star = x_slices_star[i_slice]
+    y_slice_star = y_slices_star[i_slice]
+    
+    # Identify the Collision Point (CP)
+    S = 0.5*(sigma_star - sigma_slice_star)
+    
+    # Get info on strong beam shape at the CP
+    Sig_11_hat, Sig_33_hat, costheta, sintheta,\
+        dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
+        extra_data = psm.propagate_Sigma_matrix(Sigmas_0_star, S)
+        
+    # Evaluate transverse coordinates of the weake baem w.r.t. the strong beam centroid
+    x_bar_star = x_star + px_star*S - x_slice_star
+    y_bar_star = y_star + py_star*S - y_slice_star
+    
+    # Move to the uncoupled frame
+    x_bar_hat_star = x_bar_star*costheta +y_bar_star*sintheta
+    y_bar_hat_star = -x_bar_star*sintheta +y_bar_star*costheta
+    
+    
+        
+    
  
  
  
