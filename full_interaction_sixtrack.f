@@ -113,9 +113,9 @@ c  +ei
      &sphi,tphi,track,star,phi2,cphi2,sphi2,tphi2, pieni
 c  +ca parpro
 c  +ca parnum
-      dimension track(6,npart)
-      dimension param(nele,18),bcu(nbb,12)
-      dimension star(3,1)
+      dimension track(6,1)
+      dimension param(1,18),bcu(1,12)
+      dimension star(3,99)
 c  +ca parbeam_exp
       save
 !-----------------------------------------------------------------------
@@ -147,6 +147,8 @@ c  +ei
 c  +if .not.crlibm
       sphi=sin(phi)
       sphi2=sin(phi2)
+      
+      
 c  +ei
 c  +if crlibm
 c        cphi=cos_rn(phi)
@@ -175,6 +177,7 @@ c        calpha=cos_rn(alpha)
 c  +ei
 c  +if .not.crlibm
       calpha=cos(alpha)
+      
 c  +ei
 !     define slices
 c     call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha)
@@ -182,7 +185,7 @@ c     call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha)
 c     call boost(np,sphi,cphi,tphi,salpha,calpha,track)
       call boost(np,sphi,cphi,tphi,salpha,calpha,track, npart)
 c     call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc)
-      call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc,      &
+       call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc,      &
      &mbea,npart,nbb, pieni)
 c     call boosti(np,sphi,cphi,tphi,salpha,calpha,track)
       call boosti(np,sphi,cphi,tphi,salpha,calpha,track,npart)
@@ -208,7 +211,7 @@ c  +ei
      &track,x1,y1, one, half
 c  +ca parpro
 c  +ca parnum
-      dimension track(6,npart)
+      dimension track(6,1)
       save
       
       one = 1.
@@ -258,8 +261,8 @@ c  +ei
      &sy,track,cphi2, four, one, half, zero, two, pieni
 c  +ca parpro
 c  +ca parnum
-      dimension track(6,npart),bcu(nbb,12)
-      dimension star(3,mbea),dum(13)
+      dimension track(6,1),bcu(nbb,12)
+      dimension star(3,99),dum(13)
       save
       
       four = 4.
@@ -387,7 +390,7 @@ c  +ei
      &tphi,track,x1,y1,z1, one
 c  +ca parpro
 c  +ca parnum
-      dimension track(6,npart)
+      dimension track(6,1)
       save
       
       one = 1.
@@ -415,8 +418,10 @@ c  +ca parnum
         track(5,i)=z1/det
         track(6,i)=(track(6,i)+(calpha*sphi)*track(2,i))                &!hr06
      &+(salpha*sphi)*track(4,i)                                          !hr06
-        track(2,i)=(track(2,i)+(calpha*sphi)*h1)*cphi                    !hr06
-        track(4,i)=(track(4,i)+(salpha*sphi)*h1)*cphi                    !hr06
+c~         track(2,i)=(track(2,i)+(calpha*sphi)*h1)*cphi                   
+c~         track(4,i)=(track(4,i)+(salpha*sphi)*h1)*cphi   
+        track(2,i)=(track(2,i)*cphi+(calpha*tphi)*h1)                   
+        track(4,i)=(track(4,i)*cphi+(salpha*tphi)*h1)  
  1000 continue
       return
       end
@@ -526,11 +531,11 @@ c  +if crlibm
 c  +ca crlibco
 c  +ei
       integer i,nsli, mbea
-      double precision bord,bord1,border,calpha,cphi,cphi2,gauinv,pi,   &
-     &salpha,sigz,sigzs,sphi,sphi2,star,yy, half
+      double precision bord,bord1,border,calpha,cphi2,gauinv,pi,        &
+     &salpha,sigz,sigzs,sphi2,star,yy, half
 c  +ca parpro
 c  +ca parnum
-      dimension star(3,mbea)
+      dimension star(3,99)
 !-----------------------------------------------------------------------
       data border /8d0/
       save
@@ -568,6 +573,7 @@ c  +ei
         !JBG When doing slicing phi2 different tiltings of the strong beam
         star(1,i)=(star(3,i)*sphi2)*calpha
         star(2,i)=(star(3,i)*sphi2)*salpha  
+        
         !star(1,i)=(star(3,i)*sphi)*calpha                                !hr06
         !star(2,i)=(star(3,i)*sphi)*salpha                                !hr06
  101  continue

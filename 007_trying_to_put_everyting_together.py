@@ -88,7 +88,7 @@ coord_init = np.array([x, px, y, py, sigma, delta])
 
 # Boost coordinates of the weak beam
 x_star, px_star, y_star, py_star, sigma_star, delta_star = boost.boost(x, px, y, py, sigma, delta, parboost)
-
+#~ print x_star, px_star, y_star, py_star, sigma_star, delta_star
 for i_slice in xrange(N_slices):
     sigma_slice_star = sigma_slices_star[i_slice]
     x_slice_star = x_slices_star[i_slice]
@@ -148,10 +148,14 @@ for i_slice in xrange(N_slices):
 # Inverse boost on the coordinates of the weak beam
 x, px, y, py, sigma, delta = boost.inv_boost(x_star, px_star, y_star, py_star, sigma_star, delta_star, parboost)
 
+coord_fin = np.array([x, px, y, py, sigma, delta])  
+
 ###############################################
 ## Use sixtrack to make the same interaction ##
 ###############################################
 
+from scipy.constants import epsilon_0
+from scipy.constants import e as qe
 
 npa = 1
 
@@ -161,7 +165,7 @@ paramarr = np.float_(np.zeros(18))
 paramarr[0] = phi
 paramarr[1] = N_slices
 paramarr[2] = alpha
-paramarr[3] = N_part_tot/N_slices ##f
+paramarr[3] = qe*qe/(4*np.pi*epsilon_0)*N_part_tot ##f
 paramarr[17] = phi ##phi2
 
 param = np.float_(np.array([paramarr], order='F'))
@@ -193,7 +197,9 @@ pieni = 1e-30
 
 
 import full_interaction_sixtrack as fis
-fis.beamint(npa,track,param,sigzs,bcu,ibb,ne,ibtyp,ibbc,mbea,beam_expflag,pieni)
+fis.beamint(np=npa,track=track,param=param,sigzs=sigzs,bcu=bcu,ibb=ibb,
+            ne=ne,ibtyp=ibtyp,ibbc=ibbc,mbea=mbea,beam_expflag=beam_expflag,pieni=pieni, \
+            npart=1, nele=1, nbb=1)
     
     
 
