@@ -105,6 +105,11 @@ Sigmas_0_star = psm.boost_sigmas(Sigmas_0, parboost.cphi)
 # Generate info about slices
 z_centroids, _, N_part_per_slice = slicing.constant_charge_slicing_gaussian(N_part_tot, sigmaz, N_slices)
 
+# Sort according to z, head at the first position in the arrays
+ind_sorted = np.argsort(z_centroids)[::-1]
+z_centroids = np.take(z_centroids, ind_sorted)
+N_part_per_slice = np.take(N_part_per_slice, ind_sorted)
+
 # By boosting the strong z and all zeros, I get the transverse coordinates of the strong beam in the ref system of the weak
 # (still I need to fully clarify to myself why this happens)
 x_slices_star, px_slices_star, y_slices_star, py_slices_star, sigma_slices_star, delta_slices_star = boost.boost(x=0*z_centroids, px=0*z_centroids, 

@@ -272,6 +272,7 @@ c  +ca parnum
       two = 2.
 !-----------------------------------------------------------------------
       do 2000 jsli=1,nsli
+        write(*,*) star(1,jsli),star(2,jsli),star(3,jsli)
         do 1000 i=1,np
           s=(track(5,i)-star(3,jsli))*half
           !write(*,*)'JBG - cphi2',cphi2
