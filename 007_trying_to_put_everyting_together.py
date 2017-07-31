@@ -21,10 +21,10 @@ phi = 0.8
 N_part_tot = 1.1e15
 
 #bunch length strong beam (assumed gaussian)
-sigmaz = 0.075
+sigmaz = 0.075*100
 
 # N slices
-N_slices = 7
+N_slices = 50
 
 # Single particle properties
 q0 = qe
@@ -34,24 +34,46 @@ p0 = 6.5e12 *qe/c_light
 # Minimum difference to fall on round
 min_sigma_diff = 1e-16
 
-
-
-# strong beam shape at the IP (coupled beam)
-(Sig_11_0, Sig_12_0, Sig_13_0, 
-Sig_14_0, Sig_22_0, Sig_23_0, 
-Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
-8.4282060230000004e-06,  1.8590458800000001e-07,  -3.5512334410000001e-06,
- -3.8254462239999997e-08, 4.101510281e-09, -7.5517657920000006e-08,
- -8.1134615060000002e-10, 1.031446898e-05, 1.177863077e-07, 1.3458251810000001e-09)
  
-# strong beam shape at the IP (round beam)
+# strong beam shape at the IP (decoupled round beam)
 (Sig_11_0, Sig_12_0, Sig_13_0, 
 Sig_14_0, Sig_22_0, Sig_23_0, 
 Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
 20e-06,  0.,  0.,
 0., 0., 0.,
 0., 20e-6, 0., 0.)
- 
+
+# strong beam shape at the IP (decoupled round with some divergence)
+(Sig_11_0, Sig_12_0, Sig_13_0, 
+Sig_14_0, Sig_22_0, Sig_23_0, 
+Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
+20e-06,  0.,  0.,
+0., 40., 0.,
+0., 20e-6, 0., 40.) 
+
+#~ # strong beam shape at the IP (decoupled ellip with some divergence)
+#~ (Sig_11_0, Sig_12_0, Sig_13_0, 
+#~ Sig_14_0, Sig_22_0, Sig_23_0, 
+#~ Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
+#~ 20e-06,  0.,  0.,
+#~ 0., 40., 0.,
+#~ 0., 10e-6, 0., 80.) 
+
+# strong beam shape at the IP (simply coupled ellip with no divergence)
+(Sig_11_0, Sig_12_0, Sig_13_0, 
+Sig_14_0, Sig_22_0, Sig_23_0, 
+Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
+20e-06,  0.,  5e-6,
+0., 0, 0.,
+0., 10e-6, 0., 0.) 
+
+#~ # strong beam shape at the IP (coupled beam)
+#~ (Sig_11_0, Sig_12_0, Sig_13_0, 
+#~ Sig_14_0, Sig_22_0, Sig_23_0, 
+#~ Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
+#~ 8.4282060230000004e-06,  1.8590458800000001e-07,  -3.5512334410000001e-06,
+ #~ -3.8254462239999997e-08, 4.101510281e-09, -7.5517657920000006e-08,
+ #~ -8.1134615060000002e-10, 1.031446898e-05, 1.177863077e-07, 1.3458251810000001e-09)
  
  
 #Coordinates weak particle that I want to treat
@@ -128,7 +150,7 @@ for i_slice in xrange(N_slices):
     dS_y_bar_hat_star = -x_bar_star*dS_sintheta +y_bar_star*dS_costheta
     
     # Compute normalized field
-    Ex, Ey, Gx, Gy = tef.get_Ex_Ey_Gx_Gy_gauss(x=x_bar_star, y=y_bar_star, 
+    Ex, Ey, Gx, Gy = tef.get_Ex_Ey_Gx_Gy_gauss(x=x_bar_hat_star, y=y_bar_hat_star, 
                         sigma_x=np.sqrt(Sig_11_hat_star), sigma_y=np.sqrt(Sig_33_hat_star),
                         min_sigma_diff = min_sigma_diff)
                         
@@ -175,7 +197,7 @@ paramarr = np.float_(np.zeros(18))
 paramarr[0] = phi
 paramarr[1] = N_slices
 paramarr[2] = alpha
-paramarr[3] = qe*qe/(4*np.pi*epsilon_0)*N_part_tot/p0c ##f
+paramarr[3] = -qe*qe/(4*np.pi*epsilon_0)*N_part_tot/p0c ##f, sixtrack has a minus when it applies the sign
 paramarr[17] = phi ##phi2
 
 param = np.float_(np.array([paramarr], order='F'))
@@ -211,9 +233,9 @@ fis.beamint(np=npa,track=track,param=param,sigzs=sigzs,bcu=bcu,ibb=ibb,
             ne=ne,ibtyp=ibtyp,ibbc=ibbc,mbea=mbea,beam_expflag=beam_expflag,pieni=pieni, \
             npart=1, nele=1, nbb=1)
             
-print 
-    
-    
+names_list = 'x px y py sigma delta'.split()
+for name, err, err_sixtr in zip(names_list, coord_fin-coord_init, track-coord_init):
+    print name, err, err_sixtr
 
     
     

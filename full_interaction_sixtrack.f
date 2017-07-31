@@ -293,6 +293,7 @@ c  +ca parnum
           sepx0=(track(1,i)+track(2,i)*s)-star(1,jsli)                   !hr06
           sepy0=(track(3,i)+track(4,i)*s)-star(2,jsli)                   !hr06
           if(ibbc1.eq.1) then
+c~             write(*,*) "Coupling!"
             sfac=one
             if(dum(4).lt.zero) sfac=-1d0*one                             !hr06
             dum(6)=(sfac*dum(4))/dum(5)                                  !hr06
@@ -305,7 +306,7 @@ c  +ca parnum
             endif
             sinth=half*(one-dum(6))
             if(abs(sinth).gt.pieni) then
-              sinth=(-1d0*sfac)*sqrt(sinth)                              !hr06
+              sinth=(sfac)*sqrt(sinth)                              !hr06
             else
               sinth=zero
             endif
@@ -321,6 +322,11 @@ c  +ca parnum
             sepx=sepx0
             sepy=sepy0
           endif
+          
+c~           write(*,*)  "sx", sx
+c~           write(*,*)  "sy", sy
+c~           write(*,*)  "sinth", sinth
+c~           write(*,*)  "costh", costh
           if(sx.gt.sy) then
             call bbf(sepx,sepy,sx,sy,bbfx,bbfy,bbgx,bbgy,ibtyp, pieni)
           else
@@ -330,6 +336,12 @@ c  +ca parnum
           bbfy=f*bbfy
           bbgx=f*bbgx
           bbgy=f*bbgy
+          
+c~           write(*,*), 'bbfx', bbfx
+c~           write(*,*), 'bbfy', bbfy
+c~           write(*,*), 'bbgx', bbgx
+c~           write(*,*), 'bbgy', bbgy
+          
           if(ibbc1.eq.1) then
             dum(8)=two*((bcu(ibb,4)-bcu(ibb,9))+                        &!hr06
      &(bcu(ibb,6)-bcu(ibb,10))*sp)                                       !hr06
