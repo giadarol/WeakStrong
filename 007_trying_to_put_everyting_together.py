@@ -4,6 +4,10 @@ import pylab as pl
 import propagate_sigma_matrix as psm
 import boost
 import slicing
+import transverse_efields as tef
+
+from scipy.constants import e as qe
+from scipy.constants import c as c_light
 
 # Description of the 6D interaction
 
@@ -21,6 +25,16 @@ sigmaz = 0.075
 
 # N slices
 N_slices = 7
+
+# Single particle properties
+q0 = qe
+qsl = qe
+p0 = 6.5e12 *qe/c_light
+
+# Minimum difference to fall on round
+min_sigma_diff = 1e-16
+
+
 
 # strong beam shape at the IP
 (Sig_11_0, Sig_12_0, Sig_13_0, 
@@ -42,6 +56,8 @@ delta = 2e-4
 ###############################
 #    Initialization stage     #
 ###############################
+
+p0c = p0*c_light
 
 # Prepare data for Lorentz transformation
 parboost = boost.ParBoost(phi=phi, alpha=alpha)
@@ -76,21 +92,66 @@ for i_slice in xrange(N_slices):
     x_slice_star = x_slices_star[i_slice]
     y_slice_star = y_slices_star[i_slice]
     
+    # Compute force scaling factor
+    Ksl = N_part_per_slice[i_slice]*qsl*q0/p0c
+    
     # Identify the Collision Point (CP)
     S = 0.5*(sigma_star - sigma_slice_star)
     
-    # Get info on strong beam shape at the CP
-    Sig_11_hat, Sig_33_hat, costheta, sintheta,\
-        dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
+    # Get strong beam shape at the CP
+    Sig_11_hat_star, Sig_33_hat_star, costheta, sintheta,\
+        dS_Sig_11_hat_star, dS_Sig_33_hat_star, dS_costheta, dS_sintheta,\
         extra_data = psm.propagate_Sigma_matrix(Sigmas_0_star, S)
         
     # Evaluate transverse coordinates of the weake baem w.r.t. the strong beam centroid
     x_bar_star = x_star + px_star*S - x_slice_star
     y_bar_star = y_star + py_star*S - y_slice_star
     
-    # Move to the uncoupled frame
+    # Move to the uncoupled reference frame
     x_bar_hat_star = x_bar_star*costheta +y_bar_star*sintheta
     y_bar_hat_star = -x_bar_star*sintheta +y_bar_star*costheta
+    
+    # Compute derivatives of the transformation
+    dS_x_bar_hat_star = x_bar_star*dS_costheta +y_bar_star*dS_sintheta
+    dS_y_bar_hat_star = -x_bar_star*dS_sintheta +y_bar_star*dS_costheta
+    
+    # Compute normalized field
+    Ex, Ey, Gx, Gy = tef.get_Ex_Ey_Gx_Gy_gauss(x=x_bar_star, y=y_bar_star, 
+                        sigma_x=np.sqrt(Sig_11_hat_star), sigma_y=np.sqrt(Sig_33_hat_star),
+                        min_sigma_diff = min_sigma_diff)
+                        
+    # Compute kicks
+    Fx_hat_star = Ksl*Ex
+    Fy_hat_star = Ksl*Ey
+    Gx_hat_star = Ksl*Gx
+    Gy_hat_star = Ksl*Gy
+    
+    # Move kisks to coupled reference frame
+    Fx_star = Fx_hat_star*costheta - Fy_hat_star*sintheta
+    Fy_star = Fx_hat_star*sintheta + Fy_hat_star*costheta
+    
+    # Compute longitudinal kick
+    Fz_star = 0.5*(Fx_hat_star*dS_x_bar_hat_star  + Fy_hat_star*dS_y_bar_hat_star+\
+                   Gx_hat_star*dS_Sig_11_hat_star + Gy_hat_star*dS_Sig_33_hat_star)
+                   
+    # Apply the kicks (Hirata's synchro-beam)
+    delta_star = delta_star + Fz_star+0.5*(\
+                Fx_star*(px_star+0.5*Fx_star)+\
+                Fy_star*(py_star+0.5*Fy_star))
+    x_star = x_star - S*Fx_star
+    px_star = px_star + Fx_star
+    y_star = y_star - S*Fy_star
+    py_star = py_star + Fy_star
+    
+# Inverse boost on the coordinates of the weak beam
+x, px, y, py, sigma, delta = boost.inv_boost(x_star, px_star, y_star, py_star, sigma_star, delta_star, parboost)
+
+    
+    
+                
+    
+    
+
     
     
         
