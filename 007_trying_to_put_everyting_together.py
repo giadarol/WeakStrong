@@ -78,7 +78,9 @@ z_centroids, _, N_part_per_slice = slicing.constant_charge_slicing_gaussian(N_pa
 x_slices_star, px_slices_star, y_slices_star, py_slices_star, sigma_slices_star, delta_slices_star = boost.boost(x=0*z_centroids, px=0*z_centroids, 
                         y=0*z_centroids, py=0*z_centroids, sigma=z_centroids, delta=0*z_centroids, parboost=parboost)
                         
-                        
+
+# Record coordinates before interaction (for comparison against sixtrack)   
+coord_init = np.array([x, px, y, py, sigma, delta])                     
 
 ###############################
 #      Computation stage      #
@@ -146,9 +148,52 @@ for i_slice in xrange(N_slices):
 # Inverse boost on the coordinates of the weak beam
 x, px, y, py, sigma, delta = boost.inv_boost(x_star, px_star, y_star, py_star, sigma_star, delta_star, parboost)
 
-    
-    
-                
+###############################################
+## Use sixtrack to make the same interaction ##
+###############################################
+
+
+npa = 1
+
+track = coord_init.copy()
+
+paramarr = np.float_(np.zeros(18))
+paramarr[0] = phi
+paramarr[1] = N_slices
+paramarr[2] = alpha
+paramarr[3] = N_part_tot/N_slices ##f
+paramarr[17] = phi ##phi2
+
+param = np.float_(np.array([paramarr], order='F'))
+
+
+sigzs = sigmaz
+
+bcu = np.float_(np.array([[\
+Sigmas_0.Sig_11_0,
+Sigmas_0.Sig_33_0,
+Sigmas_0.Sig_13_0,
+Sigmas_0.Sig_12_0,
+Sigmas_0.Sig_14_0,
+Sigmas_0.Sig_22_0,
+Sigmas_0.Sig_23_0,
+Sigmas_0.Sig_24_0,
+Sigmas_0.Sig_34_0,
+Sigmas_0.Sig_44_0,
+0.,# not used
+0.,]], order='F'))
+
+ibb = 1
+ne = 1
+ibtyp = 0
+ibbc=1
+mbea = 1
+beam_expflag = 0
+pieni = 1e-30
+
+
+import full_interaction_sixtrack as fis
+fis.beamint(npa,track,param,sigzs,bcu,ibb,ne,ibtyp,ibbc,mbea,beam_expflag,pieni)
     
     
 

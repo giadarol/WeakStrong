@@ -1,3 +1,98 @@
+c    I take the ERRF from pyecloud
+
+      SUBROUTINE ERRF(XX, YY, WX, WY)
+Cf2py intent(in)  XX   
+Cf2py intent(in)  YY                                      
+Cf2py intent(out) WX   
+Cf2py intent(out) WY   
+*----------------------------------------------------------------------*   
+* Purpose:                                                             *   
+*   Modification of WWERF, double precision complex error function,    *   
+*   written at CERN by K. Koelbig.                                     *   
+* Input:                                                               *   
+*   XX, YY    (real)    Argument to CERF.                              *   
+* Output:                                                              *   
+*   WX, WY    (real)    Function result.                               *   
+*----------------------------------------------------------------------*   
+                                                                           
+*---- Double precision version.                                            
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z), INTEGER (I-N)                   
+      PARAMETER         (MWFLT = 2, MREAL = 4)                             
+      PARAMETER         (MCWRD = 4)                                        
+      PARAMETER         (MCNAM = 16, MWNAM = MCNAM / MCWRD)                
+      PARAMETER         (MCFIL = 80, MCRNG = 40, MCSTR = 80)               
+                                                                           
+      PARAMETER         (CC     = 1.12837 91670 9551D0)                    
+      PARAMETER         (ONE    = 1.D0)                                    
+      PARAMETER         (TWO    = 2.D0)                                    
+      PARAMETER         (XLIM   = 5.33D0)                                  
+      PARAMETER         (YLIM   = 4.29D0)                                  
+      DIMENSION         RX(33), RY(33)                                     
+                                                                           
+      X = ABS(XX)                                                          
+      Y = ABS(YY)                                                          
+                                                                           
+      IF (Y .LT. YLIM  .AND.  X .LT. XLIM) THEN                            
+        Q  = (ONE - Y / YLIM) * SQRT(ONE - (X/XLIM)**2)                    
+        H  = ONE / (3.2D0 * Q)                                             
+        NC = 7 + INT(23.0*Q)                                               
+        XL = H**(1 - NC)                                                   
+        XH = Y + 0.5D0/H                                                   
+        YH = X                                                             
+        NU = 10 + INT(21.0*Q)                                              
+        RX(NU+1) = 0.                                                      
+        RY(NU+1) = 0.                                                      
+                                                                           
+        DO 10 N = NU, 1, -1                                                
+          TX = XH + N * RX(N+1)                                            
+          TY = YH - N * RY(N+1)                                            
+          TN = TX*TX + TY*TY                                               
+          RX(N) = 0.5D0 * TX / TN                                          
+          RY(N) = 0.5D0 * TY / TN                                          
+   10   CONTINUE                                                           
+                                                                           
+        SX = 0.                                                            
+        SY = 0.                                                            
+                                                                           
+        DO 20 N = NC, 1, -1                                                
+          SAUX = SX + XL                                                   
+          SX = RX(N) * SAUX - RY(N) * SY                                   
+          SY = RX(N) * SY + RY(N) * SAUX                                   
+          XL = H * XL                                                      
+   20   CONTINUE                                                           
+                                                                           
+        WX = CC * SX                                                       
+        WY = CC * SY                                                       
+      ELSE                                                                 
+        XH = Y                                                             
+        YH = X                                                             
+        RX(1) = 0.                                                         
+        RY(1) = 0.                                                         
+                                                                           
+        DO 30 N = 9, 1, -1                                                 
+          TX = XH + N * RX(1)                                              
+          TY = YH - N * RY(1)                                              
+          TN = TX*TX + TY*TY                                               
+          RX(1) = 0.5D0 * TX / TN                                          
+          RY(1) = 0.5D0 * TY / TN                                          
+   30   CONTINUE                                                           
+                                                                           
+        WX = CC * RX(1)                                                    
+        WY = CC * RY(1)                                                    
+      ENDIF                                                                
+                                                                           
+      IF(Y .EQ. 0.) WX = EXP(-X**2)                                        
+      IF(YY .LT. 0.) THEN                                                  
+        WX =   TWO * EXP(Y*Y-X*X) * COS(TWO*X*Y) - WX                      
+        WY = - TWO * EXP(Y*Y-X*X) * SIN(TWO*X*Y) - WY                      
+        IF(XX .GT. 0.) WY = -WY                                            
+      ELSE                                                                 
+        IF(XX .LT. 0.) WY = -WY                                            
+      ENDIF                                                                
+                                                                           
+      END
+      
+      
       subroutine beamint(np,track,param,sigzs,bcu,ibb,ne,ibtyp,ibbc,    &
      &npart, nele, nbb, mbea, beam_expflag, pieni)
 !-----------------------------------------------------------------------
@@ -20,7 +115,7 @@ c  +ca parpro
 c  +ca parnum
       dimension track(6,npart)
       dimension param(nele,18),bcu(nbb,12)
-      dimension star(3,mbea)
+      dimension star(3,1)
 c  +ca parbeam_exp
       save
 !-----------------------------------------------------------------------
@@ -82,14 +177,14 @@ c  +if .not.crlibm
       calpha=cos(alpha)
 c  +ei
 !     define slices
-c~    call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha)
+c     call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha)
       call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha, mbea)
-c~    call boost(np,sphi,cphi,tphi,salpha,calpha,track)
+c     call boost(np,sphi,cphi,tphi,salpha,calpha,track)
       call boost(np,sphi,cphi,tphi,salpha,calpha,track, npart)
-c~    call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc)
+c     call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc)
       call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc,      &
      &mbea,npart,nbb, pieni)
-c~    call boosti(np,sphi,cphi,tphi,salpha,calpha,track)
+c     call boosti(np,sphi,cphi,tphi,salpha,calpha,track)
       call boosti(np,sphi,cphi,tphi,salpha,calpha,track,npart)
       return
       end
@@ -384,7 +479,7 @@ c  +ei
         arg1x=abs(sepx/fac)
         arg1y=abs(sepy/fac)
         if(ibtyp.eq.0) call errf(arg1x,arg1y,wy1,wx1)
-        if(ibtyp.eq.1) call wzsub(arg1x,arg1y,wy1,wx1)
+c~         if(ibtyp.eq.1) call wzsub(arg1x,arg1y,wy1,wx1)
         if(x.lt.100.d0) then
 c  +if crlibm
 c            expfac=exp_rn(-0.5d0*x)                                        !hr06
@@ -395,7 +490,7 @@ c  +ei
           arg2x=arg1x/sigxy
           arg2y=arg1y*sigxy
           if(ibtyp.eq.0) call errf(arg2x,arg2y,wy2,wx2)
-          if(ibtyp.eq.1) call wzsub(arg2x,arg2y,wy2,wx2)
+c~           if(ibtyp.eq.1) call wzsub(arg2x,arg2y,wy2,wx2)
           bbfx=const*(wx1-expfac*wx2)
           bbfy=const*(wy1-expfac*wy2)
           if(sepx.lt.0) bbfx=-1d0*bbfx                                   !hr06
@@ -462,8 +557,9 @@ c          star(3,i)=(((exp_rn((-1d0*bord**2)*half)-                       &!hr0
 c       &exp_rn((-1d0*bord1**2)*half))/sqrt(2d0*pi))*dble(nsli))*sigz       !hr06
 c  +ei
 c  +if .not.crlibm
+
        star(3,i)=(((exp((-1d0*bord**2)*half)-exp((-1d0*bord1**2)*half))/&!hr06
-     &sqrt(2d0*pi))*dble(nsli))*sigz                                     !hr06
+     &sqrt(2d0*pi))*dble(nsli))*sigz                                     !hr06                                !hr06
 c  +ei
         bord=bord1
         !JBG When doing slicing phi=0 for crab crossing
