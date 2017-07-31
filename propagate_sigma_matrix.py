@@ -83,7 +83,11 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-16, handle_si
         if sqrt_a2_c2*sqrt_a2_c2*sqrt_a2_c2 < threshold_singular:
         #equivalent to: if np.abs(c)<threshold_singular and np.abs(a)<threshold_singular:
             
-            cos2theta = np.abs(b)/np.sqrt(b*b+4*d*d)
+            if np.abs(d)> threshold_singular:
+                cos2theta = np.abs(b)/np.sqrt(b*b+4*d*d)
+            else:
+                cos2theta = 1. # Decoupled beam
+            
             costheta = np.sqrt(0.5*(1.+cos2theta))
             sintheta = mysign(b)*mysign(d)*np.sqrt(0.5*(1.-cos2theta))
             

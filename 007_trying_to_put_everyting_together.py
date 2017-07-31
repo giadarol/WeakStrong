@@ -18,7 +18,7 @@ alpha = 0.7
 phi = 0.8
 
 #Intensity strong beam
-N_part_tot = 1.1e11
+N_part_tot = 1.1e15
 
 #bunch length strong beam (assumed gaussian)
 sigmaz = 0.075
@@ -36,13 +36,23 @@ min_sigma_diff = 1e-16
 
 
 
-# strong beam shape at the IP
+# strong beam shape at the IP (coupled beam)
 (Sig_11_0, Sig_12_0, Sig_13_0, 
 Sig_14_0, Sig_22_0, Sig_23_0, 
 Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
 8.4282060230000004e-06,  1.8590458800000001e-07,  -3.5512334410000001e-06,
  -3.8254462239999997e-08, 4.101510281e-09, -7.5517657920000006e-08,
  -8.1134615060000002e-10, 1.031446898e-05, 1.177863077e-07, 1.3458251810000001e-09)
+ 
+# strong beam shape at the IP (round beam)
+(Sig_11_0, Sig_12_0, Sig_13_0, 
+Sig_14_0, Sig_22_0, Sig_23_0, 
+Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
+20e-06,  0.,  0.,
+0., 0., 0.,
+0., 20e-6, 0., 0.)
+ 
+ 
  
 #Coordinates weak particle that I want to treat
 x = 1e-3
@@ -165,7 +175,7 @@ paramarr = np.float_(np.zeros(18))
 paramarr[0] = phi
 paramarr[1] = N_slices
 paramarr[2] = alpha
-paramarr[3] = qe*qe/(4*np.pi*epsilon_0)*N_part_tot ##f
+paramarr[3] = qe*qe/(4*np.pi*epsilon_0)*N_part_tot/p0c ##f
 paramarr[17] = phi ##phi2
 
 param = np.float_(np.array([paramarr], order='F'))
@@ -200,6 +210,8 @@ import full_interaction_sixtrack as fis
 fis.beamint(np=npa,track=track,param=param,sigzs=sigzs,bcu=bcu,ibb=ibb,
             ne=ne,ibtyp=ibtyp,ibbc=ibbc,mbea=mbea,beam_expflag=beam_expflag,pieni=pieni, \
             npart=1, nele=1, nbb=1)
+            
+print 
     
     
 
