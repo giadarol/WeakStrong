@@ -6,15 +6,19 @@ import slicing as slc
 import boost as bo
 
 
-sigmaz = .075
-N_slices = 7
+#~ sigmaz = .075
+#~ N_slices = 7
+#~ N_part_tot =1e11
+
+sigmaz = 100*.075
+N_slices = 50
 N_part_tot =1e11
 
 #~ phi = .22
 #~ alpha = .7
 
-phi = 0.7
-alpha = 0.6
+phi = 0.8
+alpha = 0.7
 
 cphi = np.cos(phi)
 sphi = np.sin(phi)

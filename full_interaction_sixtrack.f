@@ -185,7 +185,7 @@ c     call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha)
 c     call boost(np,sphi,cphi,tphi,salpha,calpha,track)
       call boost(np,sphi,cphi,tphi,salpha,calpha,track, npart)
 c     call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc)
-       call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc,      &
+      call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc,      &
      &mbea,npart,nbb, pieni)
 c     call boosti(np,sphi,cphi,tphi,salpha,calpha,track)
       call boosti(np,sphi,cphi,tphi,salpha,calpha,track,npart)
@@ -271,10 +271,13 @@ c  +ca parnum
       zero = 0.
       two = 2.
 !-----------------------------------------------------------------------
-      do 2000 jsli=1,nsli
-        write(*,*) star(1,jsli),star(2,jsli),star(3,jsli)
+      do 2000 jsli=1,1!nsli
+        star(3,jsli) = 18.156800955278268
+        write(*,*)'star (x,y,z):',star(1,jsli),star(2,jsli),star(3,jsli)
         do 1000 i=1,np
           s=(track(5,i)-star(3,jsli))*half
+          
+          write(*,*)'DEBUUUUG mode!!!!s',s
           !write(*,*)'JBG - cphi2',cphi2
           sp=s/cphi2 
           dum(1)=(bcu(ibb,1)+(two*bcu(ibb,4))*sp)+bcu(ibb,6)*sp**2       !hr06
@@ -324,10 +327,10 @@ c~             write(*,*) "Coupling!"
             sepy=sepy0
           endif
           
-c~           write(*,*)  "sx", sx
-c~           write(*,*)  "sy", sy
-c~           write(*,*)  "sinth", sinth
-c~           write(*,*)  "costh", costh
+          write(*,*)  "sx", sx
+          write(*,*)  "sy", sy
+          write(*,*)  "sinth", sinth
+          write(*,*)  "costh", costh
           if(sx.gt.sy) then
             call bbf(sepx,sepy,sx,sy,bbfx,bbfy,bbgx,bbgy,ibtyp, pieni)
           else
@@ -338,10 +341,10 @@ c~           write(*,*)  "costh", costh
           bbgx=f*bbgx
           bbgy=f*bbgy
           
-c~           write(*,*), 'bbfx', bbfx
-c~           write(*,*), 'bbfy', bbfy
-c~           write(*,*), 'bbgx', bbgx
-c~           write(*,*), 'bbgy', bbgy
+          write(*,*), 'bbfx', bbfx
+          write(*,*), 'bbfy', bbfy
+          write(*,*), 'bbgx', bbgx
+          write(*,*), 'bbgy', bbgy
           
           if(ibbc1.eq.1) then
             dum(8)=two*((bcu(ibb,4)-bcu(ibb,9))+                        &!hr06
