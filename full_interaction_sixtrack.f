@@ -94,7 +94,7 @@ Cf2py intent(out) WY
       
       
       subroutine beamint(np,track,param,sigzs,bcu,ibb,ne,ibtyp,ibbc,    &
-     &npart, nele, nbb, mbea, beam_expflag, pieni)
+     &npart, nele, nbb, mbea, beam_expflag, pieni, star_input, nsli2)
 !-----------------------------------------------------------------------
 !
 !   Hirata's 6d beam-beam from BBC
@@ -108,14 +108,15 @@ c  +if crlibm
 c  +ca crlibco
 c  +ei
       integer ibb,ibbc,ibtyp,ne,np,nsli,npart, nele, nbb, mbea,         &
-     &beam_expflag
+     &beam_expflag, isl, nsli2
       double precision alpha,bcu,calpha,cphi,f,param,phi,salpha,sigzs,  
-     &sphi,tphi,track,star,phi2,cphi2,sphi2,tphi2, pieni
+     &sphi,tphi,track,star,phi2,cphi2,sphi2,tphi2, pieni, star_input
 c  +ca parpro
 c  +ca parnum
       dimension track(6,1)
       dimension param(1,18),bcu(1,12)
       dimension star(3,99)
+      dimension star_input(3, nsli2)
 c  +ca parbeam_exp
       save
 !-----------------------------------------------------------------------
@@ -181,7 +182,15 @@ c  +if .not.crlibm
 c  +ei
 !     define slices
 c     call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha)
-      call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha, mbea)
+      if(star_input(1,1).eq.9999.)then
+         call stsld(star,cphi2,sphi2,sigzs,nsli,calpha,salpha, mbea)
+      else
+         do isl=1,nsli
+            star(1,isl) = star_input(1,isl)
+            star(2,isl) = star_input(2,isl)
+            star(3,isl) = star_input(3,isl)
+         enddo
+      endif
 c     call boost(np,sphi,cphi,tphi,salpha,calpha,track)
       call boost(np,sphi,cphi,tphi,salpha,calpha,track, npart)
 c     call sbc(np,star,cphi,cphi2,nsli,f,ibtyp,ibb,bcu,track,ibbc)
@@ -271,13 +280,10 @@ c  +ca parnum
       zero = 0.
       two = 2.
 !-----------------------------------------------------------------------
-      do 2000 jsli=1,1!nsli
-        star(3,jsli) = 18.156800955278268
-        write(*,*)'star (x,y,z):',star(1,jsli),star(2,jsli),star(3,jsli)
+      do 2000 jsli=1,nsli
+        !write(*,*)'star (x,y,z):',star(1,jsli),star(2,jsli),star(3,jsli)
         do 1000 i=1,np
           s=(track(5,i)-star(3,jsli))*half
-          
-          write(*,*)'DEBUUUUG mode!!!!s',s
           !write(*,*)'JBG - cphi2',cphi2
           sp=s/cphi2 
           dum(1)=(bcu(ibb,1)+(two*bcu(ibb,4))*sp)+bcu(ibb,6)*sp**2       !hr06
@@ -327,10 +333,10 @@ c~             write(*,*) "Coupling!"
             sepy=sepy0
           endif
           
-          write(*,*)  "sx", sx
-          write(*,*)  "sy", sy
-          write(*,*)  "sinth", sinth
-          write(*,*)  "costh", costh
+          !write(*,*)  "sx", sx
+          !write(*,*)  "sy", sy
+          !write(*,*)  "sinth", sinth
+          !write(*,*)  "costh", costh
           if(sx.gt.sy) then
             call bbf(sepx,sepy,sx,sy,bbfx,bbfy,bbgx,bbgy,ibtyp, pieni)
           else
@@ -341,10 +347,10 @@ c~             write(*,*) "Coupling!"
           bbgx=f*bbgx
           bbgy=f*bbgy
           
-          write(*,*), 'bbfx', bbfx
-          write(*,*), 'bbfy', bbfy
-          write(*,*), 'bbgx', bbgx
-          write(*,*), 'bbgy', bbgy
+          !write(*,*), 'bbfx', bbfx
+          !write(*,*), 'bbfy', bbfy
+          !write(*,*), 'bbgx', bbgx
+          !write(*,*), 'bbgy', bbgy
           
           if(ibbc1.eq.1) then
             dum(8)=two*((bcu(ibb,4)-bcu(ibb,9))+                        &!hr06
@@ -557,6 +563,7 @@ c  +ca parnum
       save
       
       half = 0.5
+
 !-----------------------------------------------------------------------
 c  +if crlibm
 c        pi=4d0*atan_rn(1d0)
@@ -665,4 +672,5 @@ c  +ei
  910  format(' (FUNC.GAUINV) INVALID INPUT ARGUMENT ',1pd20.13)
       
       end
+      
       

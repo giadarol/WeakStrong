@@ -59,5 +59,9 @@ pl.subplot(3,1,3)
 pl.plot(y_st, '-ob')
 pl.plot(y_centr_strk, 'vr')
 
+pl.figure(100)
+pl.subplot(3,1,1)
+pl.plot((sigma_st - z_centr_strk)/sigma_st, '.-')
+
 
 pl.show()

@@ -11,11 +11,13 @@ from scipy.constants import c as c_light
 
 # Description of the 6D interaction
 
+sixtrack_slicing = False
+
 #crossing plane
-alpha = 0.#0.7
+alpha = 0.7
 
 #crossing angle
-phi = 0.#0.8
+phi = 0.8
 
 #Intensity strong beam
 N_part_tot = 1.1e15
@@ -59,14 +61,14 @@ Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
 #~ 0., 40., 0.,
 #~ 0., 10e-6, 0., 80.) 
 
-#~ # strong beam shape at the IP (simply coupled ellip with no divergence)
-#~ (Sig_11_0, Sig_12_0, Sig_13_0, 
-#~ Sig_14_0, Sig_22_0, Sig_23_0, 
-#~ Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
-#~ 20e-06,  0.,  5e-6,
-#~ 0., 0, 0.,
-#~ 0., 10e-6, 0., 0.)
- 
+# strong beam shape at the IP (simply coupled ellip with no divergence)
+(Sig_11_0, Sig_12_0, Sig_13_0, 
+Sig_14_0, Sig_22_0, Sig_23_0, 
+Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
+20e-06,  0.,  5e-6,
+0., 0, 0.,
+0., 10e-6, 0., 0.)
+ #~ 
 
 #~ # strong beam shape at the IP (coupled beam)
 #~ (Sig_11_0, Sig_12_0, Sig_13_0, 
@@ -127,7 +129,7 @@ coord_init = np.array([x, px, y, py, sigma, delta])
 # Boost coordinates of the weak beam
 x_star, px_star, y_star, py_star, sigma_star, delta_star = boost.boost(x, px, y, py, sigma, delta, parboost)
 #~ x_star, px_star, y_star, py_star, sigma_star, delta_star = (x, px, y, py, sigma, delta)
-for i_slice in [0]:#xrange(N_slices):
+for i_slice in range(N_slices):
     sigma_slice_star = sigma_slices_star[i_slice]
     x_slice_star = x_slices_star[i_slice]
     y_slice_star = y_slices_star[i_slice]
@@ -234,11 +236,18 @@ mbea = 1
 beam_expflag = 0
 pieni = 1e-30
 
+star_input = np.array([\
+    x_slices_star,
+    y_slices_star,
+    sigma_slices_star], order='F')
+
+if sixtrack_slicing:
+    star_input = star_input*0.+9999.
 
 import full_interaction_sixtrack as fis
 fis.beamint(np=npa,track=track,param=param,sigzs=sigzs,bcu=bcu,ibb=ibb,
             ne=ne,ibtyp=ibtyp,ibbc=ibbc,mbea=mbea,beam_expflag=beam_expflag,pieni=pieni, \
-            npart=1, nele=1, nbb=1)
+            npart=1, nele=1, nbb=1, star_input=star_input)
             
 names_list = 'x px y py sigma delta'.split()
 for name, err, err_sixtr in zip(names_list, coord_fin-coord_init, track-coord_init):
