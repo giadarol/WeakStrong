@@ -118,8 +118,8 @@ z_centroids = np.take(z_centroids, ind_sorted)
 N_part_per_slice = np.take(N_part_per_slice, ind_sorted)
 
 # By boosting the strong z and all zeros, I get the transverse coordinates of the strong beam in the ref system of the weak
-# (still I need to fully clarify to myself why this happens)
-x_slices_star, px_slices_star, y_slices_star, py_slices_star, sigma_slices_star, delta_slices_star = boost.boost(x=0*z_centroids, px=0*z_centroids, 
+boost_vect = np.vectorize(boost.boost, excluded='parboost')
+x_slices_star, px_slices_star, y_slices_star, py_slices_star, sigma_slices_star, delta_slices_star = boost_vect(x=0*z_centroids, px=0*z_centroids, 
                         y=0*z_centroids, py=0*z_centroids, sigma=z_centroids, delta=0*z_centroids, parboost=parboost)
                         
 

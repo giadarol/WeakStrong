@@ -5,8 +5,8 @@ import pylab as pl
 sys.path.append('../')
 
 import mystyle as ms
-import propagate_sigma_matrix as psm
-
+import propagate_sigma_matrix_implem_c as psm # C implem
+#~ import propagate_sigma_matrix as psm # Python implem
 
 # Case T=0., |c|>0.
 SIG11 = 10.
@@ -68,17 +68,17 @@ SIG24 = 0.
 SIG34 = -.5
 SIG44 = 0.25
 
-#~ # Case |T|>0., |S31|>0
-#~ SIG11 = 10.
-#~ SIG33 = 12.
-#~ SIG13 = 1.
-#~ SIG12 = -.5
-#~ SIG22 = 0.2
-#~ SIG14 = -0.5
-#~ SIG23 = 0.9
-#~ SIG24 = 0.1
-#~ SIG34 = -0.7
-#~ SIG44 = 0.23
+# Case |T|>0., |S31|>0
+SIG11 = 10.
+SIG33 = 12.
+SIG13 = 1.
+SIG12 = -.5
+SIG22 = 0.2
+SIG14 = -0.5
+SIG23 = 0.9
+SIG24 = 0.1
+SIG34 = -0.7
+SIG44 = 0.23
 
 # Case |T|>0., S31=0
 SIG11 = 10
