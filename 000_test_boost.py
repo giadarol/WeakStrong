@@ -1,6 +1,9 @@
 import boost_sixtrack as bs
-import boost as bo
 import numpy as np
+
+#~ import boost as bo # python implem
+import boost_implem_c as bo # C implem
+
 
 phi = 0.8#150e-6
 alpha = 23*np.pi/180.

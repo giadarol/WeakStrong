@@ -19,13 +19,13 @@ def boost(x, px, y, py, sigma, delta, parboost):
     salpha = parboost.salpha
     calpha = parboost.calpha
     
-    h = delta + 1. - np.sqrt((1.+delta)**2-px**2-py**2) 
+    h = delta + 1. - np.sqrt((1.+delta)*(1.+delta)-px*px-py*py) 
 
     px_st = px/cphi-h*calpha*tphi/cphi
     py_st = py/cphi-h*salpha*tphi/cphi
     delta_st = delta -px*calpha*tphi-py*salpha*tphi+h*tphi*tphi
 
-    pz_st = np.sqrt((1.+delta_st)**2-px_st**2-py_st**2)
+    pz_st = np.sqrt((1.+delta_st)*(1.+delta_st)-px_st*px_st-py_st*py_st)
     hx_st = px_st/pz_st
     hy_st = py_st/pz_st
     hsigma_st = 1.-(delta_st+1)/pz_st
@@ -57,7 +57,7 @@ def inv_boost(x_st, px_st, y_st, py_st, sigma_st, delta_st, parboost):
     calpha = parboost.calpha
     
     
-    pz_st = np.sqrt((1.+delta_st)**2-px_st**2-py_st**2)
+    pz_st = np.sqrt((1.+delta_st)*(1.+delta_st)-px_st*px_st-py_st*py_st)
     hx_st = px_st/pz_st
     hy_st = py_st/pz_st
     hsigma_st = 1.-(delta_st+1)/pz_st

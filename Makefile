@@ -9,6 +9,7 @@ all:
 	f2py -m slicing_sixtrack -c slicing_sixtrack.f
 	f2py -m full_interaction_sixtrack -c full_interaction_sixtrack.f 
 	gcc -shared -lm -fPIC -Ifrom_sixtracklib -o cFromsixtracklib.so cFromSixtracklib.c
+	gcc -shared -lm -fPIC -Icsrc -o cBB6D.so cBB6D.c
 
  
 

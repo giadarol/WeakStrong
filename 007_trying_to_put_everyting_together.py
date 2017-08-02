@@ -1,8 +1,12 @@
 import numpy as np
 import pylab as pl
 
+#~ import boost # Python implem
+import boost_implem_c as boost # C implem
+
+
 import propagate_sigma_matrix as psm
-import boost
+
 import slicing
 import transverse_efields as tef
 
