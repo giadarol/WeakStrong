@@ -82,7 +82,7 @@ Sigmas_at_0 = psm.Sigmas(ob.SIG11[i_ref], ob.SIG12[i_ref], ob.SIG13[i_ref], ob.S
                                           
 Sig_11_hat, Sig_33_hat, costheta, sintheta, \
     dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
-    extra_data = psm.propagate_Sigma_matrix(Sigmas_at_0, S)
+    extra_data = psm.propagate_Sigma_matrix_vectorized(Sigmas_at_0, S)
     
 # Extract extra data
 Sig_11 = extra_data['Sig_11']

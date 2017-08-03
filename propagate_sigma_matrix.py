@@ -165,7 +165,24 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-16, handle_si
         dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
         extra_data
         
-propagate_Sigma_matrix_vectorized = np.vectorize(propagate_Sigma_matrix, excluded =['Sigmas_at_0', 'threshold_singular', 'handle_singularities'])
+def propagate_Sigma_matrix_vectorized(Sigmas_at_0, 
+    S, threshold_singular = 1e-16, handle_singularities=True):
+
+    Sig_11_hat, Sig_33_hat, costheta, sintheta,\
+        dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
+        extra_data_list = np.vectorize(propagate_Sigma_matrix, 
+        excluded =['Sigmas_at_0', 'threshold_singular', 'handle_singularities'])(
+        Sigmas_at_0, S, threshold_singular, handle_singularities)
+        
+    extra_data = {}
+    for kk in extra_data_list[0].keys():
+        extra_data[kk]=[]
+        for ele in extra_data_list:
+            extra_data[kk].append(ele[kk])
+    
+    return Sig_11_hat, Sig_33_hat, costheta, sintheta,\
+        dS_Sig_11_hat, dS_Sig_33_hat, dS_costheta, dS_sintheta,\
+        extra_data
 
 def propagate_full_Sigma_matrix_in_drift(Sig_11_0, Sig_12_0, Sig_13_0,
                 Sig_14_0, Sig_22_0, Sig_23_0, Sig_24_0,

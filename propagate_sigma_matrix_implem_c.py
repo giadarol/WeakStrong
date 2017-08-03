@@ -65,6 +65,7 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-16, handle_si
     
     BB6D.BB6D_propagate_Sigma_matrix(struct_to_pass.ctypes.data,
         ctypes.c_double(S), ctypes.c_double(threshold_singular),
+        ctypes.c_long(handle_singularities),
         ctypes.byref(Sig_11_hat), ctypes.byref(Sig_33_hat), 
         ctypes.byref(costheta), ctypes.byref(sintheta),
         ctypes.byref(dS_Sig_11_hat), ctypes.byref(dS_Sig_33_hat), 

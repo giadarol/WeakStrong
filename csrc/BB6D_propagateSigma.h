@@ -26,7 +26,7 @@ typedef struct{
 
 _CUDA_HOST_DEVICE_
 void BB6D_propagate_Sigma_matrix(CLGLOBAL BB6D_Sigmas* data,
-        double S, double threshold_singular,
+        double S, double threshold_singular, long int handle_singularities,
         double* Sig_11_hat_ptr, double* Sig_33_hat_ptr, 
         double* costheta_ptr, double* sintheta_ptr,
         double* dS_Sig_11_hat_ptr, double* dS_Sig_33_hat_ptr, 
@@ -71,7 +71,10 @@ void BB6D_propagate_Sigma_matrix(CLGLOBAL BB6D_Sigmas* data,
            
     double signR = mysign(R);
     
-    if (T<threshold_singular){
+    //~ printf("handle: %ld\n",handle_singularities);
+    
+    if (T<threshold_singular && handle_singularities){
+        
         double a = Sig_12-Sig_34;
         double b = Sig_22-Sig_44;
         double c = Sig_14+Sig_23;
@@ -143,7 +146,7 @@ void BB6D_propagate_Sigma_matrix(CLGLOBAL BB6D_Sigmas* data,
         dS_cos2theta = signR*(dS_R/sqrtT - R/(2*sqrtT*sqrtT*sqrtT)*dS_T);
         dS_costheta = 1./(4.*costheta)*dS_cos2theta;
         
-        if (fabs(sintheta)<threshold_singular){
+        if (fabs(sintheta)<threshold_singular && handle_singularities){
         //equivalent to to np.abs(Sig_13)<threshold_singular
             dS_sintheta = (Sig_14+Sig_23)/R;
         }
