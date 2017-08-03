@@ -14,16 +14,17 @@ class BB6D_Data(object):
             parboost, Sigmas_0_star, N_slices, N_part_per_slice,
             x_slices_star, y_slices_star, sigma_slices_star,
             min_sigma_diff):
-        
+                
         self.q_part = q_part
         self.parboost = parboost
         self.Sigmas_0_star = Sigmas_0_star
+        self.min_sigma_diff = min_sigma_diff
         self.N_slices = N_slices
         self.N_part_per_slice = N_part_per_slice
         self.x_slices_star = x_slices_star
         self.y_slices_star = y_slices_star
         self.sigma_slices_star = sigma_slices_star
-        self.min_sigma_diff = min_sigma_diff
+        
         
 def BB6D_init(q_part, N_part_tot, sigmaz, N_slices, min_sigma_diff, 
                 phi, alpha, 
