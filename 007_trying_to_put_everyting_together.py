@@ -14,7 +14,6 @@ from scipy.constants import e as qe
 from scipy.constants import c as c_light
 
 # Description of the 6D interaction
-
 sixtrack_slicing = False
 
 #crossing plane
