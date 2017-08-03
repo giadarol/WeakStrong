@@ -1,4 +1,4 @@
-import transverse_efields as tef
+import transverse_efields_implem_c as tef
 import beambeam_force_sixtrack as bbfs
 
 from scipy.constants import epsilon_0

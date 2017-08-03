@@ -5,10 +5,10 @@ import pylab as pl
 import boost_implem_c as boost # C implem
 
 
-import propagate_sigma_matrix as psm
+import propagate_sigma_matrix_implem_c as psm
 
 import slicing
-import transverse_efields as tef
+import transverse_efields_implem_c as tef
 
 from scipy.constants import e as qe
 from scipy.constants import c as c_light

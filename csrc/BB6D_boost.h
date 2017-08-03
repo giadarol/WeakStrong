@@ -73,7 +73,7 @@ void BB6D_boost(CLGLOBAL BB6D_boost_data* data,
     
 }
 
-
+_CUDA_HOST_DEVICE_
 void BB6D_inv_boost(CLGLOBAL BB6D_boost_data* data,
                 double* x, double* px, 
                 double* y, double* py,
