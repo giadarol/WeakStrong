@@ -25,6 +25,37 @@ class BB6D_Data(object):
         self.x_slices_star = x_slices_star
         self.y_slices_star = y_slices_star
         self.sigma_slices_star = sigma_slices_star
+    
+    def tobuffer(self):
+        def int_to_float64arr(val):
+            temp = np.zeros(1, (np.float64, {'i64':('i8',0)}))
+            temp['i64'][0] = val
+            return temp
+            
+        buffer_list = []
+        # Buffers corresponding to BB6D struct
+        buffer_list.append(np.array([self.q_part], dtype=np.float64))
+        buffer_list.append(self.parboost.tobuffer())
+        buffer_list.append(self.Sigmas_0_star.tobuffer())
+        buffer_list.append(np.array([self.min_sigma_diff], dtype=np.float64))
+        buffer_list.append(np.array([self.threshold_singular], dtype=np.float64))
+        buffer_list.append(int_to_float64arr(self.N_slices))
+        buffer_list.append(int_to_float64arr(3))# offset to N_part_per_slice
+        buffer_list.append(int_to_float64arr(2+self.N_slices))# offset to x_slices_star
+        buffer_list.append(int_to_float64arr(1+2*self.N_slices))# offset to y_slices_star
+        buffer_list.append(int_to_float64arr(0+3*self.N_slices))# offset to sigma_slices_star
+
+        # Buffers corresponding to arrays
+        buffer_list.append(np.array(self.N_part_per_slice, dtype=np.float64))
+        buffer_list.append(np.array(self.x_slices_star, dtype=np.float64))
+        buffer_list.append(np.array(self.y_slices_star, dtype=np.float64))
+        buffer_list.append(np.array(self.sigma_slices_star, dtype=np.float64))
+
+        buf = np.concatenate(buffer_list)
+        
+        return buf
+        
+        
         
         
 def BB6D_init(q_part, N_part_tot, sigmaz, N_slices, min_sigma_diff, threshold_singular,
