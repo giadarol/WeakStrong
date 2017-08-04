@@ -10,6 +10,15 @@ class ParBoost(object):
         self.tphi = np.tan(phi)
         self.salpha = np.sin(alpha)
         self.calpha = np.cos(alpha)
+        
+    def tobuffer(self):
+        buf = [
+           self.sphi,
+           self.cphi,
+           self.tphi,
+           self.salpha,
+           self.calpha]
+        return np.array(buf, dtype=np.float64)
 
 def boost(x, px, y, py, sigma, delta, parboost):
     

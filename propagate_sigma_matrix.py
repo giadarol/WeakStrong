@@ -18,6 +18,20 @@ class Sigmas(object):
         self.Sig_33_0 = Sig_33_0
         self.Sig_34_0 = Sig_34_0
         self.Sig_44_0 = Sig_44_0
+    
+    def tobuffer(self):
+        buf = [
+        self.Sig_11_0,
+        self.Sig_12_0,
+        self.Sig_13_0,
+        self.Sig_14_0,
+        self.Sig_22_0,
+        self.Sig_23_0,
+        self.Sig_24_0,
+        self.Sig_33_0,
+        self.Sig_34_0,
+        self.Sig_44_0]
+        return np.array(buf, dtype=np.float64)
         
         
 def boost_sigmas(Sigma_0, cphi):

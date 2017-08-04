@@ -11,12 +11,8 @@ from boost import ParBoost
 
 
 def boost(x, px, y, py, sigma, delta, parboost):
-    struct_to_pass = np.zeros(5,dtype=np.float64)
-    struct_to_pass[0] = parboost.sphi
-    struct_to_pass[1] = parboost.cphi
-    struct_to_pass[2] = parboost.tphi
-    struct_to_pass[3] = parboost.salpha
-    struct_to_pass[4] = parboost.calpha
+    
+    struct_to_pass = parboost.tobuffer()
     
     x_c = ctypes.c_double(x)
     px_c = ctypes.c_double(px)

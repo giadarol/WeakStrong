@@ -12,17 +12,7 @@ from propagate_sigma_matrix import Sigmas, boost_sigmas, propagate_full_Sigma_ma
 # Python wrapper for the corresponding C function
 def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-16, handle_singularities=True):
     
-    struct_to_pass = np.zeros(10,dtype=np.float64)
-    struct_to_pass[0] = Sigmas_at_0.Sig_11_0
-    struct_to_pass[1] = Sigmas_at_0.Sig_12_0
-    struct_to_pass[2] = Sigmas_at_0.Sig_13_0
-    struct_to_pass[3] = Sigmas_at_0.Sig_14_0
-    struct_to_pass[4] = Sigmas_at_0.Sig_22_0
-    struct_to_pass[5] = Sigmas_at_0.Sig_23_0
-    struct_to_pass[6] = Sigmas_at_0.Sig_24_0
-    struct_to_pass[7] = Sigmas_at_0.Sig_33_0
-    struct_to_pass[8] = Sigmas_at_0.Sig_34_0
-    struct_to_pass[9] = Sigmas_at_0.Sig_44_0
+    struct_to_pass = Sigmas_at_0.tobuffer()
     
     Sig_11_hat = ctypes.c_double()
     Sig_33_hat = ctypes.c_double()
