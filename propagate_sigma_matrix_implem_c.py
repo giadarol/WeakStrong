@@ -7,37 +7,8 @@ libpath=os.path.join(modulepath, 'cBB6D.so')
 BB6D=ctypes.CDLL(libpath)
 
 
-class Sigmas(object):
-    def __init__(self, Sig_11_0, Sig_12_0, Sig_13_0,
-                Sig_14_0, Sig_22_0, Sig_23_0, Sig_24_0,
-                Sig_33_0, Sig_34_0, Sig_44_0):
-        
-        self.Sig_11_0 = Sig_11_0
-        self.Sig_12_0 = Sig_12_0
-        self.Sig_13_0 = Sig_13_0
-        self.Sig_14_0 = Sig_14_0
-        self.Sig_22_0 = Sig_22_0
-        self.Sig_23_0 = Sig_23_0
-        self.Sig_24_0 = Sig_24_0
-        self.Sig_33_0 = Sig_33_0
-        self.Sig_34_0 = Sig_34_0
-        self.Sig_44_0 = Sig_44_0
-        
-        
-def boost_sigmas(Sigma_0, cphi):
-    Sigma_0_boosted = Sigmas(
-        Sigma_0.Sig_11_0 ,
-        Sigma_0.Sig_12_0/cphi,
-        Sigma_0.Sig_13_0,
-        Sigma_0.Sig_14_0/cphi,
-        Sigma_0.Sig_22_0/cphi/cphi,
-        Sigma_0.Sig_23_0/cphi,
-        Sigma_0.Sig_24_0/cphi/cphi,
-        Sigma_0.Sig_33_0,
-        Sigma_0.Sig_34_0/cphi,
-        Sigma_0.Sig_44_0/cphi/cphi)
-    return Sigma_0_boosted
-        
+from propagate_sigma_matrix import Sigmas, boost_sigmas, propagate_full_Sigma_matrix_in_drift
+
 # Python wrapper for the corresponding C function
 def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-16, handle_singularities=True):
     
@@ -78,26 +49,3 @@ def propagate_Sigma_matrix(Sigmas_at_0, S, threshold_singular = 1e-16, handle_si
         extra_data
         
 propagate_Sigma_matrix_vectorized = np.vectorize(propagate_Sigma_matrix, excluded =['Sigmas_at_0', 'threshold_singular', 'handle_singularities'])
-
-
-def propagate_full_Sigma_matrix_in_drift(Sig_11_0, Sig_12_0, Sig_13_0,
-                Sig_14_0, Sig_22_0, Sig_23_0, Sig_24_0,
-                Sig_33_0, Sig_34_0, Sig_44_0, S):
-                    
-    # Can be found in matrix form in A. Wolsky, "Beam dynamics in high energy particle accelerators"
-    
-    Sig_11 = Sig_11_0 + 2.*Sig_12_0*S+Sig_22_0*S*S
-    Sig_33 = Sig_33_0 + 2.*Sig_34_0*S+Sig_44_0*S*S
-    Sig_13 = Sig_13_0 + (Sig_14_0+Sig_23_0)*S+Sig_24_0*S*S
-    
-    Sig_12 = Sig_12_0 + Sig_22_0*S
-    Sig_14 = Sig_14_0 + Sig_24_0*S
-    Sig_22 = Sig_22_0 + 0.*S
-    Sig_23 = Sig_23_0 + Sig_24_0*S
-    Sig_24 = Sig_24_0 + 0.*S
-    Sig_34 = Sig_34_0 + Sig_44_0*S
-    Sig_44 = Sig_44_0 + 0.*S
-   
-    return Sig_11, Sig_12, Sig_13,\
-            Sig_14, Sig_22, Sig_23, Sig_24,\
-            Sig_33, Sig_34, Sig_44

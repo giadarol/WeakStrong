@@ -5,16 +5,10 @@ modulepath=os.path.dirname(os.path.abspath(__file__))
 libpath=os.path.join(modulepath, 'cBB6D.so')
 BB6D=ctypes.CDLL(libpath)
 
+from boost import ParBoost
+
 # Python wrapper for C boost functions
 
-class ParBoost(object):
-    #it is practically a struct
-    def __init__(self, phi, alpha):
-        self.sphi = np.sin(phi)
-        self.cphi = np.cos(phi)
-        self.tphi = np.tan(phi)
-        self.salpha = np.sin(alpha)
-        self.calpha = np.cos(alpha)
 
 def boost(x, px, y, py, sigma, delta, parboost):
     struct_to_pass = np.zeros(5,dtype=np.float64)
