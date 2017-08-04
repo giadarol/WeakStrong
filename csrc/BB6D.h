@@ -6,6 +6,9 @@
 #include "BB6D_transverse_fields.h"
 #include "constants.h"
 
+// To have uint64_t
+#include <stdint.h>
+
 typedef struct{
     double q_part;
     BB6D_boost_data parboost;
@@ -21,10 +24,41 @@ typedef struct{
 
 void BB6D_track(double* x, double* px, double* y, double* py, double* sigma, 
                 double* delta, double q0, double p0, BB6D_data *bb6ddata){
-
+    
+    
+    #ifdef DATA_PTR_IS_OFFSET
+    CLGLOBAL double* N_part_per_slice = (double*)(((CLGLOBAL uint64_t*) (&(bb6ddata->N_part_per_slice))) + ((uint64_t) bb6ddata->N_part_per_slice) + 1);
+    CLGLOBAL double* x_slices_star = (double*)(((CLGLOBAL uint64_t*) (&(bb6ddata->x_slices_star))) + ((uint64_t) bb6ddata->x_slices_star) + 1);
+    CLGLOBAL double* y_slices_star = (double*)(((CLGLOBAL uint64_t*) (&(bb6ddata->y_slices_star))) + ((uint64_t) bb6ddata->y_slices_star) + 1);
+    CLGLOBAL double* sigma_slices_star = (double*)(((CLGLOBAL uint64_t*) (&(bb6ddata->sigma_slices_star))) + ((uint64_t) bb6ddata->sigma_slices_star) + 1);
+    //printf("Right branch\n");
+    #else
+    double* sigma_slices_star = bb6ddata->sigma_slices_star;
+    double* N_part_per_slice = bb6ddata->N_part_per_slice;
+    double* x_slices_star = bb6ddata->x_slices_star;
+    double* y_slices_star = bb6ddata->y_slices_star;
+    double* sigma_slices_star = bb6ddata->sigma_slices_star;
+    #endif
+    
     int N_slices = (int)(bb6ddata->N_slices);
     int i_slice;
     
+    /*// Check data transfer
+    printf("x=%e\n",*x);
+    printf("sphi=%e\n",(bb6ddata->parboost).sphi);
+    printf("calpha=%e\n",(bb6ddata->parboost).calpha);
+    printf("S33=%e\n",(bb6ddata->Sigmas_0_star).Sig_33_0);
+    printf("N_slices=%d\n",N_slices);
+    printf("N_part_per_slice[0]=%e\n",N_part_per_slice[0]); 
+    printf("N_part_per_slice[5]=%e\n",N_part_per_slice[5]); 
+    printf("x_slices_star[0]=%e\n",x_slices_star[0]); 
+    printf("x_slices_star[5]=%e\n",x_slices_star[5]); 
+    printf("y_slices_star[0]=%e\n",y_slices_star[0]); 
+    printf("y_slices_star[5]=%e\n",y_slices_star[5]);         
+    printf("sigma_slices_star[0]=%e\n",sigma_slices_star[0]); 
+    printf("sigma_slices_star[5]=%e\n",sigma_slices_star[5]); */
+    
+
     double x_star = *x;
     double px_star = *px;
     double y_star = *y;
@@ -40,12 +74,12 @@ void BB6D_track(double* x, double* px, double* y, double* py, double* sigma,
     // Synchro beam
     for (i_slice=0; i_slice<N_slices; i_slice++)
     {
-        double sigma_slice_star = bb6ddata->sigma_slices_star[i_slice];
-        double x_slice_star = bb6ddata->x_slices_star[i_slice];
-        double y_slice_star = bb6ddata->y_slices_star[i_slice];
+        double sigma_slice_star = sigma_slices_star[i_slice];
+        double x_slice_star = x_slices_star[i_slice];
+        double y_slice_star = y_slices_star[i_slice];
         
         //Compute force scaling factor
-        double Ksl = bb6ddata->N_part_per_slice[i_slice]*bb6ddata->q_part*q0/(p0*C_LIGHT);
+        double Ksl = N_part_per_slice[i_slice]*bb6ddata->q_part*q0/(p0*C_LIGHT);
 
         //Identify the Collision Point (CP)
         double S = 0.5*(sigma_star - sigma_slice_star);

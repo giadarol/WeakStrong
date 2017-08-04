@@ -38,11 +38,47 @@ Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0) = (
 
 
 
+
 bb6ddata = BB6D.BB6D_init(q_part, N_part_tot, sigmaz, N_slices, min_sigma_diff, threshold_singular, 
                 phi, alpha, 
                 Sig_11_0, Sig_12_0, Sig_13_0, 
                 Sig_14_0, Sig_22_0, Sig_23_0, 
                 Sig_24_0, Sig_33_0, Sig_34_0, Sig_44_0)
+
+self = bb6ddata
+
+def int_to_float64arr(val):
+    temp = np.zeros(1, (np.float64, {'i64':('i8',0)}))
+    temp['i64'][0] = val
+    return temp
+
+buffer_list = []
+# Buffers corresponding to BB6D struct
+buffer_list.append(np.array([self.q_part], dtype=np.float64))
+buffer_list.append(self.parboost.tobuffer())
+buffer_list.append(self.Sigmas_0_star.tobuffer())
+buffer_list.append(np.array([self.min_sigma_diff], dtype=np.float64))
+buffer_list.append(np.array([self.threshold_singular], dtype=np.float64))
+buffer_list.append(int_to_float64arr(self.N_slices))
+buffer_list.append(int_to_float64arr(3))# offset to N_part_per_slice
+buffer_list.append(int_to_float64arr(2+N_slices))# offset to x_slices_star
+buffer_list.append(int_to_float64arr(1+2*N_slices))# offset to y_slices_star
+buffer_list.append(int_to_float64arr(0+3*N_slices))# offset to sigma_slices_star
+
+# Buffers corresponding to arrays
+buffer_list.append(np.array(self.N_part_per_slice, dtype=np.float64))
+buffer_list.append(np.array(self.x_slices_star, dtype=np.float64))
+buffer_list.append(np.array(self.y_slices_star, dtype=np.float64))
+buffer_list.append(np.array(self.sigma_slices_star, dtype=np.float64))
+
+buf = np.concatenate(buffer_list)
+
+### Try to call the function
+
+import os, ctypes
+modulepath=os.path.dirname(os.path.abspath(__file__))
+libpath=os.path.join(modulepath, 'cBB6D.so')
+BB6D=ctypes.CDLL(libpath)
                 
 #Coordinates of and other properties weak particle that I want to treat
 x = 1e-3
@@ -54,11 +90,35 @@ delta = 2e-4
 q0 = qe
 p0 = 6.5e12 *qe/c_light
 
-# Track
 coord_init = np.array([x, px, y, py, sigma, delta])                     
-x, px, y, py, sigma, delta = BB6D.BB6D_track(x, px, y, py, sigma, delta, q0, p0, bb6ddata)
+
+x_c = ctypes.c_double(x)
+px_c = ctypes.c_double(px)
+y_c = ctypes.c_double(y)
+py_c = ctypes.c_double(py)
+sigma_c = ctypes.c_double(sigma)
+delta_c = ctypes.c_double(delta)
+
+BB6D.BB6D_track(ctypes.byref(x_c),
+        ctypes.byref(px_c),
+        ctypes.byref(y_c),
+        ctypes.byref(py_c),
+        ctypes.byref(sigma_c),
+        ctypes.byref(delta_c), 
+        ctypes.c_double(q0), 
+        ctypes.c_double(p0), 
+        buf.ctypes.data)
+        
+(x, px, y, py, sigma, delta) = (x_c.value,
+        px_c.value,
+        y_c.value,
+        py_c.value,
+        sigma_c.value,
+        delta_c.value) 
+
 coord_fin = np.array([x, px, y, py, sigma, delta]) 
 
+        
 ###############################################
 ## Use sixtrack to make the same interaction ##
 ###############################################
@@ -124,4 +184,6 @@ print '\nCompare kicks against sixtrack:'
 names_list = 'x px y py sigma delta'.split()
 for name, err, err_sixtr in zip(names_list, coord_fin-coord_init, track-coord_init):
     print 'D_'+name, err, err_sixtr
+
+
 

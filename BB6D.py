@@ -13,12 +13,13 @@ class BB6D_Data(object):
     def __init__(self, q_part,
             parboost, Sigmas_0_star, N_slices, N_part_per_slice,
             x_slices_star, y_slices_star, sigma_slices_star,
-            min_sigma_diff):
+            min_sigma_diff, threshold_singular):
                 
         self.q_part = q_part
         self.parboost = parboost
         self.Sigmas_0_star = Sigmas_0_star
         self.min_sigma_diff = min_sigma_diff
+        self.threshold_singular = threshold_singular
         self.N_slices = N_slices
         self.N_part_per_slice = N_part_per_slice
         self.x_slices_star = x_slices_star
@@ -26,7 +27,7 @@ class BB6D_Data(object):
         self.sigma_slices_star = sigma_slices_star
         
         
-def BB6D_init(q_part, N_part_tot, sigmaz, N_slices, min_sigma_diff, 
+def BB6D_init(q_part, N_part_tot, sigmaz, N_slices, min_sigma_diff, threshold_singular,
                 phi, alpha, 
                 Sig_11_0, Sig_12_0, Sig_13_0, 
                 Sig_14_0, Sig_22_0, Sig_23_0, 
@@ -56,8 +57,9 @@ def BB6D_init(q_part, N_part_tot, sigmaz, N_slices, min_sigma_diff,
     x_slices_star, px_slices_star, y_slices_star, py_slices_star, sigma_slices_star, delta_slices_star = boost_vect(x=0*z_centroids, px=0*z_centroids, 
                         y=0*z_centroids, py=0*z_centroids, sigma=z_centroids, delta=0*z_centroids, parboost=parboost)
                    
-    bb6d_data = BB6D_Data(q_part, parboost, Sigmas_0_star,N_slices, N_part_per_slice,
-       x_slices_star, y_slices_star, sigma_slices_star, min_sigma_diff)
+    bb6d_data = BB6D_Data(q_part, parboost, Sigmas_0_star, N_slices, 
+       N_part_per_slice, x_slices_star, y_slices_star, sigma_slices_star, min_sigma_diff, threshold_singular)
+                
        
     return bb6d_data
     
@@ -72,6 +74,7 @@ def BB6D_track(x, px, y, py, sigma, delta, q0, p0, bb6ddata):
     y_slices_star = bb6ddata.y_slices_star
     sigma_slices_star = bb6ddata.sigma_slices_star
     min_sigma_diff = bb6ddata.min_sigma_diff
+    threshold_singular = bb6ddata.threshold_singular
     
     # Boost coordinates of the weak beam
     x_star, px_star, y_star, py_star, sigma_star, delta_star = boost.boost(x, px, y, py, sigma, delta, parboost)
@@ -90,7 +93,7 @@ def BB6D_track(x, px, y, py, sigma, delta, q0, p0, bb6ddata):
         # Get strong beam shape at the CP
         Sig_11_hat_star, Sig_33_hat_star, costheta, sintheta,\
             dS_Sig_11_hat_star, dS_Sig_33_hat_star, dS_costheta, dS_sintheta,\
-            extra_data = psm.propagate_Sigma_matrix(Sigmas_0_star, S)
+            extra_data = psm.propagate_Sigma_matrix(Sigmas_0_star, S, threshold_singular=threshold_singular)
             
         # Evaluate transverse coordinates of the weake baem w.r.t. the strong beam centroid
         x_bar_star = x_star + px_star*S - x_slice_star
