@@ -6,6 +6,8 @@ from scipy.constants import epsilon_0
 import numpy as np
 import pylab as pl
 
+import mystyle as ms
+
 nv = np.vectorize
 
 min_sigma_diff = 1e-10
@@ -54,7 +56,12 @@ phi_minusy = -np.cumsum(0.5*(Ex_minusy[:-1]+Ex_minusy[1:])*np.diff(x)+0.5*(Ey_mi
 Gy_num = -(phi_plusy-phi_minusy)/((sigma_y+D_sigma_y)**2 - (sigma_y-D_sigma_y)**2)
 
 
+fontsz = 14
+lw = 3
 pl.close('all')
+ms.mystyle_arial(fontsz=fontsz, dist_tick_lab=5)
+
+
 pl.figure(1)
 pl.plot(r_centers, phi)
 pl.plot(r_centers, phi_plusx)
@@ -70,14 +77,25 @@ pl.plot(r_centers, phi_minusy-phi)
 
 
 
-pl.figure(3)
-pl.subplot(2,1,1)
-pl.plot(r_centers, Gx_num)
-pl.plot(r_centers, 0.5*(Gx[:-1]+Gx[1:]), '--')
-pl.subplot(2,1,2)
-pl.plot(r_centers, Gy_num)
-pl.plot(r_centers, 0.5*(Gy[:-1]+Gy[1:]), '--')
+fig3 = pl.figure(3)
+fig3.set_facecolor('w')
+ax1 = pl.subplot(2,1,1)
+pl.plot(r_centers, Gx_num, 'b', lw=lw, label='Num. derivative')
+pl.plot(r_centers, 0.5*(Gx[:-1]+Gx[1:]), 'r--', lw=lw, label='Library')
+pl.ylabel('Gx')
+ax2 = pl.subplot(2,1,2, sharex=ax1)
+pl.plot(r_centers, Gy_num, 'b', lw=lw)
+pl.plot(r_centers, 0.5*(Gy[:-1]+Gy[1:]), 'r--', lw=lw)
+pl.ylabel('Gy')
+ax2.set_xlabel('r [m]')
 
+
+for ax in [ax1, ax2]:
+    ax.grid('on')
+    
+ax1.legend(loc='best', prop={'size':fontsz})
+
+fig3.suptitle('sigmax = %.1e m sigma_y=%.1e m, theta_dir=%.1f deg\nFor 1.0 C/m'%(sigma_x, sigma_y, theta*180/np.pi))
 
 
 #~ pl.figure(10)
