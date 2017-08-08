@@ -1,5 +1,6 @@
 import transverse_efields_implem_c as tef
 import beambeam_force_sixtrack as bbfs
+import mystyle as ms
 
 from scipy.constants import epsilon_0
 
@@ -47,30 +48,43 @@ bbgx*=fact_sixtrack
 bbgy*=fact_sixtrack
 
 
+fontsz = 14
+lw = 3
 pl.close('all')
-pl.figure(1)
+ms.mystyle_arial(fontsz=fontsz, dist_tick_lab=5)
+
+fig1 = pl.figure(1)
+fig1.set_facecolor('w')
+
 ax1 = pl.subplot(2,1,1)
-pl.plot(r, Ex)
-pl.plot(r, bbfx)
+pl.plot(r, Ex, 'b', label = 'Library', lw=lw)
+pl.plot(r, bbfx, 'r--',  label='Sixtrack', lw=lw)
 pl.ylabel('Ex')
 ax2 = pl.subplot(2,1,2, sharex=ax1)
-pl.plot(r, Ey)
-pl.plot(r, bbfy)
+pl.plot(r, Ey, 'b', label = 'Library', lw=lw)
+pl.plot(r, bbfy, 'r--',  label='Sixtrack', lw=lw)
 pl.ylabel('Ey')
+for ax in [ax1, ax2]: ax.grid('on')
+ax1.legend(loc='best', prop={'size':fontsz})
 
 
-pl.figure(2)
-ax1 = pl.subplot(2,1,1)
-pl.plot(r, Gx)
-pl.plot(r, bbgx, label='sixtrack')
+fig2 = pl.figure(2)
+fig2.set_facecolor('w')
+ax21 = pl.subplot(2,1,1)
+pl.plot(r, Gx, 'b', label = 'Library', lw=lw)
+pl.plot(r, bbgx, 'r--',  label='Sixtrack', lw=lw)
 pl.ylabel('Gx')
 pl.grid('on')
-ax2 = pl.subplot(2,1,2, sharex=ax1)
-pl.plot(r, Gy)
-pl.plot(r, bbgy, label='sixtrack')
+ax22 = pl.subplot(2,1,2, sharex=ax1)
+pl.plot(r, Gy, 'b', lw=lw)
+pl.plot(r, bbgy, 'r--', label='sixtrack', lw=lw)
 pl.ylabel('Gy')
 pl.grid('on')
-pl.legend()
+
+ax21.legend(loc='best', prop={'size':fontsz})
+
+for fig in [fig1, fig2]:
+    fig.suptitle('sigmax = %.1e m sigma_y=%.1e m, theta_dir=%.1f deg\nFor 1.0 C/m'%(sigma_x, sigma_y, theta*180/np.pi))
 #~ pl.figure(3)
 #~ pl.plot(r, np.abs(Ex_sl-bbfx)/np.abs(bbfx))
 
