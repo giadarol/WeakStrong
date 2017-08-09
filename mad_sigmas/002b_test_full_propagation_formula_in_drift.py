@@ -63,7 +63,8 @@ s: sequence, l=%e;
         fid .write('m%d: marker, at=%.2f;\n'%(i_s, ss))
         if not inserted_skew:
             if ss>skew_at:
-                fid .write('q1, at=%.2f;\n'%(ss+L_skew+0.1))
+                pos_skew = ss+L_skew+0.1
+                fid .write('q1, at=%.2f;\n'%(pos_skew))
                 inserted_skew = True
     fid .write('endsequence;\n')
 
@@ -83,7 +84,7 @@ i_ref = np.argmin(np.abs(ob.S-s_ref_close_to))
 s_ref = ob.S[i_ref]
 
 # Generate S vector for test
-S = np.linspace(skew_at+L_skew+2., max(ob.S), 1000)-s_ref
+S = np.linspace(pos_skew, max(ob.S), 1000)-s_ref
 
 # Propagate Sigma matrix
 Sig_11, Sig_12, Sig_13, Sig_14, Sig_22, Sig_23, Sig_24,\
@@ -108,7 +109,7 @@ pl.close('all')
 fontsz = 14
 lw = 3
 mks = 8
-ms.mystyle_arial(fontsz = fontsz)
+ms.mystyle_arial(fontsz = fontsz, dist_tick_lab=5)
 
 fig1 = pl.figure(1); pl.clf()
 fig1.set_facecolor('w')
@@ -117,6 +118,7 @@ pl.plot(S, Sig_11, 'b', label='Sig_11', lw=lw)
 pl.plot(ob.S-s_ref, ob.SIG11, '.c', markersize=mks, lw=lw)#, label='Sig_11 (MAD)'
 pl.plot(S, Sig_33, 'r', label='Sig_33', lw=lw)
 pl.plot(ob.S-s_ref, ob.SIG33, '.m', markersize=mks)#, label='Sig_33 (MAD)')
+pl.axvline(x=pos_skew-s_ref, lw=lw, color='grey', linestyle='--')
 pl.legend(loc='best', prop = {'size':fontsz})
 pl.grid('on')
 ms.sciy()
@@ -124,6 +126,7 @@ ms.sciy()
 sp1 = pl.subplot(2,1,2, sharex=sp0)
 pl.plot(S, Sig_13, label='Sig_13', lw=lw)
 pl.plot(ob.S-s_ref, ob.SIG13, '.c', markersize=mks)
+pl.axvline(x=pos_skew-s_ref, lw=lw, color='grey', linestyle='--')
 pl.xlabel('s [m]')
 pl.legend(loc='best', prop = {'size':fontsz})
 pl.grid('on')
@@ -143,9 +146,10 @@ pl.plot(S, Sig_23, 'g', label='Sig_23', lw=lw, markersize=mks)
 pl.plot(ob.S-s_ref, ob.SIG23, '.g', lw=lw, markersize=mks)
 pl.plot(S, Sig_34, 'c', label='Sig_34', lw=lw, markersize=mks)
 pl.plot(ob.S-s_ref, ob.SIG34, '.c', lw=lw, markersize=mks)
+pl.axvline(x=pos_skew-s_ref, lw=lw, color='grey', linestyle='--')
 pl.grid('on')
 
-pl.legend(loc='best', prop = {'size':fontsz})
+pl.legend(loc='center right', prop = {'size':fontsz})
 ms.sciy()
 
 pl.subplot(2,1,2, sharex=sp0)
@@ -155,8 +159,9 @@ pl.plot(S, Sig_24,'r', label='Sig_24', lw=lw, markersize=mks)
 pl.plot(ob.S-s_ref, ob.SIG24, '.r', lw=lw, markersize=mks)
 pl.plot(S, Sig_44,'g', label='Sig_44', lw=lw, markersize=mks)
 pl.plot(ob.S-s_ref, ob.SIG44, '.g', lw=lw, markersize=mks)
+pl.axvline(x=pos_skew-s_ref, lw=lw, color='grey', linestyle='--')
 pl.xlabel('s [m]')
-pl.legend(loc='best', prop = {'size':fontsz})
+pl.legend(loc='center right', prop = {'size':fontsz})
 ms.sciy()
 pl.grid('on')
 pl.suptitle('Check optics propagation against MAD-X')
@@ -225,22 +230,24 @@ pl.grid('on')
 fig4 = pl.figure(4)
 fig4.set_facecolor('w')
 pl.subplot(2,1,1, sharex=sp0)
-pl.plot(S, dS_costheta, 'm-', lw=lw)
+pl.plot(S, dS_costheta, 'm-', lw=lw, label = 'dS_costheta')
 pl.plot(S[:-1], np.diff(costheta)/np.diff(S), 'r--', lw=lw)
-pl.plot(S, dS_sintheta, 'b-', lw=lw)
+pl.plot(S, dS_sintheta, 'b-', lw=lw, label = 'dS_sintheta')
 pl.plot(S[:-1], np.diff(sintheta)/np.diff(S), 'c--', lw=lw)
 pl.ylim(-.02, .02)
 pl.grid('on')
 ms.sciy()
 
 pl.subplot(2,1,2, sharex=sp0)
-pl.plot(S, dS_Sig_11_hat, 'm-', lw=lw)
+pl.plot(S, dS_Sig_11_hat, 'm-', lw=lw, label = 'dS_Sig_11_hat')
 pl.plot(S[:-1], np.diff(Sig_11_hat)/np.diff(S), 'r--', lw=lw)
-pl.plot(S, dS_Sig_33_hat, 'b-', lw=lw)
+pl.plot(S, dS_Sig_33_hat, 'b-', lw=lw, label = 'dS_Sig_33_hat')
 pl.plot(S[:-1], np.diff(Sig_33_hat)/np.diff(S), 'c--', lw=lw)
 pl.suptitle('Check derivatives against finite differeces')
+pl.xlabel('s [m]')
 pl.ylim(-1e-6, 1e-6)
 pl.grid('on')
+pl.legend(loc='best', prop={'size':fontsz})
 ms.sciy()
 
 
