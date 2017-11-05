@@ -17,17 +17,17 @@ sigma_y=.9
 theta = 23*np.pi/180
 r_max = 20.
 
-# Flat beam
-sigma_x=.9
-sigma_y=.5
-theta = 23*np.pi/180
-r_max = 20.
-
-#~ # Round beam
-#~ sigma_x=.7
-#~ sigma_y=.7
+#~ # Flat beam
+#~ sigma_x=.9
+#~ sigma_y=.5
 #~ theta = 23*np.pi/180
 #~ r_max = 20.
+
+# Round beam
+sigma_x=.7
+sigma_y=.7
+theta = 23*np.pi/180
+r_max = 20.
 
 r = np.linspace(-r_max, r_max, 1000)
 x = r * np.cos(theta)

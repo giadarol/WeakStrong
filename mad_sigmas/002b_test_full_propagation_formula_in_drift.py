@@ -236,6 +236,7 @@ pl.plot(S, dS_sintheta, 'b-', lw=lw, label = 'dS_sintheta')
 pl.plot(S[:-1], np.diff(sintheta)/np.diff(S), 'c--', lw=lw)
 pl.ylim(-.02, .02)
 pl.grid('on')
+pl.legend(loc='best', prop={'size':fontsz})
 ms.sciy()
 
 pl.subplot(2,1,2, sharex=sp0)
