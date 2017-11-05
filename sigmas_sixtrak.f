@@ -87,8 +87,8 @@ c~       dimension star(3,mbea),dum(13)
             endif
             sinth=half*(one-dum(6))
             if(abs(sinth).gt.pieni) then
-              !sinth=(-1d0*sfac)*sqrt(sinth)                              !hr06
-              sinth=(sfac)*sqrt(sinth)                              !hr06
+              sinth=(-1d0*sfac)*sqrt(sinth)                              !hr06
+              !sinth=(sfac)*sqrt(sinth)                              !hr06
             else
               sinth=zero
             endif
