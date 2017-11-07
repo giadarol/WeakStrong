@@ -8,6 +8,11 @@ import numpy as np
 
 from scipy.constants import c as c_light
 
+def int_to_float64arr(val):
+    temp = np.zeros(1, (np.float64, {'i64':('i8',0)}))
+    temp['i64'][0] = val
+    return temp
+
 
 class BB6D_Data(object):
     def __init__(self, q_part,
@@ -27,11 +32,7 @@ class BB6D_Data(object):
         self.sigma_slices_star = sigma_slices_star
     
     def tobuffer(self):
-        def int_to_float64arr(val):
-            temp = np.zeros(1, (np.float64, {'i64':('i8',0)}))
-            temp['i64'][0] = val
-            return temp
-            
+
         buffer_list = []
         # Buffers corresponding to BB6D struct
         buffer_list.append(np.array([self.q_part], dtype=np.float64))
