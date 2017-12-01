@@ -127,8 +127,8 @@ fis.beamint(np=npa,track=track,param=param,sigzs=sigzs,bcu=bcu,ibb=ibb,
 #Compare the two
 print '\nCompare kicks against sixtrack:'
 names_list = 'x px y py sigma delta'.split()
-for name, err, err_sixtr in zip(names_list, coord_fin-coord_init, track-coord_init):
-    print 'D_'+name, err, err_sixtr
+for name, diff, diff_sixtr in zip(names_list, coord_fin-coord_init, track-coord_init):
+    print 'D_'+name, diff, diff_sixtr, 'err=%.2e'%(diff-diff_sixtr)
 
 
 
