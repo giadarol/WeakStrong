@@ -2,10 +2,18 @@ import transverse_efields_implem_c as tef
 import beambeam_force_sixtrack as bbfs
 import mystyle as ms
 
+import gaussian_fields as gf
+
 from scipy.constants import epsilon_0
 
 import numpy as np
 import pylab as pl
+
+from pyfaddeeva import wfun
+np.wfun = wfun
+
+#test_implem = 'C'
+test_implem = 'python'
 
 nv = np.vectorize
 
@@ -17,23 +25,28 @@ sigma_y=.9
 theta = 23*np.pi/180
 r_max = 20.
 
-#~ # Flat beam
-#~ sigma_x=.9
-#~ sigma_y=.5
-#~ theta = 23*np.pi/180
-#~ r_max = 20.
+# Flat beam
+# sigma_x=.9
+# sigma_y=.5
+# theta = 23*np.pi/180
+# r_max = 20.
 
 # Round beam
-sigma_x=.7
-sigma_y=.7
-theta = 23*np.pi/180
-r_max = 20.
+# sigma_x=.7
+# sigma_y=.7
+# theta = 23*np.pi/180
+# r_max = 20.
 
 r = np.linspace(-r_max, r_max, 1000)
 x = r * np.cos(theta)
 y = r * np.sin(theta)
 
-Ex, Ey, Gx, Gy = nv(tef.get_Ex_Ey_Gx_Gy_gauss)(x, y, sigma_x, sigma_y, min_sigma_diff)
+if test_implem=='C':
+	Ex, Ey, Gx, Gy = nv(tef.get_Ex_Ey_Gx_Gy_gauss)(x, y, sigma_x, sigma_y, min_sigma_diff)
+elif test_implem=='python':
+	Ex, Ey, Gx, Gy = nv(gf.get_Ex_Ey_Gx_Gy_gauss)(x, y, sigma_x, sigma_y, min_sigma_diff, skip_Gs=False, mathlib=np)
+else:
+	raise ValueError('What?!')
 
 # In sixtrack it is used in this way
 if sigma_x>sigma_y:
