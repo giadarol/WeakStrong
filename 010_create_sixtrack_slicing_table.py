@@ -36,4 +36,20 @@ for N_slices in range(0, N_slices_max+1):
 
     z_centroids[N_slices, :N_slices] = z_centr_strk
 
-np.savetxt('z_centroids_from_sixtrack.txt', z_centroids)
+import StringIO
+sid = StringIO.StringIO()
+
+np.savetxt(sid, z_centroids, delimiter=',', newline='],\n[')
+
+ss = sid.getvalue()
+sid.close()
+
+with open('sixtrack_slicing_table.py', 'w') as fid:
+    fid.write('\n'.join([
+        'import numpy as np'
+        ' ',
+        'table = np.array([[',
+        ss[:-4],
+        ']])',
+        ]))
+
